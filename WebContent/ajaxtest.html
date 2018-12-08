@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ajaxtest</title>
+	<script type="text/javascript">
+	window.onload=function(){
+		
+		function ajaxtest(){
+				var request = new XMLHttpRequest() ;
+				
+				request.open("GET","1.txt",true) ;
+				request.onreadystatechange = function(){
+					if(request.readyState == 4){
+						if(request.status == 200){
+							document.getElementById("show").innerHTML = request.responseText  ;
+						}
+					}
+					
+				}
+				request.send(null) ;
+			}
+			obj = document.getElementById("test") ;
+			obj.onclick = ajaxtest ;
+}	
+		
+	</script>
+
+
+
+</head>
+<body>
+	<input type="button" name="test" id="test" value="test" />
+		<br />
+		<div id="show">
+			
+		</div>
+</body>
+</html>
