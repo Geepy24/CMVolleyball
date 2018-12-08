@@ -5,19 +5,52 @@
 <head>
 <meta charset="UTF-8">
 <title>注册界面</title>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.3.1.js"></script>
+
 </head>
 <body>
+
 	<h1>用户注册</h1>
-	<form action="${pageContext.request.contextPath}/Register/registerAction" method="post">
-		用户名：<input type="text" name="userName"><br>
-		真实姓名：<input type="text" name="realName">(选填)<br>
-		密码：<input type="password" name="password"><br>
-		确认密码：<input type="password" name="password"><br>
-		性别：<input type="radio" name="gender" checked="checked">男
-			<input type="radio" name="gender">女<br>
-		联系方式：<input type="number" name="tel"><br>
-		验证码：<input type="text" name="check"><br>
-		<input type="submit" value="确认提交">
+	<form action="${pageContext.request.contextPath}/User/registerAction.action" method="post">
+		<table>
+			<tr>
+				<td>用户名：</td>
+				<td><input type="text" name="userName" id="input_userName"></td>
+				<td id="userName_flag"></td>
+			</tr>
+			<tr>
+				<td>真实姓名：</td>
+				<td><input type="text" name="realName" id="input_realName">(选填)</td>
+			</tr>
+			<tr>
+				<td>密码：</td>
+				<td><input type="password" name="password" id="input_password"></td>
+			</tr>
+			<tr>
+				<td>确认密码：</td>
+				<td><input type="password" name="password" id="ensure_password"></td>
+			</tr>
+			<tr>
+				<td>性别：</td>
+				<td><input type="radio" name="gender" checked="checked" id="input_gender">男
+				<input type="radio" name="gender">女</td>
+			</tr>
+			<tr>
+				<td>联系方式：</td>
+				<td><input type="number" name="tel" id="input_tel">(选填)</td>
+			</tr>
+			<tr>
+				<td>验证码：</td>
+				<td><input type="text" name="checkCode" id="input_checkCode"></td>
+			</tr>
+			<tr>
+				<td><input type="button" value="确认提交" id="submit"></td>
+			</tr>
+		</table>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/register.js"></script>
+
+
+		
 	</form>
 </body>
 </html>

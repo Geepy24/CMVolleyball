@@ -21,6 +21,11 @@ import com.opensymphony.xwork2.ModelDriven;
 	@Result(name="success",type="chain",location="findAll"), //跳转到findAll.action
 	@Result(name="error",location="/fail.jsp")
 })
+/**
+ * 修改用户信息
+ * @author Huangjiping
+ *
+ */
 public class editAction extends ActionSupport implements ModelDriven<User>{
 	//模型驱动
 	

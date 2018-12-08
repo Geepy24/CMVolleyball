@@ -30,7 +30,7 @@ public class JumpAction extends ActionSupport  {
 		return "login" ; 
 			
 	}
-	@Action
+	@Action("register")
 	public String register() {
 		return "register" ;
 	}

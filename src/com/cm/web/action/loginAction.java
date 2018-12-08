@@ -79,7 +79,7 @@ public class loginAction extends ActionSupport {
 	}
 
 	/**
-	 * 	根据用户名判断用户是否存在
+	 * 	根据用户名判断用户是否存在，新建一张用户名表是否会更好
 	 */
 	@Action(value="verifyUsername",results= {@Result(name="success",type="json")},
 			params= {"root","returndata"})
@@ -90,7 +90,7 @@ public class loginAction extends ActionSupport {
 		returndata = String.valueOf(userService.isUserExist(userName)) ;
 		//拼接成json字符串并返回
 		returndata = "{\"backdata\" : \""+returndata+"\"}"   ;
-		System.out.println(returndata);
+		System.out.println("返回的json字符串："+returndata);
 	
 		return SUCCESS ;
 	}
