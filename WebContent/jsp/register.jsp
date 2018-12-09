@@ -21,27 +21,33 @@
 			<tr>
 				<td>真实姓名：</td>
 				<td><input type="text" name="realName" id="input_realName">(选填)</td>
+				<td id="realName_flag"></td>
 			</tr>
 			<tr>
 				<td>密码：</td>
 				<td><input type="password" name="password" id="input_password"></td>
+				<td id="password_flag"></td>
 			</tr>
 			<tr>
 				<td>确认密码：</td>
 				<td><input type="password" name="password" id="ensure_password"></td>
+				<td id="ensure_password_flag"></td>
 			</tr>
 			<tr>
 				<td>性别：</td>
-				<td><input type="radio" name="gender" checked="checked" id="input_gender">男
-				<input type="radio" name="gender">女</td>
+				<td><input type="radio" name="gender" checked="checked" id="input_gender"
+						value="m">男
+				<input type="radio" name="gender" value="f">女</td>
 			</tr>
 			<tr>
 				<td>联系方式：</td>
 				<td><input type="number" name="tel" id="input_tel">(选填)</td>
+				<td id="tel_flag"></td>
 			</tr>
 			<tr>
 				<td>验证码：</td>
 				<td><input type="text" name="checkCode" id="input_checkCode"></td>
+				<td id="checkCode_flag"></td>
 			</tr>
 			<tr>
 				<td><input type="button" value="确认提交" id="submit"></td>

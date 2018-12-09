@@ -13,16 +13,23 @@ import com.cm.domain.User;
 import com.cm.service.IUserService;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import com.sun.xml.internal.bind.v2.runtime.Name;
+
+import net.sf.json.JSONObject;
 @ParentPackage("json-default")
 @Namespace("/User")
 @Results({
-	@Result(name="success",location="index.jsp")
+	@Result(name="success",location="/jsp/login.jsp")
 })
 public class userRegister extends ActionSupport implements Serializable ,ModelDriven<User>{
-	private String userName ;
+//	private String userName ;
 	private User user  ;
 	@Autowired
 	private IUserService userService ; 
+	//返回的json数据
+	private JSONObject returndata ; 
+	
+
 	//模型驱动
 	@Override
 	public User getModel() {
@@ -30,15 +37,21 @@ public class userRegister extends ActionSupport implements Serializable ,ModelDr
 	}
 	
 //----------getter and setter-------------------------
-	public String getUserName() {
-		return userName;
+//	public String getUserName() {
+//		return userName;
+//	}
+//
+//
+//	public void setUserName(String userName) {
+//		this.userName = userName;
+//	}
+	public JSONObject getReturndata() {
+		return returndata;
 	}
 
-
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setReturndata(JSONObject returndata) {
+		this.returndata = returndata;
 	}
-
 	public User getUser() {
 		return user;
 	}
@@ -54,10 +67,17 @@ public class userRegister extends ActionSupport implements Serializable ,ModelDr
 //--------------Action------------------------------------
 
 
-	@Action("register")
+	@Action(value="registerAction",results= {@Result(name="success",type="json")},
+				params={"root","returndata"})
 	public String register() {
+		System.out.println("注册接收请求");
+		System.out.println("前端传回："+user);
+		//保存正常
+		//userService.saveUser(user);
 		
-		userService.saveUser(user);
+		//传回json对象
+		String str = "{\"returndata\" : \"registerSuccess\"}" ;
+		returndata = JSONObject.fromObject(str) ;
 		return SUCCESS ;
 	}
 
