@@ -106,10 +106,7 @@ public class loginAction extends ActionSupport {
 			
 			User user = userService.findUserByName(userName) ;
 			
-			if (user == null) {
-				session.setAttribute("loginFail", "用户不存在");
-				return "fail" ;
-			}
+	
 			
 			if(!user.getPassword().equals(password)) {
 				System.out.println(user.getPassword());

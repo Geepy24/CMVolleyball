@@ -54,6 +54,7 @@
 					if(flag == "false"){
 						//创建节点，插入到指定的标签的子标签最后面
 						$("#username_flag").html("用户不存在") ;
+						return ;
 					}	
 					if(flag =="true"){
 						$("#username_flag").html("<img src='../img/ticket.png'/>") ;
