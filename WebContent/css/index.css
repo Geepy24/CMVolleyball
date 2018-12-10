@@ -101,17 +101,36 @@ a {
 #center {
 	width: 960px;
 	margin: 0 auto;
-	text-align: center;
 	position: relative;
 }
+#center a{
+	color: black;
 
+}
+#center a:hover{
+	text-decoration: underline;s
+}
 #slide {
 	text-align: center;
 	margin: 0 auto;
 	height: 200px;
 	width: 600px;
 }
-
+#center table{
+	width:100%;
+	
+}
+#center table td{
+	vertical-align: bottom;
+}
+#left_td{
+	font-size: 18px;
+	width: 80%;
+}
+#right_td{
+	font-size: 13px;
+	width: 20%;
+}
 #message {
 	float: left;
 	height: 368px;
@@ -131,6 +150,7 @@ a {
 	border-width: 1px;
 	border-color: darkblue;
 }
+
 
 #buttom {
 	margin-top: 15px;

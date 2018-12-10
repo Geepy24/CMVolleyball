@@ -11,6 +11,7 @@ import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
+import org.hibernate.engine.jdbc.spi.ResultSetReturn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.ServletConfigAware;
 
@@ -20,6 +21,7 @@ import com.opensymphony.xwork2.ActionSupport;
 /**
  * 	一些私有资源需要登录了之后才能访问
  * 	这个动作类用拦截器来判断是否有登录，登陆了就放行，未登录去登录
+ * 	已登录才能进来
  * 	登录与否查看
  * @author Huangjiping
  *
@@ -29,7 +31,8 @@ import com.opensymphony.xwork2.ActionSupport;
 @Results({
 	@Result(name="manager",location="/WEB-INF/jsp/manager.jsp"),
 	@Result(name="login",location="/jsp/login.jsp"),
-	@Result(name="AuthorityError",location="/index.jsp")
+	@Result(name="AuthorityError",location="/index.jsp"),
+	@Result(name="success",location="/WEB-INF/jsp/userPage.jsp")
 })
 @InterceptorRefs({@InterceptorRef("loginDefault")})
 public class privateSourceAction extends ActionSupport {
@@ -48,6 +51,7 @@ public class privateSourceAction extends ActionSupport {
 		HttpSession session = ServletActionContext.getRequest().getSession();
 		User user = (User) session.getAttribute("loginInfo") ;
 		int userId = user.getUserId() ;
+		//查询是不是管理员
 		boolean isAds = userService.isAds(userId) ;
 		System.out.println("isAds="+isAds);
 		if(false == isAds) {
@@ -58,6 +62,10 @@ public class privateSourceAction extends ActionSupport {
 		return "manager"; 
 	}
 	
+	@Action("userPage")
+	public String toUserPage() {
+		return SUCCESS ;
+	}
 	
 	
 	

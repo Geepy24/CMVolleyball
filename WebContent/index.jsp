@@ -83,7 +83,7 @@
 				<span><a href="">球队简介</a></span>
 				<span><a href="">精彩图集</a></span>
 				<span><a href="">比赛视频</a></span>
-				<span><a href="">关于我们</a></span>
+				<span><a href="${pageContext.request.contextPath}/privateSource/userPage.action">会员页面</a></span>
 			</div>
 		</div>
 	</div> 
@@ -95,11 +95,29 @@
 		<div id="main">
 			<fieldset id="message" >
 				<legend align="left"><img src="${pageContext.request.contextPath}/img/volleyball.png">&nbsp;&nbsp;<STRONG><font color="darkblue" size=3>球队新闻</font></STRONG>&nbsp;&nbsp;</legend>
-				<p>内容sssssssssssssssssssssssss</p>
+				<table>
+					<tr>
+						<td id="left_td"><a href=""><strong>content1</strong></font></a></td>
+						<td id="right_td">日期</td>
+					</tr>
+					<tr>
+						<td id="left_td"><a href=""><strong>content2</strong></font></a></td>
+						<td id="right_td">日期</td>
+					</tr>
+				</table>
 			</fieldset>
 			<fieldset id="source">
 				<legend align="left"><img src="${pageContext.request.contextPath}/img/volleyball.png">&nbsp;&nbsp;<STRONG><font color="darkblue" size=3>球队资源</font></STRONG>&nbsp;&nbsp;</legend>
-				<p>内容sssssssssssssssssssssssss</p>	
+				<table>
+					<tr>
+						<td id="left_td"><a href=""><strong>content</strong></font></a></td>
+						<td id="right_td">日期</td>
+					</tr>
+					<tr>
+						<td id="left_td"><a href=""><strong>content2</strong></font></a></td>
+						<td id="right_td">日期</td>
+					</tr>
+				</table>	
 			</fieldset>
 		</div>
 	</div>
@@ -107,7 +125,7 @@
 	 <div id="buttom">
 	 	<div id="end">
 	 		<ul>
-	 			<li><a href="">管理员页面</a></li>
+	 			<li><a href="${pageContext.request.contextPath}/privateSource/management.action">管理员页面</a></li>
 	 		</ul>
 	 		
 	 		<ul>

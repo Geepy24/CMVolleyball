@@ -16,6 +16,7 @@
 	  	<input type="submit" value="submit" />
 	</form>
 	<hr>
-
+	新闻发布：
+	
 </body>
 </html>
