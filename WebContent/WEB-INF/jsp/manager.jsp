@@ -16,7 +16,7 @@
 	  	<input type="submit" value="submit" />
 	</form>
 	<hr>
-	新闻发布：
+	<a href="">文章管理系统</a>
 	
 </body>
 </html>

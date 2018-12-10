@@ -29,7 +29,7 @@ import com.opensymphony.xwork2.ActionSupport;
 @ParentPackage("p1")
 @Namespace("/privateSource")
 @Results({
-	@Result(name="manager",location="/WEB-INF/jsp/manager.jsp"),
+	@Result(name="manager",location="/management/index.jsp"),
 	@Result(name="login",location="/jsp/login.jsp"),
 	@Result(name="AuthorityError",location="/index.jsp"),
 	@Result(name="success",location="/WEB-INF/jsp/userPage.jsp")

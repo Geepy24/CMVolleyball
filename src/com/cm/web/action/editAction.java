@@ -64,7 +64,7 @@ public class editAction extends ActionSupport implements ModelDriven<User>{
 		
 		try {
 			//用模型驱动传进来的修改后的user来更新数据库中的user
-			userService.updateUser(user) ;
+		//	userService.updateUser(user) ;
 			
 		}catch(Exception e){
 			e.printStackTrace();

@@ -21,9 +21,11 @@ import com.opensymphony.xwork2.ModelDriven;
 @Namespace("/User")
 @Results({
 		@Result(name="hello",location="/success.jsp"),
-		@Result(name="findAllUser",location="/WEB-INF/jsp/userList.jsp"),
+		@Result(name="findAllUser",location="/WEB-INF/jsp/management/user/list.jsp"),
 		@Result(name="findOne",location="/WEB-INF/jsp/userList.jsp"),
-		@Result(name="fail",location="/fail.jsp")
+		@Result(name="fail",location="/fail.jsp"),
+		@Result(name="deleteSuccess",location="/WEB-INF/jsp/management/user/list.jsp"),
+		@Result(name="success",location="/WEB-INF/jsp/management/user/edit.jsp")
 })
 public class UserAction extends ActionSupport implements ModelDriven<User>{
 	
@@ -124,12 +126,13 @@ public class UserAction extends ActionSupport implements ModelDriven<User>{
 		return "findOne" ;  //查询不到，返回错误页面
 	}
 	/**
-	 * 根据查找用户
+	 * 根据id查找用户
 	 * 
 	 */
 	@Action("findById")
 	public String findById() {  //Action中的方法不能有参数
 		
+		System.out.println(userId);
 		user = userService.findUserById(userId);
 		
 		return SUCCESS ;
@@ -149,11 +152,20 @@ public class UserAction extends ActionSupport implements ModelDriven<User>{
 	 */
 	@Action("delete")
 	public String delete() {
-		//根据用户名查找到用户之后再将其删除
-		user = userService.findUserByName(userName) ;
-		userService.deleteUser(user);
+		//根据id或者用户名查找到用户之后再将其删除
+		System.out.println(userId);
+		if(0 != userId) {
+			user = userService.findUserById(userId) ;
+			userService.deleteUser(user);
+			return "deleteSuccess" ;
+		}
+		if(null != userName){
+			user = userService.findUserByName(userName) ;
+			userService.deleteUser(user);
+			return "deleteSuccess" ;
+		}
+		return "fail" ;
 		
-		return SUCCESS ;
 	}
 	
 	
