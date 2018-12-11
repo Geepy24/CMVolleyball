@@ -12,8 +12,9 @@
 </HEAD>
 <BODY>
 
-	<FORM id=form1 name=form1 action="${pageContext.request.contextPath }/User/editUser.actiont" method=post>
-		<input type="hidden" name="custId" value="${user.userId}">
+	<FORM id=form1 name=form1 action="${pageContext.request.contextPath}/User/editUser.action" method=post>
+		<input type="hidden" name="userId" value="${user.userId}">
+		<input type="hidden" name="password" value="${user.password}">
 		<TABLE cellSpacing=0 cellPadding=0 width="98%" border=0>
 			<TBODY>
 				<TR>
@@ -32,7 +33,7 @@
 					<TD vAlign=top width="100%" bgColor=#ffffff>
 						<TABLE cellSpacing=0 cellPadding=5 width="100%" border=0>
 							<TR>
-								<TD class=manageHead>当前位置：用户管理 &gt; 编辑客户</TD>
+								<TD class=manageHead>当前位置：用户管理 &gt; 编辑用户</TD>
 							</TR>
 							<TR>
 								<TD height=2></TD>
@@ -43,8 +44,7 @@
 								
 								<td>用户名：</td>
 								<td>
-									<INPUT type=hidden class=textbox id=sChannel2 style="WIDTH: 180px" maxLength=50 name="userId" value="${user.userId}">
-									<INPUT class=textbox id=sChannel2 style="WIDTH: 180px" maxLength=50 name="userId" value="${user.userName}">
+									<INPUT class=textbox id=sChannel2 style="WIDTH: 180px" maxLength=50 name="userName" value="${user.userName}">
 								</td>
 								<td>真实姓名 ：</td>
 								<td>
@@ -59,13 +59,13 @@
 								</td>
 								<td>联系方式：</td>
 								<td>
-									<INPUT class=textbox id=sChannel2 style="WIDTH: 180px" maxLength=50 name="tel" value="${user.gender}">							
+									<INPUT class=textbox id=sChannel2 style="WIDTH: 180px" maxLength=50 name="tel" value="${user.tel}">							
 								</td>
 							</TR>
 							
 							<tr>
 								<td rowspan=2>
-									<INPUT class=button id=sButton2 type=submit value=" 保存 " name=sButton2>
+									<INPUT  type=submit value=" 保存 " >
 								</td>
 							</tr>
 						</TABLE>

@@ -21,7 +21,7 @@
 <META content="MSHTML 6.00.2900.3492" name=GENERATOR>
 </HEAD>
 <BODY>
-	<FORM id="customerForm" name="customerForm" action="${pageContext.request.contextPath }/customer/CustomerServlet?method=listCustomer" method=post>	
+	<FORM id="customerForm" name="customerForm" action="${pageContext.request.contextPath }/User/findByName.action" method=post>	
 		<TABLE cellSpacing=0 cellPadding=0 width="98%" border=0>
 			<TBODY>
 				<TR>
@@ -84,10 +84,10 @@
 													<TD>${user.tel}</TD>
 													
 													<TD>
-													<a href="${pageContext.request.contextPath }/User/findById.action?userId=${user.userId}">修改</a>
+													<a href="${pageContext.request.contextPath }/User/findById.action?user.userId=${user.userId}">修改</a>
 													
 													&nbsp;&nbsp;
-													<a href="${pageContext.request.contextPath }/User/delete.action?userId=${user.userId}">删除</a>
+													<a href="${pageContext.request.contextPath }/User/delete.action?user.userId=${user.userId}">删除</a>
 													</TD>
 												</TR>	
 												</c:forEach>

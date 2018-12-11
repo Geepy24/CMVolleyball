@@ -151,7 +151,7 @@ A.active {
 											<TBODY>
 												<TR>
 													<TD class=menuSmall>
-														<A class=style2 href="${pageContext.request.contextPath}/linkman/LinkManServlet?method=addLinkManUI" target=main>－ 发布文章</A>
+														<A class=style2 href="${pageContext.request.contextPath}/text-edit/index.html" target=main>－ 发布文章</A>
 													</TD>
 												</TR>
 												<TR>

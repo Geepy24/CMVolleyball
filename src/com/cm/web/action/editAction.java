@@ -9,15 +9,17 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import com.cm.domain.User;
 import com.cm.service.IUserService;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+
 @ParentPackage("struts-default")
 @Namespace("/User")
 @Results({
-	@Result(name="edit",location="/WEB-INF/jsp/edit.jsp"),
+	@Result(name="edit1",location="/fail.jsp"),
 	@Result(name="success",type="chain",location="findAll"), //跳转到findAll.action
 	@Result(name="error",location="/fail.jsp")
 })
@@ -33,13 +35,10 @@ public class editAction extends ActionSupport implements ModelDriven<User>{
 	
 	@Autowired
 	IUserService userService ;
-	
-
-
 
 	HttpServletRequest request = ServletActionContext.getRequest() ;
 	
-	
+	@Override
 	public User getModel() {
 		return user;
 	}
@@ -51,7 +50,7 @@ public class editAction extends ActionSupport implements ModelDriven<User>{
 		user = userService.findUserById(user.getUserId());
 		//把要修改的用户对象放进request域
 		request.setAttribute("editUser", user); 
-		return "edit" ;
+		return "edit1" ;
 		
 	}
 	/**
@@ -61,17 +60,17 @@ public class editAction extends ActionSupport implements ModelDriven<User>{
 	@Action("editUser")
 	public String edit(){
 		System.out.println("修改完之后进来："+user);
-		
+	//	user = userService.findUserById(user.getUserId()) ;
 		try {
 			//用模型驱动传进来的修改后的user来更新数据库中的user
-		//	userService.updateUser(user) ;
+			userService.updateUser(user) ;
 			
 		}catch(Exception e){
 			e.printStackTrace();
-			return ERROR ;
+			return "error" ;
 		}
 		
-		return SUCCESS ;
+		return "success" ;
 	}
 	
 	/**

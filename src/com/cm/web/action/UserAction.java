@@ -22,7 +22,7 @@ import com.opensymphony.xwork2.ModelDriven;
 @Results({
 		@Result(name="hello",location="/success.jsp"),
 		@Result(name="findAllUser",location="/WEB-INF/jsp/management/user/list.jsp"),
-		@Result(name="findOne",location="/WEB-INF/jsp/userList.jsp"),
+		@Result(name="findOne",location="/WEB-INF/jsp/management/user/edit.jsp"),
 		@Result(name="fail",location="/fail.jsp"),
 		@Result(name="deleteSuccess",location="/WEB-INF/jsp/management/user/list.jsp"),
 		@Result(name="success",location="/WEB-INF/jsp/management/user/edit.jsp")
@@ -32,10 +32,10 @@ public class UserAction extends ActionSupport implements ModelDriven<User>{
 	@Resource(name="userService")
 	private IUserService userService ; 
 	//--------模型驱动--------
-	private User user ;  
+	private User user =  new User();  
 	private List<User> users ; 
 	
-	//--------属性驱动--------
+	//--------有实体类的属性驱动--------
 	private String userName ;  //属性驱动
 	private int userId;
 	
@@ -45,49 +45,38 @@ public class UserAction extends ActionSupport implements ModelDriven<User>{
 		return userName;
 	}
 
-
-
-
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
+	
 
+	public int getUserId() {
+		return userId;
+	}
 
-
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 
 	public void setUserService(IUserService userService) {
 		this.userService = userService;
 	}
 
-
-
-
 	public User getUser() {
 		return user;
 	}
-
-
-
 
 	public List<User> getUsers() {
 		return users;
 	}
 
-
-
-
 	public void setUsers(List<User> users) {
 		this.users = users;
 	}
 
-
-
-
 	public void setUser(User user) {
 		this.user = user;
 	}
-
-
 
 
 	@Override
@@ -119,10 +108,11 @@ public class UserAction extends ActionSupport implements ModelDriven<User>{
 	@Action("findByName")
 	public String findByName() {  //Action中的方法不能有参数
 		
-		user = userService.findUserByName(userName) ;
-		if(user == null) {
-			return "fail" ;
-		}
+		user = userService.findUserByName(user.getUserName()) ;
+		System.out.println(user);
+//		if(user == null) {
+//			return "fail" ;
+//		}
 		return "findOne" ;  //查询不到，返回错误页面
 	}
 	/**
@@ -132,8 +122,9 @@ public class UserAction extends ActionSupport implements ModelDriven<User>{
 	@Action("findById")
 	public String findById() {  //Action中的方法不能有参数
 		
-		System.out.println(userId);
-		user = userService.findUserById(userId);
+		System.out.println("前端传递:"+user.getUserId());
+		user = userService.findUserById(user.getUserId());
+		System.out.println(user);
 		
 		return SUCCESS ;
 	}
