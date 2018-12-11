@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.cm.domain">
+		<class name="Resource" table="resource">
+			<id name="resId" column="res_id">
+				<generator class="native"></generator>
+			</id>
+			<property name="resTag" column="res_tag"></property>
+			<property name="resCom" column="res_com"></property>
+			<property name="resUri" column="res_uri"></property>
+			<property name="userId" column="user_id"></property>
+			<property name="userName" column="user_name"></property>
+			<property name="adsName" column="ads_name"></property>
+		</class>
+</hibernate-mapping>
