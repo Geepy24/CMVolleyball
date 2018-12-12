@@ -10,7 +10,7 @@ public class Article implements Serializable {
 	
 	private int artId ;
 	private String artTitle ;
-	private String artUri ;
+	private String artContent ;
 	private int userId ;
 	private String userName ;
 	private String adsName ;
@@ -29,11 +29,13 @@ public class Article implements Serializable {
 	public void setArtTitle(String artTitle) {
 		this.artTitle = artTitle;
 	}
-	public String getArtUri() {
-		return artUri;
+
+	
+	public String getArtContent() {
+		return artContent;
 	}
-	public void setArtUri(String artUri) {
-		this.artUri = artUri;
+	public void setArtContent(String artContent) {
+		this.artContent = artContent;
 	}
 	public int getUserId() {
 		return userId;
@@ -67,10 +69,11 @@ public class Article implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "Article [artId=" + artId + ", artTitle=" + artTitle + ", artUri=" + artUri + ", userId=" + userId
-				+ ", userName=" + userName + ", adsName=" + adsName + ", pubTime=" + pubTime + ", lastMod=" + lastMod
-				+ "]";
+		return "Article [artId=" + artId + ", artTitle=" + artTitle + ", artContent=" + artContent + ", userId="
+				+ userId + ", userName=" + userName + ", adsName=" + adsName + ", pubTime=" + pubTime + ", lastMod="
+				+ lastMod + "]";
 	}
+
 	
 	
 	

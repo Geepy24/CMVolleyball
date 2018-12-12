@@ -9,12 +9,12 @@ $("#btn1").click(function(){
   		var now = year + "-" + month + "-" + day ;
   		
   		//获取文本编辑器中的内容
-  		var article_main = $('#edit')[0].childNodes[1].innerHTML ;
+  		var article_content = $('#edit')[0].childNodes[1].innerHTML ;
   		//json对象
   		var content = {
-  				"articleTitle" : $("#title").text() ,
-  				"publishTime"  : now ,
-  				"articleMain" : article_main
+  				"artTitle" : $("#title").text() ,
+  				"pubTime"  : now ,
+  				"artContent" : article_content
   		} ;
   		alert(JSON.stringify(content)) ;
   		
@@ -25,8 +25,9 @@ $("#btn1").click(function(){
 			data : content,
 			dataType : 'json',
 			success:function(data){
-				var uri = JSON.stringify(data.artUri);
-				alert(uri) ;
+				alert(JSON.stringify(data)) ;
+				alert("点击跳转") ;
+				
 				
 				}
 			});

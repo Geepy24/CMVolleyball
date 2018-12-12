@@ -87,6 +87,7 @@
 			</div>
 		</div>
 	</div> 
+
 	
 	<div id="center">
 		<div id="slide">

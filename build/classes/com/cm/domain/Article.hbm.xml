@@ -8,7 +8,7 @@
 				<generator class="native"></generator>
 			</id>
 			<property name="artTitle" column="art_title"></property>
-			<property name="artUri" column="art_uri"></property>
+			<property name="artContent" column="art_content"></property>
 			<property name="userId" column="user_id"></property>
 			<property name="userName" column="user_name"></property>
 			<property name="adsName" column="ads_name"></property>
