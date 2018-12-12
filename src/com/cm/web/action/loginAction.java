@@ -43,10 +43,14 @@ import net.sf.json.JSONObject;
 public class loginAction extends ActionSupport {
 	@Autowired
 	private IUserService userService ;
+//属性驱动，无模型
 	private String userName ;
 	private String password ;
 	private String returndata ; 
 	
+
+
+
 	public String getReturndata() {
 		return returndata;
 	}

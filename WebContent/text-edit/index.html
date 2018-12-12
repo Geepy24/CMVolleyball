@@ -53,33 +53,13 @@
           $('#edit').editable({inlineMode: false, alwaysBlank: true})
       });
   </script>
-  <input type="button" value="发布" id="btn1">
+   <input type="button" value="发布" id="btn1">
+   <input type="button" value="保存" id="btn2">
  
  
-  <script type="text/javascript">
-  	$("#btn1").click(function(){
-  		alert("发布文章") ;
-  		//发布的时间
-  		var date = new Date() ;
-  		var year = date.getFullYear() ;
-  		var month = date.getMonth()+1 ;
-  		var day = date.getDate() ;
-  		
-  		var now = year + "-" + month + "-" + day ;
-  		
-  		//获取文本编辑器中的内容
-  		var article_main = $('#edit')[0].childNodes[1].innerHTML ;
-  		//json对象
-  		var content = {
-  				"articleTitle" : $("#title").text() ,
-  				"publishTime"  : now ,
-  				"article" : article_main
-  		} ;
-  		alert(JSON.stringify(content)) ;
-  		//alert(article_main) ;
-  		
-  	}) ;
-  
-  </script>
+ <script type="text/javascript" src="js/my/article.js"></script>
+ 
+ 
+
 </body>
 </html>
