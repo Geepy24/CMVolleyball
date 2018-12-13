@@ -156,7 +156,7 @@ A.active {
 												</TR>
 												<TR>
 													<TD class=menuSmall>
-														<A class=style2 href="${pageContext.request.contextPath}/linkman/LinkManServlet?method=listLinkMan" target=main>－文章列表</A>
+														<A class=style2 href="${pageContext.request.contextPath}/Article/articleList.action" target=main>－文章列表</A>
 													</TD>
 												</TR>
 												<TR>
@@ -167,6 +167,11 @@ A.active {
 												<TR>
 													<TD class=menuSmall>
 														<A class=style2 href="${pageContext.request.contextPath}/linkman/LinkManServlet?method=listLinkMan" target=main>－文章回收站</A>
+													</TD>
+												</TR>
+												<TR>
+													<TD class=menuSmall>
+														<A class=style2 href="${pageContext.request.contextPath}/linkman/LinkManServlet?method=listLinkMan" target=main>－草稿箱</A>
 													</TD>
 												</TR>
 											</TBODY>

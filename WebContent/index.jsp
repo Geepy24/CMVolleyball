@@ -13,13 +13,28 @@
 <title>welcome to CMVolleyball</title>
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/index.css" />
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.3.1.js"></script>
-	
+
 </head>
 <body>
+		<script type="text/javascript">
+		$("document").ready(function(){
+			$.ajax({
+				url : "${pageContext.request.contextPath}/Article/showIndex.action"  ,
+				
+				success:function(data){
+					//alert("sadas") ;
+					alert(JSON.stringify(data)) ;
+				}
+			}) ;
+			
+		});
+		
+	</script>
 <!-- JSP标签/js/css -->
 
 	
 	<s:debug></s:debug>
+
 <%-- 	要使用到的jsp标签
 	<c:set var="userName" value="${session.loginInfo.userName}"/>
 	<c:if test="${null == userName}">
@@ -97,12 +112,18 @@
 			<fieldset id="message" >
 				<legend align="left"><img src="${pageContext.request.contextPath}/img/volleyball.png">&nbsp;&nbsp;<STRONG><font color="darkblue" size=3>球队新闻</font></STRONG>&nbsp;&nbsp;</legend>
 				<table>
+					
+					<c:forEach items="${articles}" var="article">
+						<tr>
+							<td id="left_td"><a href="Article/showArticle.action?artId=${article.artId}"><strong>${article.artTitle}</strong></a></td>
+							<td id="right_td">${article.pubTime}</td>
+						</tr>
+					</c:forEach>
+					
+						
+					
 					<tr>
-						<td id="left_td"><a href=""><strong>content1</strong></font></a></td>
-						<td id="right_td">日期</td>
-					</tr>
-					<tr>
-						<td id="left_td"><a href=""><strong>content2</strong></font></a></td>
+						<td id="left_td"><a href=""><strong>content2</strong></a></td>
 						<td id="right_td">日期</td>
 					</tr>
 				</table>
@@ -111,7 +132,7 @@
 				<legend align="left"><img src="${pageContext.request.contextPath}/img/volleyball.png">&nbsp;&nbsp;<STRONG><font color="darkblue" size=3>球队资源</font></STRONG>&nbsp;&nbsp;</legend>
 				<table>
 					<tr>
-						<td id="left_td"><a href=""><strong>content</strong></font></a></td>
+						<td id="left_td"><a href=""><strong>content</strong></a></td>
 						<td id="right_td">日期</td>
 					</tr>
 					<tr>

@@ -11,8 +11,8 @@ public class Article implements Serializable {
 	private int artId ;
 	private String artTitle ;
 	private String artContent ;
-	private int userId ;
-	private String userName ;
+	private int authorId ;
+	private String authorName ;
 	private String adsName ;
 	private String pubTime ;
 	private String lastMod ;
@@ -37,17 +37,18 @@ public class Article implements Serializable {
 	public void setArtContent(String artContent) {
 		this.artContent = artContent;
 	}
-	public int getUserId() {
-		return userId;
+	
+	public int getAuthorId() {
+		return authorId;
 	}
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setAuthorId(int authorId) {
+		this.authorId = authorId;
 	}
-	public String getUserName() {
-		return userName;
+	public String getAuthorName() {
+		return authorName;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setAuthorName(String authorName) {
+		this.authorName = authorName;
 	}
 	public String getAdsName() {
 		return adsName;
@@ -69,10 +70,11 @@ public class Article implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "Article [artId=" + artId + ", artTitle=" + artTitle + ", artContent=" + artContent + ", userId="
-				+ userId + ", userName=" + userName + ", adsName=" + adsName + ", pubTime=" + pubTime + ", lastMod="
-				+ lastMod + "]";
+		return "Article [artId=" + artId + ", artTitle=" + artTitle + ", artContent=" + artContent + ", authorId="
+				+ authorId + ", authorName=" + authorName + ", adsName=" + adsName + ", pubTime=" + pubTime
+				+ ", lastMod=" + lastMod + "]";
 	}
+
 
 	
 	

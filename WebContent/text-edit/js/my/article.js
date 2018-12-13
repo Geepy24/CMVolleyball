@@ -10,9 +10,15 @@ $("#btn1").click(function(){
   		
   		//获取文本编辑器中的内容
   		var article_content = $('#edit')[0].childNodes[1].innerHTML ;
+  		var article_title = $("#title").text() ;
+  		if(article_content == "" || article_title == ""){
+  			alert("文章标题与内容不能为空");
+  			return ;
+  		}
+  		
   		//json对象
   		var content = {
-  				"artTitle" : $("#title").text() ,
+  				"artTitle" : article_title ,
   				"pubTime"  : now ,
   				"artContent" : article_content
   		} ;
@@ -26,8 +32,12 @@ $("#btn1").click(function(){
 			dataType : 'json',
 			success:function(data){
 				alert(JSON.stringify(data)) ;
-				alert("点击跳转") ;
-				
+				//取出保存到数据库后返回的文章ID
+				var article_id = data.artId ;
+				alert("发布成功") ;
+				alert(article_id) ;
+				//用get方式直接给另一个页面传文章id
+				window.location = "../pubSuccess.jsp?artId="+article_id;
 				
 				}
 			});

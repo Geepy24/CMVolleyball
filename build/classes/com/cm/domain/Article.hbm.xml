@@ -9,8 +9,8 @@
 			</id>
 			<property name="artTitle" column="art_title"></property>
 			<property name="artContent" column="art_content"></property>
-			<property name="userId" column="user_id"></property>
-			<property name="userName" column="user_name"></property>
+			<property name="authorId" column="author_id"></property>
+			<property name="authorName" column="author_name"></property>
 			<property name="adsName" column="ads_name"></property>
 			<property name="pubTime" column="pub_time"></property>
 			<property name="lastMod" column="last_mod"></property>
