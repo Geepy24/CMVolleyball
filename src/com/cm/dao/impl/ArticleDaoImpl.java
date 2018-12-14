@@ -1,11 +1,15 @@
 package com.cm.dao.impl;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.mapping.Array;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -109,6 +113,7 @@ public class ArticleDaoImpl implements IArticleDao {
 	 * @param maxResults  每页最大条数
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public List<Article> findAllArticle(Integer currentPage, Integer maxResults) {
 		List<Article> articles = null;
 		Session session = hibernateTemplate.getSessionFactory().getCurrentSession();
@@ -120,6 +125,7 @@ public class ArticleDaoImpl implements IArticleDao {
 			query.setFirstResult((currentPage - 1) * maxResults);
 			// 设置每页最大条目数
 			query.setMaxResults(maxResults);
+			System.out.println(query);
 			articles = query.list();
 
 			System.out.println(articles);
@@ -134,6 +140,39 @@ public class ArticleDaoImpl implements IArticleDao {
 
 	}
 
+	/**
+	 * 查询指定内容
+	 * @return
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<String> find(String content){
+		List<String> list = new ArrayList<>() ;
+		Session session = hibernateTemplate.getSessionFactory().getCurrentSession();
+		String hql = "SELECT "+content+" FROM Article ORDER BY artId DESC ";
+		try {
+			System.out.println("进入dao");
+			Query query = session.createQuery(hql);
+			// 设置开始查询的对象索引 当前页面-1 乘以每页最大条目数
+			query.setFirstResult(0);
+			// 设置每页最大条目数
+			query.setMaxResults(10);
+			System.out.println(query);
+			list = query.list();
+
+		} catch (Exception e) {
+			System.out.println("进入catch");
+			return null;
+		}
+		System.out.println("正常");
+		session.close();
+		return list;
+		
+		
+		
+	}
+	
+	
 	/**
 	 * 删除文章
 	 */

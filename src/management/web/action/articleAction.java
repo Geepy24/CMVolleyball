@@ -1,9 +1,12 @@
 package management.web.action;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
-import javax.swing.table.TableModel;
 
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
@@ -17,7 +20,9 @@ import com.cm.domain.User;
 import com.cm.service.IArticleService;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
-import com.sun.webkit.ContextMenu.ShowContext;
+
+import net.sf.json.JSON;
+import net.sf.json.JSONObject;
 /**
  * 文章的动作类
  * @author Huangjiping
@@ -39,6 +44,8 @@ public class articleAction extends ActionSupport implements ModelDriven<Article>
 	private List<Article> articles ;
 	private int currentPage ;
 	private int toPage ;
+	private String returndata ;
+	private JSONObject json ;
 	//private int article_Id ;
 	//其他
 	private User user ;
@@ -57,6 +64,14 @@ public class articleAction extends ActionSupport implements ModelDriven<Article>
 
 	public void setCurrentPage(int currentPage) {
 		this.currentPage = currentPage;
+	}
+
+	public JSONObject getJson() {
+		return json;
+	}
+
+	public void setJson(JSONObject json) {
+		this.json = json;
 	}
 
 	public int getToPage() {
@@ -84,6 +99,14 @@ public class articleAction extends ActionSupport implements ModelDriven<Article>
 //	}
 	public Article getArticle() {
 		return this.article;
+	}
+
+	public String getReturndata() {
+		return returndata;
+	}
+
+	public void setReturndata(String returndata) {
+		this.returndata = returndata;
 	}
 
 	public void setArticle(Article article) {
@@ -184,18 +207,28 @@ public class articleAction extends ActionSupport implements ModelDriven<Article>
 	/**
 	 * 	页面加载时往新闻、资源栏目里填充数据
 	 */
-	@Action(value="showIndex",results= {@Result(name="success",type="json")},params= {"root","article"})
+	@Action(value="indexArticle",results= {@Result(name="success",type="json",
+					params= {"root","returndata"})})
 	public String index() {
-		
 		System.out.println("首页请求");
 		//调试后发现是query.list()卡住，没有反应
 		//这里出问题，没报错没值，可能是spring事务，出错了自动回滚
 		//应该不是事务的事，可能刚到首页，没有hibernate没有session
 		//可能是session不够用
+		articles = articleService.findAllArticle(1, MAXRESULTS) ;
+		Map<String , String> map = new LinkedHashMap<>() ;
+		for(int i = 0 ; i<articles.size() ; i++) {
+			map.put(articles.get(i).getArtId()+"", articles.get(i).getArtTitle()+"."+articles.get(i).getPubTime()) ;  
+		}
+		//再加上数据条数
+		JSONObject json = JSONObject.fromObject(map) ;
+		System.out.println(map);
+		System.out.println(json);
+		returndata = json.toString() ;
+		System.out.println(returndata);
 		
-		articles =  articleService.findAllArticle(1,10) ;
-		System.out.println("sadasd");
-		System.out.println(articles);
+		
+		
 		
 		return SUCCESS ;
 	}

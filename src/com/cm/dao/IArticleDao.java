@@ -37,5 +37,10 @@ public interface IArticleDao {
 	 * 	分页查找文章
 	 */
 	List<Article> findAllArticle(Integer currentPage,Integer maxResults ) ;
-
+	/**
+	 * 查找文章指定的内容
+	 * @return 返回10条倒序的内容
+	 */
+	List<String> find(String content) ;
+	
 }

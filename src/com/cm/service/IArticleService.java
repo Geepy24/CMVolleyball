@@ -48,5 +48,9 @@ public interface IArticleService {
 	 * @return
 	 */
 	List<Article> findAllArticle(Integer currentPage,Integer maxResults ) ;
-	
+	/**
+	 * 查找文章指定的内容
+	 * @return 返回10条倒序的内容
+	 */
+	List<String> find(String content) ;
 }

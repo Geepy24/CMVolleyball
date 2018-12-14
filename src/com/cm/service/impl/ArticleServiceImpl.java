@@ -59,6 +59,11 @@ public class ArticleServiceImpl implements IArticleService {
 		
 	}
 
+	@Override
+	public List<String> find(String content) {
+		return articleDao.find(content);
+	}
+
 
 
 }

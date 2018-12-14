@@ -13,27 +13,56 @@
 <title>welcome to CMVolleyball</title>
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/index.css" />
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.3.1.js"></script>
-
-</head>
-<body>
-		<script type="text/javascript">
-		$("document").ready(function(){
+	<script type="text/javascript">
+	//页面加载就往新闻窗口填充文章
+		function index_article(){
+			
 			$.ajax({
-				url : "${pageContext.request.contextPath}/Article/showIndex.action"  ,
-				
-				success:function(data){
-					//alert("sadas") ;
-					alert(JSON.stringify(data)) ;
+				type : "GET" ,
+				url : "${pageContext.request.contextPath}/Article/indexArticle.action" ,
+				data : {
+					"content" : "artTitle"
+					
+				}, 
+				dataType : "JSON" ,
+				success : function(data){
+					//返回的json数据是{"artId" : "artTitle+pubTime"}，要截取
+					//返回的是字符串，要变为json对象
+				//	alert(data) ;
+					var backdata = JSON.parse(data) ;
+					//读取json对象中数据的条目数
+					for(attr in backdata){
+					//	alert(attr+"-"+backdata[attr]) ;
+					//显示到新闻栏目中
+						arr = backdata[attr].split(".",2) ;
+						var title = arr[0] ;
+						var publish_time = arr[1] ;
+						//alert(publish_time);
+						$("#article_table").prepend(
+					"<tr><td id='left_td'><a href='${pageContext.request.contextPath}/Article/showArticle.action?artId="+attr+"'>"+title+"</a></td>"
+							+"<td id='right_td'>"+publish_time+"</td></tr>" 
+					
+					) ;
+					}
+					
+					
 				}
 			}) ;
 			
-		});
-		
+		}
 	</script>
+	<script type="text/javascript">
+		$(document).ready(index_article()) ;
+	</script>
+
+
+</head>
+<body>
+		
 <!-- JSP标签/js/css -->
 
 	
-	<s:debug></s:debug>
+	
 
 <%-- 	要使用到的jsp标签
 	<c:set var="userName" value="${session.loginInfo.userName}"/>
@@ -111,22 +140,12 @@
 		<div id="main">
 			<fieldset id="message" >
 				<legend align="left"><img src="${pageContext.request.contextPath}/img/volleyball.png">&nbsp;&nbsp;<STRONG><font color="darkblue" size=3>球队新闻</font></STRONG>&nbsp;&nbsp;</legend>
-				<table>
+				<!-- 	<a href="javascript:void(0);" onclick="index_article()">点击获取</a>
+				 -->	
 					
-					<c:forEach items="${articles}" var="article">
-						<tr>
-							<td id="left_td"><a href="Article/showArticle.action?artId=${article.artId}"><strong>${article.artTitle}</strong></a></td>
-							<td id="right_td">${article.pubTime}</td>
-						</tr>
-					</c:forEach>
+					<table id="article_table">
 					
-						
-					
-					<tr>
-						<td id="left_td"><a href=""><strong>content2</strong></a></td>
-						<td id="right_td">日期</td>
-					</tr>
-				</table>
+					</table>
 			</fieldset>
 			<fieldset id="source">
 				<legend align="left"><img src="${pageContext.request.contextPath}/img/volleyball.png">&nbsp;&nbsp;<STRONG><font color="darkblue" size=3>球队资源</font></STRONG>&nbsp;&nbsp;</legend>
@@ -136,7 +155,7 @@
 						<td id="right_td">日期</td>
 					</tr>
 					<tr>
-						<td id="left_td"><a href=""><strong>content2</strong></font></a></td>
+						<td id="left_td"><a href=""><strong>content2</strong></a></td>
 						<td id="right_td">日期</td>
 					</tr>
 				</table>	
@@ -161,9 +180,11 @@
 		 	</div>
 	 </div>
 
-	</body>
+	
+
+</body>
 	 
 	 
 	
-</body>
+
 </html>
