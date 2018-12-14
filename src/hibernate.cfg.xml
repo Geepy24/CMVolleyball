@@ -37,6 +37,8 @@
 		<mapping resource="com/cm/domain/Ads.hbm.xml" />
 		<mapping resource="com/cm/domain/Article.hbm.xml" />
 		<mapping resource="com/cm/domain/Resource.hbm.xml" />
+		<mapping resource="com/cm/domain/Dustbin.hbm.xml" />
+		<mapping resource="com/cm/domain/Draft.hbm.xml" />
 		
 
 	</session-factory>

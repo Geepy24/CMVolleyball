@@ -7,7 +7,10 @@ import org.springframework.stereotype.Service;
 
 import com.cm.dao.IArticleDao;
 import com.cm.domain.Article;
+import com.cm.domain.Draft;
 import com.cm.service.IArticleService;
+
+import management.web.action.articleAction;
 @Service("articleService")
 public class ArticleServiceImpl implements IArticleService {
 
@@ -64,6 +67,26 @@ public class ArticleServiceImpl implements IArticleService {
 		return articleDao.find(content);
 	}
 
+	@Override
+	public void saveDraft(Draft draft) {
 
+		articleDao.saveDraft(draft);
+		
+		
+	}
+
+	
+	@Override
+	public Draft findDraftById(int draId) {
+		return articleDao.findDraftById(draId) ;
+	}
+
+	@Override
+	public List<Draft> findAllDraft(Integer authorId ,Integer currentPage, Integer maxResults) {
+
+		return articleDao.findAllDraft(authorId,currentPage,maxResults);
+	}
+
+	
 
 }

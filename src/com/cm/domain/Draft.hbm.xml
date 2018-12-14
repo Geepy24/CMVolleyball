@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.cm.domain">
+		<class name="Draft" table="draft">
+			<id name="draId" column="dra_id">
+				<generator class="native"></generator>
+			</id>
+			<property name="artTitle" column="art_title"></property>
+			<property name="artContent" column="art_content"></property>
+			<property name="authorId" column="author_id"></property>
+			<property name="lastMod" column="last_mod"></property>
+		</class>
+</hibernate-mapping>

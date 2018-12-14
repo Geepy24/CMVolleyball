@@ -1,7 +1,5 @@
 package management.web.action;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +19,6 @@ import com.cm.service.IArticleService;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 
-import net.sf.json.JSON;
 import net.sf.json.JSONObject;
 /**
  * 文章的动作类
@@ -227,11 +224,10 @@ public class articleAction extends ActionSupport implements ModelDriven<Article>
 		returndata = json.toString() ;
 		System.out.println(returndata);
 		
-		
-		
-		
 		return SUCCESS ;
 	}
+	
+	
 	
 	
 }	

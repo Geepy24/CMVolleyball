@@ -3,6 +3,7 @@ package com.cm.service;
 import java.util.List;
 
 import com.cm.domain.Article;
+import com.cm.domain.Draft;
 
 /**
  * 	文章的业务层接口
@@ -53,4 +54,23 @@ public interface IArticleService {
 	 * @return 返回10条倒序的内容
 	 */
 	List<String> find(String content) ;
+	
+	//-----------草稿箱------------
+	/**
+	 * 保存至草稿箱
+	 */
+	void saveDraft(Draft draft) ;
+	/**
+	 * 	根据Id查找草稿
+	 * @param draId
+	 */
+	Draft findDraftById(int draId);
+	/**
+	 * 根据authorName查找分页查找所有草稿
+	 */
+	List<Draft> findAllDraft(Integer authorId ,Integer currentPage,Integer maxResults);
+	/**
+	 * 	
+	 */
+	
 }

@@ -10,11 +10,13 @@ import javax.annotation.Resource;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.mapping.Array;
+import org.springframework.beans.factory.HierarchicalBeanFactory;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.cm.dao.IArticleDao;
 import com.cm.domain.Article;
+import com.cm.domain.Draft;
 
 @Repository("articleDao")
 public class ArticleDaoImpl implements IArticleDao {
@@ -189,6 +191,30 @@ public class ArticleDaoImpl implements IArticleDao {
 	public void updateArticle(Article article) {
 		hibernateTemplate.update(article);
 
+	}
+
+	@Override
+	public void saveDraft(Draft draft) {
+		hibernateTemplate.save(draft) ;
+		
+	}
+
+	@Override
+	public Draft findDraftById(int draId) {
+		return (Draft) hibernateTemplate.find("From Draft WHERE draId=?", draId).get(0) ;
+		
+	}
+
+	/**
+	 * 	∑÷“≥≤È—Ø
+	 */
+	@Override
+	public List<Draft> findAllDraft(Integer authorId , Integer currentPage, Integer maxResults) {
+		
+		String hql="From Draft WHERE authorId=? ORDER BY draId DESC LIMIT ?,?" ;
+		Object [] attr = new Integer[] {authorId,currentPage,maxResults} ;
+		return (List<Draft>) hibernateTemplate.find(hql,attr) ;
+		
 	}
 
 }

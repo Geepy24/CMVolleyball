@@ -3,6 +3,7 @@ package com.cm.dao;
 import java.util.List;
 
 import com.cm.domain.Article;
+import com.cm.domain.Draft;
 
 public interface IArticleDao {
 	/**
@@ -42,5 +43,21 @@ public interface IArticleDao {
 	 * @return 返回10条倒序的内容
 	 */
 	List<String> find(String content) ;
+//---------------草稿箱的操作------------------
+	
+	/**
+	 * 保存至草稿箱
+	 */
+	void saveDraft(Draft draft) ;
+	/**
+	 * 	根据Id查找草稿
+	 * @param draId
+	 */
+	Draft findDraftById(int draId);
+	/**
+	 * 根据Id分页查找所有草稿
+	 */
+	List<Draft> findAllDraft(Integer authorId,Integer currentPage,Integer maxResults);
+		
 	
 }

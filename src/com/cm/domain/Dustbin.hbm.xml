@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.cm.domain">
+		<class name="Dustbin" table="dustbin">
+			<id name="dustId" column="dust_id">
+				<generator class="native"></generator>
+			</id>
+			<property name="artId" column="art_id"></property>
+			<property name="artTitle" column="art_title"></property>
+			<property name="artContent" column="art_content"></property>
+			<property name="authorName" column="author_name"></property>
+			<property name="delTime" column="del_time"></property>
+		</class>
+</hibernate-mapping>

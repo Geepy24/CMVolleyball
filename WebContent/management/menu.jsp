@@ -171,7 +171,7 @@ A.active {
 												</TR>
 												<TR>
 													<TD class=menuSmall>
-														<A class=style2 href="${pageContext.request.contextPath}/linkman/LinkManServlet?method=listLinkMan" target=main>－草稿箱</A>
+														<A class=style2 href="${pageContext.request.contextPath}/Article/toDraftList.action?authorId=${userId}" target=main>－草稿箱</A>
 													</TD>
 												</TR>
 											</TBODY>
@@ -304,5 +304,6 @@ A.active {
 			</TBODY>
 		</TABLE>
 	</FORM>
+	
 </BODY>
 </HTML>
