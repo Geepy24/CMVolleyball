@@ -67,7 +67,7 @@ public class ArticleServiceImpl implements IArticleService {
 	public List<String> find(String content) {
 		return articleDao.find(content);
 	}
-
+//-------------------草稿箱操作----------------------------
 	@Override
 	public void saveDraft(Draft draft) {
 
@@ -98,6 +98,13 @@ public class ArticleServiceImpl implements IArticleService {
 	public Long AllArticleNumber() {
 		return articleDao.AllArticleNumber();
 	}
+
+	@Override
+	public void deleteDraft(Integer draId) {
+		articleDao.deleteDraft(draId);
+		
+	}
+
 	
 	//----------------回收站操作--------------------
 	@Override
@@ -105,6 +112,25 @@ public class ArticleServiceImpl implements IArticleService {
 		articleDao.saveDustbin(dustbin) ;
 	}
 
+	@Override
+	public List<Dustbin> findAllDustbin(Integer currentPage, Integer MAXRESULTS) {
+		
+		return articleDao.findAllDustbin(currentPage,MAXRESULTS);
+	}
+
+	@Override
+	public Long AllDustbinNumber() {
+		return articleDao.AllDustbinNumber();
+	}
+	
+	public void deleteDustbin(Integer dustId) {
+		articleDao.deleteDustbin(dustId);
+	}
+
+	@Override
+	public Dustbin findDustbinById(Integer dustId) {
+		return articleDao.findDustbinById(dustId);
+	}
 	
 
 }

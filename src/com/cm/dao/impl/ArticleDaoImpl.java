@@ -7,10 +7,13 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.mapping.Array;
 import org.springframework.beans.factory.HierarchicalBeanFactory;
+import org.springframework.jdbc.support.incrementer.H2SequenceMaxValueIncrementer;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -193,7 +196,7 @@ public class ArticleDaoImpl implements IArticleDao {
 		hibernateTemplate.update(article);
 
 	}
-
+//----------------------草稿箱操作----------------------
 	@Override
 	public void saveDraft(Draft draft) {
 		hibernateTemplate.save(draft) ;
@@ -210,9 +213,8 @@ public class ArticleDaoImpl implements IArticleDao {
 	 */
 	@Override
 	public Long AllArticleNumber() {
-		String sql = "select count(*) FROM Article " ;
 		
-		return  (Long) hibernateTemplate.find(sql).get(0) ;
+		return  (Long) hibernateTemplate.find("SELECT COUNT(*) FROM Article ").get(0) ;
 				
 	}
 
@@ -233,19 +235,62 @@ public class ArticleDaoImpl implements IArticleDao {
 	 */
 	@Override
 	public Long AllDraftNumber(Integer authorId) {
-		String sql = "select count(*) FROM Draft WHERE authorId=:id" ;
+		String sql = "SELECT COUNT(*) FROM Draft WHERE authorId=:id" ;
 		String param = "id" ;
 		int value = authorId ;
 		return  (Long) hibernateTemplate.findByNamedParam(sql, param, value).get(0) ;
 				
 	}
+	@Override
+	public void deleteDraft(Integer draId) {
+		hibernateTemplate.delete(this.findDraftById(draId));
+		
+	}
+
 	
-	//------------------草稿箱操作--------------------------
+	//------------------回收站操作--------------------------
+	
+	/**
+	 * 通过id 查找
+	 */
+	@Override
+	public Dustbin findDustbinById(Integer dustId) {
+		
+		return (Dustbin) hibernateTemplate.find("FROM Dustbin where dustId=?",dustId).get(0) ;
+	}
+	
 	@Override
 	public void saveDustbin(Dustbin dustbin) {
 		
 		hibernateTemplate.save(dustbin) ;
 		
 	}
+	/**
+	 * 无条件的分页
+	 */
+
+	@Override
+	public List<Dustbin> findAllDustbin(Integer currentPage, Integer MAXRESULTS) {
+		DetachedCriteria criteria = DetachedCriteria.forClass(Dustbin.class) ;
+		return (List<Dustbin>) hibernateTemplate.findByCriteria(criteria, (currentPage-1)*MAXRESULTS, MAXRESULTS) ;
+	}
+	/**
+	 *	查找总数
+	 */
+	@Override
+	public Long AllDustbinNumber() {
+		return (Long) hibernateTemplate.find("SELECT COUNT(*) FROM Dustbin").get(0);
+	}
+	/**
+	 * 	彻底删除
+	 */
+	@Override
+	public void deleteDustbin(Integer dustId) {
+		
+		hibernateTemplate.delete(this.findDustbinById(dustId));
+		
+			
+	}
+
 
 }

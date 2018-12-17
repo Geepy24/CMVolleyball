@@ -113,7 +113,17 @@ public class articleAction extends ActionSupport implements ModelDriven<Article>
 //-------------------动作方法-------------------------------
 
 
-
+	//发布文章
+	@Action(value="publish",results= {@Result(name="success",location="/text-edit/index.html")})
+	public String publishArticle() {
+		//将session域中的editDustId，editDraftId置为0
+//		session.setAttribute("editDustId", 0);
+//		session.setAttribute("editDraftId", 0);
+		System.out.println("菜单进入");
+		
+		
+		return SUCCESS ;
+	}
 
 
 	//该动作类处理管理员的文章提交
@@ -163,8 +173,11 @@ public class articleAction extends ActionSupport implements ModelDriven<Article>
 		//所有文章
 			Long totalItems = articleService.AllArticleNumber();
 			Long totalArticles ;
+			
 			//总页数
-			if(0 == totalItems%10) {
+			if(0 == totalItems) {
+				totalArticles = new Long(1);
+			}else if(0 == totalItems%10) {
 				totalArticles = totalItems/10 ;
 			}else {
 				totalArticles = (totalItems/10) + 1  ;
@@ -241,6 +254,9 @@ public class articleAction extends ActionSupport implements ModelDriven<Article>
 		return SUCCESS ;
 	}
 	
+	/**
+	 * 	文章详情
+	 */
 	
 	
 	

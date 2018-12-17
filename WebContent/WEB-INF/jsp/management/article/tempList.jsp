@@ -21,7 +21,7 @@
 <META content="MSHTML 6.00.2900.3492" name=GENERATOR>
 </HEAD>
 <BODY>
-	<FORM id="customerForm" name="customerForm" action="${pageContext.request.contextPath }/Article/selectPage.action" method=get>	
+	<FORM id="customerForm" name="customerForm" action="${pageContext.request.contextPath }/Article/selectDraftPage.action" method=get>	
 		<TABLE cellSpacing=0 cellPadding=0 width="98%" border=0>
 			<TBODY>
 				<TR>
@@ -75,6 +75,7 @@
 													
 													<TD>
 													<a href="${pageContext.request.contextPath }/tesx-edit/index.html?draId=${draft.draId}">编辑</a>
+													<a href="${pageContext.request.contextPath }/Article/deleDraft.action?draId=${draft.draId}">删除草稿</a>
 													
 													&nbsp;&nbsp;
 													</TD>
@@ -85,11 +86,11 @@
 											<TBODY>
 												<TR>
 													<TD>当前页面：${currentPage}/${totalPages}</TD>
-													<TD>选择页码</TD>
-													<TD><INPUT class=textbox id=sChannel2 style="WIDTH: 80px" maxLength=50 name="toPage"></TD>
-													<TD><INPUT class=button id=sButton2 type=submit value=" 选择" name=sButton2></TD>
-													<TD><a href="${pageContext.request.contextPath }/Article/preDraft.action?currentPage=${currentPage}">上一页</a></TD>
-													<TD><a href="${pageContext.request.contextPath }/Article/nextDraft.action?currentPage=${currentPage}">下一页</a></TD>
+													<TD>选择页码&nbsp;&nbsp;
+													<INPUT class=textbox id=sChannel2 style="WIDTH: 80px" maxLength=50 name="toPage">&nbsp;&nbsp;
+													<INPUT class=button id=sButton2 type=submit value=" 选择" name=sButton2></TD>
+													<TD><a href="${pageContext.request.contextPath }/Article/preDraft.action?currentPage=${currentPage}">上一页</a>
+														<a href="${pageContext.request.contextPath }/Article/nextDraft.action?currentPage=${currentPage}">下一页</a></TD>
 												</TR>
 												
 											</TBODY>

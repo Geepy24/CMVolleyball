@@ -159,7 +159,9 @@ public class draftAction extends ActionSupport implements ModelDriven<Draft> {
 		Long totalItems = articleService.AllDraftNumber(draft.getAuthorId()) ;
 		Long totalPages ;
 		//总页数
-		if(0 == totalItems%10) {
+		if(0 == totalItems) {
+			totalPages = new Long(1);
+		}else if(0 == totalItems%10) {
 			totalPages = totalItems/10 ;
 		}else {
 			totalPages = (totalItems/10) + 1  ;
@@ -200,7 +202,7 @@ public class draftAction extends ActionSupport implements ModelDriven<Draft> {
 			return SUCCESS ;
 		}
 		//文章列表的页码选择，前端不同页显示返回的不同页的数据
-		@Action(value="selectPage",results= {@Result(name="success",location="/WEB-INF/jsp/management/article/draftList.jsp")})
+		@Action(value="selectDraftPage",results= {@Result(name="success",location="/WEB-INF/jsp/management/article/draftList.jsp")})
 		public String selectPage() {
 			
 			System.out.println(toPage);
@@ -208,6 +210,16 @@ public class draftAction extends ActionSupport implements ModelDriven<Draft> {
 			drafts = articleService.findAllDraft(user.getUserId(),toPage, MAXRESULTS) ;
 			
 		
+			
+			return SUCCESS ;
+		}
+		/**
+		 * 	删除草稿
+		 */
+		@Action(value="deleDraft",results= {@Result(name="success",type="chain",location="toDraftList")})
+		public String deleteDraft() {
+			System.out.println(draft.getDraId());
+			articleService.deleteDraft(draft.getDraId()) ;
 			
 			return SUCCESS ;
 		}

@@ -69,6 +69,11 @@ public interface IArticleDao {
 	 * @return
 	 */
 	Long AllDraftNumber(Integer authorId);
+	/**
+	 * 删除草稿
+	 */
+	void deleteDraft(Integer draId) ;
+	
 	
 	//---------------------草稿箱操作-------------------
 	/**
@@ -76,7 +81,24 @@ public interface IArticleDao {
 	 * @param dustbin
 	 */
 	void saveDustbin(Dustbin dustbin);
-	
-		
+	/**
+	 * 	分页查找所有Dustbin
+	 */
+	List<Dustbin> findAllDustbin(Integer currentPage, Integer MAXRESULTS);
+	/**
+	 * 所有dustbin总数
+	 */
+	Long AllDustbinNumber() ;
+	/**
+	 * 	彻底删除
+	 * @param dustId
+	 */
+	void deleteDustbin(Integer dustId);
+	/**
+	 * 通过id查找
+	 * @param dustId
+	 * @return
+	 */
+	Dustbin findDustbinById(Integer dustId) ;
 	
 }
