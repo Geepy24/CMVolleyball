@@ -159,6 +159,20 @@ public class articleAction extends ActionSupport implements ModelDriven<Article>
 		 
 		 currentPage = 1 ;
 		 articles = articleService.findAllArticle(currentPage,MAXRESULTS);
+		 //加上页码
+		//所有文章
+			Long totalItems = articleService.AllArticleNumber();
+			Long totalArticles ;
+			//总页数
+			if(0 == totalItems%10) {
+				totalArticles = totalItems/10 ;
+			}else {
+				totalArticles = (totalItems/10) + 1  ;
+			}
+			//放进session
+			session.setAttribute("totalArticles",totalArticles );
+		 
+		 
 		 
 		return SUCCESS;
 		

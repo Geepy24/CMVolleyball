@@ -166,7 +166,7 @@ A.active {
 												</TR>
 												<TR>
 													<TD class=menuSmall>
-														<A class=style2 href="${pageContext.request.contextPath}/linkman/LinkManServlet?method=listLinkMan" target=main>－文章回收站</A>
+														<A class=style2 href="${pageContext.request.contextPath}/Article/dustbinList.action" target=main>－文章回收站</A>
 													</TD>
 												</TR>
 												<TR>

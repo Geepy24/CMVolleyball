@@ -17,6 +17,7 @@ import org.springframework.stereotype.Repository;
 import com.cm.dao.IArticleDao;
 import com.cm.domain.Article;
 import com.cm.domain.Draft;
+import com.cm.domain.Dustbin;
 
 @Repository("articleDao")
 public class ArticleDaoImpl implements IArticleDao {
@@ -204,16 +205,46 @@ public class ArticleDaoImpl implements IArticleDao {
 		return (Draft) hibernateTemplate.find("From Draft WHERE draId=?", draId).get(0) ;
 		
 	}
+	/**
+	 * 	统计所有文章数目
+	 */
+	@Override
+	public Long AllArticleNumber() {
+		String sql = "select count(*) FROM Article " ;
+		
+		return  (Long) hibernateTemplate.find(sql).get(0) ;
+				
+	}
 
 	/**
-	 * 	分页查询
+	 * 	分页查询，find的分页方法
 	 */
 	@Override
 	public List<Draft> findAllDraft(Integer authorId , Integer currentPage, Integer maxResults) {
 		
-		String hql="From Draft WHERE authorId=? ORDER BY draId DESC LIMIT ?,?" ;
-		Object [] attr = new Integer[] {authorId,currentPage,maxResults} ;
-		return (List<Draft>) hibernateTemplate.find(hql,attr) ;
+		Draft draft = new Draft() ;
+		draft.setAuthorId(authorId);
+		return hibernateTemplate.findByExample(draft, (currentPage-1)*maxResults, maxResults) ;
+		
+		
+	}
+	/**
+	 * 	根据authorId统计总共数目
+	 */
+	@Override
+	public Long AllDraftNumber(Integer authorId) {
+		String sql = "select count(*) FROM Draft WHERE authorId=:id" ;
+		String param = "id" ;
+		int value = authorId ;
+		return  (Long) hibernateTemplate.findByNamedParam(sql, param, value).get(0) ;
+				
+	}
+	
+	//------------------草稿箱操作--------------------------
+	@Override
+	public void saveDustbin(Dustbin dustbin) {
+		
+		hibernateTemplate.save(dustbin) ;
 		
 	}
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cm.domain.Article;
 import com.cm.domain.Draft;
+import com.cm.domain.Dustbin;
 
 /**
  * 	文章的业务层接口
@@ -54,6 +55,10 @@ public interface IArticleService {
 	 * @return 返回10条倒序的内容
 	 */
 	List<String> find(String content) ;
+	/**
+	 * 查找文章总数
+	 */
+	Long AllArticleNumber();
 	
 	//-----------草稿箱------------
 	/**
@@ -70,7 +75,17 @@ public interface IArticleService {
 	 */
 	List<Draft> findAllDraft(Integer authorId ,Integer currentPage,Integer maxResults);
 	/**
-	 * 	
+	 * 根据Id查找草稿总数
+	 * @param authorId
+	 * @return
 	 */
+	
+	Long AllDraftNumber(Integer authorId);
+	//--------------回收站操作--------------------
+	/**
+	 * 	保存回收站
+	 */
+	void saveDustbin(Dustbin dustbin) ;
+	
 	
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cm.domain.Article;
 import com.cm.domain.Draft;
+import com.cm.domain.Dustbin;
 
 public interface IArticleDao {
 	/**
@@ -43,6 +44,10 @@ public interface IArticleDao {
 	 * @return 返回10条倒序的内容
 	 */
 	List<String> find(String content) ;
+	/**
+	 * 查找文章总数
+	 */
+	Long AllArticleNumber();
 //---------------草稿箱的操作------------------
 	
 	/**
@@ -58,6 +63,20 @@ public interface IArticleDao {
 	 * 根据Id分页查找所有草稿
 	 */
 	List<Draft> findAllDraft(Integer authorId,Integer currentPage,Integer maxResults);
+	/**
+	 * 根据Id查找草稿总数
+	 * @param authorId
+	 * @return
+	 */
+	Long AllDraftNumber(Integer authorId);
+	
+	//---------------------草稿箱操作-------------------
+	/**
+	 *  保存草稿箱操作
+	 * @param dustbin
+	 */
+	void saveDustbin(Dustbin dustbin);
+	
 		
 	
 }

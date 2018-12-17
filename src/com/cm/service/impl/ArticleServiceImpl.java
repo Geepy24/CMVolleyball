@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.cm.dao.IArticleDao;
 import com.cm.domain.Article;
 import com.cm.domain.Draft;
+import com.cm.domain.Dustbin;
 import com.cm.service.IArticleService;
 
 import management.web.action.articleAction;
@@ -85,6 +86,23 @@ public class ArticleServiceImpl implements IArticleService {
 	public List<Draft> findAllDraft(Integer authorId ,Integer currentPage, Integer maxResults) {
 
 		return articleDao.findAllDraft(authorId,currentPage,maxResults);
+	}
+
+	@Override
+	public Long AllDraftNumber(Integer authorId) {
+		
+		return articleDao.AllDraftNumber(authorId);
+	}
+
+	@Override
+	public Long AllArticleNumber() {
+		return articleDao.AllArticleNumber();
+	}
+	
+	//----------------»ØÊÕÕ¾²Ù×÷--------------------
+	@Override
+	public void saveDustbin(Dustbin dustbin) {
+		articleDao.saveDustbin(dustbin) ;
 	}
 
 	

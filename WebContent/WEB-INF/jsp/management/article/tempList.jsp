@@ -63,6 +63,8 @@
 												<TR style="FONT-WEIGHT: bold; FONT-STYLE: normal; BACKGROUND-COLOR: #eeeeee; TEXT-DECORATION: none">
 													<TD>文章标题</TD>
 													<TD>上次修改时间</TD>
+													<TD>选项</TD>
+													
 													
 													
 												</TR>
@@ -82,12 +84,12 @@
 											</TBODY>
 											<TBODY>
 												<TR>
-													<TD>当前页面：${currentPage }</TD>
+													<TD>当前页面：${currentPage}/${totalPages}</TD>
 													<TD>选择页码</TD>
 													<TD><INPUT class=textbox id=sChannel2 style="WIDTH: 80px" maxLength=50 name="toPage"></TD>
 													<TD><INPUT class=button id=sButton2 type=submit value=" 选择" name=sButton2></TD>
-													<TD><a href="${pageContext.request.contextPath }/Article/prePage.action?currentPage=${currentPage}">上一页</a></TD>
-													<TD><a href="${pageContext.request.contextPath }/Article/nextPage.action?currentPage=${currentPage}">下一页</a></TD>
+													<TD><a href="${pageContext.request.contextPath }/Article/preDraft.action?currentPage=${currentPage}">上一页</a></TD>
+													<TD><a href="${pageContext.request.contextPath }/Article/nextDraft.action?currentPage=${currentPage}">下一页</a></TD>
 												</TR>
 												
 											</TBODY>
