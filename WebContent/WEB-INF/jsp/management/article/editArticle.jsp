@@ -5,6 +5,7 @@
 <TITLE>文章资源管理系统</TITLE> 
 <META http-equiv=Content-Type content="text/html; charset=utf-8">
 <META content="MSHTML 6.00.2900.3492" name=GENERATOR>
+
 </HEAD>
 
 	

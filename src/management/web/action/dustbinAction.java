@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.catalina.connector.Request;
 import org.apache.commons.lang.ObjectUtils.Null;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
@@ -249,26 +250,15 @@ public class dustbinAction extends ActionSupport implements ModelDriven<Dustbin>
 		session.setAttribute("editDustId", dustbin.getDustId());
 		
 		
-
-		
-		
-		
-		
-		
-		
-		//Josn数据
 		return SUCCESS ;
 	}
 	@Action(value="dustEdit",results= {@Result(name="success",type="json",
 			params= {"root","returndata"})})
 	public String dustEdit() {
 		Dustbin dustbinTemp = new Dustbin() ;
+		
 		System.out.println(session.getAttribute("editDustId"));
-		if(0 == (Integer)session.getAttribute("editDustId")  ) {
-			returndata = "{\"returndata\" : \"pass\"}" ;
-			System.out.println("菜单进来de");
-			return SUCCESS ;
-		}
+
 		dustbinTemp = articleService.findDustbinById((Integer)session.getAttribute("editDustId")) ;
 		
 		Map<String, String> map = new HashMap<>() ;

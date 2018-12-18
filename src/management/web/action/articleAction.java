@@ -113,17 +113,7 @@ public class articleAction extends ActionSupport implements ModelDriven<Article>
 //-------------------动作方法-------------------------------
 
 
-	//发布文章
-	@Action(value="publish",results= {@Result(name="success",location="/text-edit/index.html")})
-	public String publishArticle() {
-		//将session域中的editDustId，editDraftId置为0
-//		session.setAttribute("editDustId", 0);
-//		session.setAttribute("editDraftId", 0);
-		System.out.println("菜单进入");
-		
-		
-		return SUCCESS ;
-	}
+
 
 
 	//该动作类处理管理员的文章提交
@@ -257,7 +247,23 @@ public class articleAction extends ActionSupport implements ModelDriven<Article>
 	/**
 	 * 	文章详情
 	 */
-	
+	@Action(value="artDetail",results= {@Result(name="success",location="/WEB-INF/jsp/management/article/artDetail.jsp")})
+	public String articleDetail() {
+		Article articleTemp = new Article() ;
+		System.out.println(article.getArtId());
+		articleTemp = articleService.findById(article.getArtId()) ;
+		article.setAdsName(articleTemp.getAdsName());
+		article.setArtContent(articleTemp.getArtContent());
+		article.setArtTitle(articleTemp.getArtTitle());
+		article.setAuthorId(articleTemp.getAuthorId());
+		article.setAuthorName(articleTemp.getAuthorName());
+		article.setLastMod(articleTemp.getLastMod());
+		article.setPubTime(articleTemp.getPubTime());
+		
+		
+		System.out.println(article);
+		return SUCCESS ;
+	}
 	
 	
 }	

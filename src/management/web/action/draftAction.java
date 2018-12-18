@@ -1,6 +1,8 @@
 package management.web.action;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -14,11 +16,14 @@ import org.hibernate.type.IntegerType;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.cm.domain.Draft;
+import com.cm.domain.Dustbin;
 import com.cm.domain.User;
 import com.cm.service.IArticleService;
 import com.mysql.jdbc.log.Log;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+
+import net.sf.json.JSONObject;
 
 @ParentPackage("json-default")
 @Namespace("/Article")
@@ -221,6 +226,45 @@ public class draftAction extends ActionSupport implements ModelDriven<Draft> {
 			System.out.println(draft.getDraId());
 			articleService.deleteDraft(draft.getDraId()) ;
 			
+			return SUCCESS ;
+		}
+		/**
+		 * Ìø×ªµ½±à¼­Ò³Ãæ
+		 */
+		@Action(value="toDraEdit",results= {@Result(name="success",location="/WEB-INF/jsp/management/article/editArticle.jsp")})
+		public String toDraftEdit() {
+			
+			
+			System.out.println(draft.getDraId());
+			session.setAttribute("editDraftId", draft.getDraId());
+			
+			
+			return SUCCESS ;
+		}
+		/**
+		 * 	±à¼­²Ý¸å
+		 * @return
+		 */
+		@Action(value="draEdit",results= {@Result(name="success",type="json",
+				params= {"root","returndata"})})
+		public String draEdit() {
+			Draft draftTemp = new Draft() ;
+			
+			System.out.println(session.getAttribute("editDraftId"));
+
+			draftTemp = articleService.findDraftById((Integer)session.getAttribute("editDraftId")) ;
+			
+			Map<String, String> map = new HashMap<>() ;
+			map.put("draId", String.valueOf(draftTemp.getDraId())) ;
+			map.put("artContent", draftTemp.getArtContent()) ;
+			map.put("artTitle",	draftTemp.getArtTitle()) ;
+			map.put("authorName", user.getUserName()) ;
+			map.put("lastMod", draftTemp.getLastMod()) ;
+			
+			JSONObject json = JSONObject.fromObject(map) ;
+			returndata = json.toString() ;
+			
+			System.out.println(returndata);
 			return SUCCESS ;
 		}
 	

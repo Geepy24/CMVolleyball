@@ -16,7 +16,6 @@ import com.cm.service.IUserService;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 
-@Controller("userAction")
 @ParentPackage("struts-default")
 @Namespace("/User")
 @Results({
