@@ -80,7 +80,7 @@
 													<TD>${article.lastMod}</TD>
 													
 													<TD>
-													<a href="${pageContext.request.contextPath }/User/findById.action?user.userId=${user.userId}">文章详情</a>
+													<a href="${pageContext.request.contextPath }/Article/artDetail.action?artId=${article.artId}">文章详情</a>
 													<a href="javascript:void(0)" onclick="deleteArticle('${article.artId}','${article.authorName}','${article.artTitle}')">删除</a>
 													
 													&nbsp;&nbsp;

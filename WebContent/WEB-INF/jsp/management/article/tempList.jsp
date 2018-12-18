@@ -74,7 +74,7 @@
 													<TD>${draft.lastMod}</TD>
 													
 													<TD>
-													<a href="${pageContext.request.contextPath }/tesx-edit/index.html?draId=${draft.draId}">编辑</a>
+													<a href="${pageContext.request.contextPath }/Article/toDraEdit.action?draId=${draft.draId}">编辑</a>
 													<a href="${pageContext.request.contextPath }/Article/deleDraft.action?draId=${draft.draId}">删除草稿</a>
 													
 													&nbsp;&nbsp;
