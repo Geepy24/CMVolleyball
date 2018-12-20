@@ -192,7 +192,7 @@ A.active {
 											<TBODY>
 												<TR>
 													<TD class=menuSmall>
-														<A class=style2 href="${pageContext.request.contextPath}/welcome.htm" target=main>－新增资源</A></TD>
+														<A class=style2 href="${pageContext.request.contextPath}/Resource/uploadRes.action" target=main>－新增资源</A></TD>
 												</TR>
 												<TR>
 													<TD class=menuSmall>

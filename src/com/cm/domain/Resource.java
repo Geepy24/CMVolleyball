@@ -11,6 +11,7 @@ public class Resource implements Serializable {
 	private int userId ;
 	private String userName ;
 	private String adsName ;
+	private String pubTime ;
 	public int getResId() {
 		return resId;
 	}
@@ -53,10 +54,18 @@ public class Resource implements Serializable {
 	public void setAdsName(String adsName) {
 		this.adsName = adsName;
 	}
+	
+	public String getPubTime() {
+		return pubTime;
+	}
+	public void setPubTime(String pubTime) {
+		this.pubTime = pubTime;
+	}
 	@Override
 	public String toString() {
 		return "Resource [resId=" + resId + ", resTag=" + resTag + ", resCom=" + resCom + ", resUri=" + resUri
-				+ ", userId=" + userId + ", userName=" + userName + ", adsName=" + adsName + "]";
+				+ ", userId=" + userId + ", userName=" + userName + ", adsName=" + adsName + ", pubTime=" + pubTime
+				+ "]";
 	}
 	
 	
