@@ -196,7 +196,7 @@ A.active {
 												</TR>
 												<TR>
 													<TD class=menuSmall>
-														<A class=style2 href="${pageContext.request.contextPath}/welcome.htm" target=main>－资源列表</A>
+														<A class=style2 href="${pageContext.request.contextPath}/Resource/resList" target=main>－资源列表</A>
 													</TD>
 												</TR>
 												<TR>

@@ -4,18 +4,18 @@ import java.io.Serializable;
 
 public class Resource implements Serializable {
 	
-	private int resId ;
+	private Integer resId ;
 	private String resTag ;
 	private String resCom ;
 	private String resUri ;
-	private int userId ;
+	private Integer userId ;
 	private String userName ;
 	private String adsName ;
 	private String pubTime ;
-	public int getResId() {
+	public Integer getResId() {
 		return resId;
 	}
-	public void setResId(int resId) {
+	public void setResId(Integer resId) {
 		this.resId = resId;
 	}
 	public String getResTag() {
@@ -36,10 +36,10 @@ public class Resource implements Serializable {
 	public void setResUri(String resUri) {
 		this.resUri = resUri;
 	}
-	public int getUserId() {
+	public Integer getUserId() {
 		return userId;
 	}
-	public void setUserId(int userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 	public String getUserName() {

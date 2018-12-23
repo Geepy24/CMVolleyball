@@ -41,14 +41,15 @@ public class articleAction extends ActionSupport implements ModelDriven<Article>
 	private List<Article> articles ;
 	private int currentPage ;
 	private int toPage ;
+	//分页的条目数
+		private static int MAXRESULTS = 10;
 	private String returndata ;
 	private JSONObject json ;
 	//private int article_Id ;
 	//其他
 	private User user ;
 	HttpSession session = ServletActionContext.getRequest().getSession() ;
-	//分页的条目数
-	private static int MAXRESULTS = 10;
+	
 	@Override
 	public Article getModel() {
 
