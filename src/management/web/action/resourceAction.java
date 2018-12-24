@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Random;
 
 import javax.annotation.Resources;
 import javax.servlet.http.HttpServletRequest;
@@ -142,16 +143,23 @@ public class resourceAction extends ActionSupport implements Serializable, Model
             file.mkdir(); 
         } 
 		//将页面传过来的数据通过FileUtils拷贝到文件路径下,文件名是前端传入的uploadFileName
+       
+//      //获得当前时间的毫秒数，作为种子数传入到Random的构造器中
+//        Random rd = new Random(System.currentTimeMillis());
+//        int rand = rd.nextInt(1000)+1;//生成随机整数
+//        
         FileUtils.copyFile(upload, new File(file,uploadFileName));
         System.out.println(filePath);
         //chrome上传失败，出现Provisional headers are shown,设置最大下载
-		
+		resource.setResName(uploadFileName);
         resource.setAdsName(user.getUserName());
         resource.setUserId(user.getUserId());
         resource.setUserName(user.getUserName());
         resource.setResUri(filePath+uploadFileName);
+        
         System.out.println(resource);
-		return SUCCESS ; 
+		resourceService.saveResource(resource);
+        return SUCCESS ; 
 		
 	}
 	

@@ -61,8 +61,8 @@
 										<TABLE id=grid style="BORDER-TOP-WIDTH: 0px; FONT-WEIGHT: normal; BORDER-LEFT-WIDTH: 0px; BORDER-LEFT-COLOR: #cccccc; BORDER-BOTTOM-WIDTH: 0px; BORDER-BOTTOM-COLOR: #cccccc; WIDTH: 100%; BORDER-TOP-COLOR: #cccccc; FONT-STYLE: normal; BACKGROUND-COLOR: #cccccc; BORDER-RIGHT-WIDTH: 0px; TEXT-DECORATION: none; BORDER-RIGHT-COLOR: #cccccc" cellSpacing=1 cellPadding=2 rules=all border=0>
 											<TBODY>
 												<TR style="FONT-WEIGHT: bold; FONT-STYLE: normal; BACKGROUND-COLOR: #eeeeee; TEXT-DECORATION: none">
-													<TD>资源类别</TD>
 													<TD>资源展示</TD>
+													<TD>资源类别</TD>
 													<TD>上传者</TD>
 													<TD>描述</TD>
 													<TD>发布时间</TD>
@@ -70,8 +70,8 @@
 												</TR>
 												<c:forEach items="${resources}" var="resource">
 												<TR style="FONT-WEIGHT: normal; FONT-STYLE: normal; BACKGROUND-COLOR: white; TEXT-DECORATION: none">
+													<TD><img style="width:50px;height:50px" src="/pic/${resource.resName}" /></TD>
 													<TD>${resource.resTag}</TD>
-													<TD></TD>
 													<TD>${resource.userName}</TD>
 													<TD>${resource.resCom}</TD>
 													<TD>${resource.pubTime}</TD>

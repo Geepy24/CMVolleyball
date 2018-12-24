@@ -12,6 +12,14 @@ public class Resource implements Serializable {
 	private String userName ;
 	private String adsName ;
 	private String pubTime ;
+	private String resName ;
+	
+	public String getResName() {
+		return resName;
+	}
+	public void setResName(String resName) {
+		this.resName = resName;
+	}
 	public Integer getResId() {
 		return resId;
 	}
@@ -65,8 +73,9 @@ public class Resource implements Serializable {
 	public String toString() {
 		return "Resource [resId=" + resId + ", resTag=" + resTag + ", resCom=" + resCom + ", resUri=" + resUri
 				+ ", userId=" + userId + ", userName=" + userName + ", adsName=" + adsName + ", pubTime=" + pubTime
-				+ "]";
+				+ ", resName=" + resName + "]";
 	}
+
 	
 	
 	

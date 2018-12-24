@@ -14,5 +14,6 @@
 			<property name="userName" column="user_name"></property>
 			<property name="adsName" column="ads_name"></property>
 			<property name="pubTime" column="pub_time"></property>
+			<property name="resName" column="res_name"></property>
 		</class>
 </hibernate-mapping>

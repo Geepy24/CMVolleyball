@@ -39,7 +39,7 @@
 				
 			</tr>
 			<tr>
-				<td><input type="text" name="resCom" ></td>
+				<td><input type="text" name="resCom" id="resCom" ></td>
 			</tr>
 			<tr>
 				<td><input type="submit"  onclick="getNow()"  value="确认提交"></td>
