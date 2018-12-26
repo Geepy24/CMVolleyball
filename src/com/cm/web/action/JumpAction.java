@@ -1,5 +1,8 @@
 package com.cm.web.action;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -24,8 +27,18 @@ import com.opensymphony.xwork2.ActionSupport;
 })
 public class JumpAction extends ActionSupport  {
 	
+	 
+	
 	@Action("login")
 	public String login() {
+		//从不同地方进入的用户，登陆完要去到不同地方，需要检测用户来源页面的url，存放标记到session
+		HttpServletRequest request = ServletActionContext.getRequest() ; 
+		System.out.println(request.getRequestURL());
+		
+		//把来源URI放在session中，等登陆成功后就可以取出来跳转到相应的action
+		request.getSession().setAttribute("login-ref", request.getRequestURL());
+		
+		
 		
 		return "login" ; 
 			

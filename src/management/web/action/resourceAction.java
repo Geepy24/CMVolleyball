@@ -14,9 +14,12 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.ObjectUtils.Null;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.InterceptorRef;
+import org.apache.struts2.convention.annotation.InterceptorRefs;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
 import org.hibernate.result.ResultSetOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
@@ -29,7 +32,11 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.sun.org.apache.xerces.internal.impl.xs.SchemaSymbols;
 @Namespace("/Resource")
-@ParentPackage("json-default")
+@ParentPackage("p1")
+@InterceptorRefs({@InterceptorRef("loginDefault")})
+@Results({
+	@Result(name="login",type="chain",location="login",params= {"namespace","/User"}),
+})
 public class resourceAction extends ActionSupport implements Serializable, ModelDriven<Resource> {
 
 	@Autowired
@@ -240,6 +247,8 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 		@Action(value="resDetail",results= {@Result(name="success",location="/WEB-INF/jsp/management/resource/resDetail.jsp")})
 		public String resourceDetail() {
 			
+			
+			
 			if(request.getAttribute("resId") != null) {
 				resource.setResId((Integer)request.getAttribute("resId"));
 			}
@@ -290,6 +299,16 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 			
 			
 			return SUCCESS ;
+		}
+		@Action(value="indexpic",results= {@Result(name="success",location="/WEB-INF/jsp/picture.jsp")})
+		public String indexPicture() {
+			tag = "pic" ;
+			currentPage = 1 ;
+			resources = resourceService.findAllResource(tag, currentPage, MAXRESULTS*2);
+			
+			return SUCCESS ;
+			
+			
 		}
 
 }

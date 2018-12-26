@@ -127,7 +127,7 @@
 			<div id="nav">
 				<span><a href="">网站首页</a></span>
 				<span><a href="">球队简介</a></span>
-				<span><a href="">精彩图集</a></span>
+				<span><a href="${pageContext.request.contextPath }/Resource/indexpic.action">精彩图集</a></span>
 				<span><a href="">比赛视频</a></span>
 				<span><a href="${pageContext.request.contextPath}/privateSource/userPage.action">会员页面</a></span>
 			</div>

@@ -2,8 +2,10 @@ package com.cm.web.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.KeyStore.PrivateKeyEntry;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.ObjectUtils.Null;
@@ -16,6 +18,7 @@ import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
+import org.apache.struts2.dispatcher.mapper.Restful2ActionMapper;
 import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.Session;
 import org.hibernate.engine.jdbc.spi.ResultSetReturn;
@@ -35,7 +38,6 @@ import net.sf.json.JSONObject;
 @ParentPackage("json-default")
 @Namespace("/Login")
 @Results({
-	@Result(name="success",location="/index.jsp"),
 	@Result(name="login",location="/jsp/login.jsp"),
 	@Result(name="fail",location="/fail.jsp")
 })
@@ -47,19 +49,16 @@ public class loginAction extends ActionSupport {
 	private String userName ;
 	private String password ;
 	private String returndata ; 
-	
 
-
+	private HttpServletRequest request = ServletActionContext.getRequest() ;
 
 	public String getReturndata() {
 		return returndata;
 	}
 
-
 	public void setReturndata(String returndata) {
 		this.returndata = returndata;
 	}
-
 
 	HttpSession session = ServletActionContext.getRequest().getSession() ;
 	
@@ -67,16 +66,13 @@ public class loginAction extends ActionSupport {
 		return userName;
 	}
 
-
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
 
-
 	public String getPassword() {
 		return password;
 	}
-
 
 	public void setPassword(String password) {
 		this.password = password;
@@ -104,13 +100,15 @@ public class loginAction extends ActionSupport {
 	 * 验证登录
 	 * @return
 	 */
-	@Action("verifyLogin")
+	@Action(value="verifyLogin",results= {
+			@Result(name="success",location="/index.jsp"),
+			@Result(name="picture",type="redirectAction",location="indexpic",params= {"namespace","/Resource"}),
+			@Result(name="manager",type="redirectAction",location="management",params= {"namespace","/privateSource"})
+			//用chain到另一个action，刷新页面会导致重复提交表单，用redirectAction不会
+	})
 	public  String Login() {
 		
-			
 			User user = userService.findUserByName(userName) ;
-			
-	
 			
 			if(!user.getPassword().equals(password)) {
 				System.out.println(user.getPassword());
@@ -120,9 +118,20 @@ public class loginAction extends ActionSupport {
 			}
 			
 			//登录成功，把登录标记“loginInfo”存到session域中
-			
 			session.setAttribute("loginInfo", user);
 			
+			//取出用户来源Url，实现从哪来跳转会哪去
+		String ref = request.getSession().getAttribute("login-ref").toString() ;
+		System.out.println("页面来源："+ref);
+		
+		if(-1 != ref.indexOf("indexpic")) {
+			return "picture" ;
+		}
+		if(-1 != ref.indexOf("management")) {
+			return "manager" ;
+		}
+		
+		
 			return SUCCESS ;
 		
 		
