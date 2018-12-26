@@ -77,8 +77,8 @@
 													<TD>${resource.pubTime}</TD>
 													
 													<TD>
-													<a href="${pageContext.request.contextPath }/Article/artDetail.action?artId=${article.artId}">查看详情</a>
-													<a href="javascript:void(0)" onclick="nodeleteArticle('${article.artId}','${article.authorName}','${article.artTitle}')">删除</a>
+													<a href="${pageContext.request.contextPath }/Resource/resDetail.action?resId=${resource.resId}">查看详情</a>
+													<a href="javascript:void(0)" onclick="confirmDelete('${resource.resId}')">删除</a>
 													
 													&nbsp;&nbsp;
 													</TD>
@@ -144,36 +144,20 @@
 		</TABLE>
 	</FORM>
 	<script type="text/javascript">
-		function deleteArticle(artId,authorName,artTitle){
-			//删除的时间
-			var date = new Date() ;
-			var year = date.getFullYear() ;
-			var month = date.getMonth()+1 ;
-			var day = date.getDate() ;
-			var now = year + "-" + month + "-" + day ;
-			
-			var art_id = artId ;
-			var author_name = authorName ;
-			var article_title = artTitle ;
-			
-			var content = {
-					"artId"  :  art_id  ,
-					"authorName" : author_name ,
-					"artTitle"  :  article_title,
-					"delTime"  : now 
-			} ;
-			alert(JSON.stringify(content)) ;
-			
+		function confirmDelete(resId){
+			var flag = confirm("是否要删除该张图片") ;
+			//alert(flag) ;
+			if(flag == false){
+				return ;
+			}
+			//alert(resId) ;
 			$.ajax({
-				url : "${pageContext.request.contextPath}/Article/deleteArticle.action" ,
-				type : "post" ,
-				data : content ,
-				dataType : "json",
+				url : "${pageContext.request.contextPath}/Resource/delResource.action?resId="+resId ,
 				success : function(data){
-					alert("删除成功！您可以前往回收站查看");
-					window.location = "${pageContext.request.contextPath}/Article/articleList.action" ;
+					alert("删除成功！");
+					window.location = "${pageContext.request.contextPath}/Resource/selectPage.action?toPage=${currentPage}" ;
 				}
-			}) ;
+			}) ; 
 		}
 	</script>
 	<s:debug></s:debug>

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.ObjectUtils.Null;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -26,6 +27,7 @@ import com.cm.service.IResourceService;
 import com.cm.web.action.userRegister;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import com.sun.org.apache.xerces.internal.impl.xs.SchemaSymbols;
 @Namespace("/Resource")
 @ParentPackage("json-default")
 public class resourceAction extends ActionSupport implements Serializable, ModelDriven<Resource> {
@@ -135,7 +137,7 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 		String root = request.getContextPath() ;
 		String [] temp = root.split("/") ;
 		temp = realpath.split(temp[1]) ;
-		String filePath = temp[0]+"pic\\" ;
+		String filePath = temp[0]+"pic" ;
 		
 		
 		File file = new File(filePath); 
@@ -187,13 +189,14 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 			}else {
 				totalResource = (totalItems/10) + 1  ;
 			}
+			
 			//放进session
 			
 			resources = resourceService.findAllResource(tag, currentPage, MAXRESULTS);
 			//System.out.println(resources.get(0));
-			
 			session.setAttribute("totalResource",totalResource );
-		 
+			
+			
 		return SUCCESS ;
 	}
 	//文章列表的页码选择，前端不同页显示返回的不同页的数据
@@ -230,6 +233,61 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 			
 			
 			resources = resourceService.findAllResource(tag, currentPage, MAXRESULTS);
+			
+			return SUCCESS ;
+		}
+		//资源详情
+		@Action(value="resDetail",results= {@Result(name="success",location="/WEB-INF/jsp/management/resource/resDetail.jsp")})
+		public String resourceDetail() {
+			
+			if(request.getAttribute("resId") != null) {
+				resource.setResId((Integer)request.getAttribute("resId"));
+			}
+			
+			
+			System.out.println("要显示的资源的id"+resource.getResId());
+			Resource resourceTemp = new Resource() ;
+			resourceTemp = resourceService.findResourceById(resource.getResId()) ;
+			resource.setAdsName(resourceTemp.getUserName());
+			resource.setPubTime(resourceTemp.getPubTime());
+			resource.setResCom(resourceTemp.getResCom());
+			resource.setResName(resourceTemp.getResName());
+			resource.setUserName(resourceTemp.getUserName());
+			resource.setResTag(resourceTemp.getResTag());
+			resource.setResUri(resourceTemp.getResUri());
+			resource.setUserId(resourceTemp.getUserId());
+			
+			
+			
+			return SUCCESS ;
+		}
+		//下一张图片
+		@Action(value="nextRes",results= {@Result(name="success",type="chain",location="resDetail")})
+		public String nextResource() {
+		
+			System.out.println("当前的resId，要查找下一个id"+resource.getResId()); ;
+			Integer nextId = resourceService.nextResourceId(resource.getResId()) ;
+			resource.setResId(nextId);
+			request.setAttribute("resId", nextId);
+			return SUCCESS ;
+		}
+		//上一张图片
+		@Action(value="preRes",results= {@Result(name="success",type="chain",location="resDetail")})
+		public String preResource() {
+				
+			System.out.println("当前的resId，要查找上一个id"+resource.getResId()); ;
+			Integer preId = resourceService.preResourceId(resource.getResId()) ;
+					
+			System.out.println(preId);
+			request.setAttribute("resId", preId);
+			return SUCCESS ;
+		}
+		@Action(value="delResource",results= {@Result(name="success",type="json")})
+		public String deleteResource() {
+			
+			System.out.println("要删除的id"+resource.getResId());
+			resourceService.deleteResource(resource.getResId());
+			
 			
 			return SUCCESS ;
 		}

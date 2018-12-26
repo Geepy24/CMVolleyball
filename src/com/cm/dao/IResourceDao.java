@@ -43,4 +43,12 @@ public interface IResourceDao {
 	 * 	通过id查找资源
 	 */
 	Resource findResourceById(Integer resId) ;
+	/**
+	 * 通过id查找下一条记录的id
+	 */
+	Integer nextResourceId(Integer resId) ;
+	/**
+	 * 通过id查找上一个条记录的id
+	 */
+	Integer preResourceId(Integer resId);
 }

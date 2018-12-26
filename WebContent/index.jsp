@@ -51,6 +51,8 @@
 			
 		}
 	</script>
+	
+	
 	<script type="text/javascript">
 		$(document).ready(index_article()) ;
 	</script>
@@ -148,7 +150,7 @@
 					</table>
 			</fieldset>
 			<fieldset id="source">
-				<legend align="left"><img src="${pageContext.request.contextPath}/img/volleyball.png">&nbsp;&nbsp;<STRONG><font color="darkblue" size=3>球队资源</font></STRONG>&nbsp;&nbsp;</legend>
+				<legend align="left"><img src="${pageContext.request.contextPath}/img/volleyball.png">&nbsp;&nbsp;<STRONG><font color="darkblue" size=3>赛程赛况</font></STRONG>&nbsp;&nbsp;</legend>
 				<table>
 					<tr>
 						<td id="left_td"><a href=""><strong>content</strong></a></td>

@@ -2,6 +2,7 @@ package com.cm.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
@@ -13,6 +14,7 @@ public class ResourceDaoImpl implements IResourceDao {
 
 	@Autowired
 	private HibernateTemplate hibernateTemplate;
+	
 	
 	//保存
 	@Override
@@ -69,9 +71,25 @@ public class ResourceDaoImpl implements IResourceDao {
 	@Override
 	public Long AllResourceNumber(String tag) {
 		Long i =  (Long) hibernateTemplate.find("SELECT COUNT(*) FROM Resource where resTag=?",tag).get(0);
-		System.out.println("数目"+i);
+		//System.out.println("数目"+i);
 		return i ;
 		
 	}
+	//根据id查找下一条记录的id
+	@Override
+	public Integer nextResourceId(Integer resId) {
+		String hql = "select resId From Resource WHERE resId >"+resId+" ORDER BY resId ASC"  ;
+		Query query = hibernateTemplate.getSessionFactory().getCurrentSession().createQuery(hql) ;
+		query.setMaxResults(1) ;
+		return (Integer) query.list().get(0) ;
+	}
+	//根据id查找上一条记录的id
+		@Override
+		public Integer preResourceId(Integer resId) {
+			String hql = "select resId From Resource WHERE resId <"+resId+" ORDER BY resId DESC"  ;
+			Query query = hibernateTemplate.getSessionFactory().getCurrentSession().createQuery(hql) ;
+			query.setMaxResults(1) ;
+			return (Integer) query.list().get(0) ;
+		}
 
 }

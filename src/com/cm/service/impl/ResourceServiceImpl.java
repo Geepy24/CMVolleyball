@@ -64,6 +64,16 @@ public class ResourceServiceImpl implements IResourceService {
 		return resourceDao.AllResourceNumber(tag);
 	}
 
+	@Override
+	public Integer nextResourceId(Integer resId) {
+		return resourceDao.nextResourceId(resId);
+	}
+
+	@Override
+	public Integer preResourceId(Integer resId) {
+		return resourceDao.preResourceId(resId);
+	}
+
 	
 	
 	
