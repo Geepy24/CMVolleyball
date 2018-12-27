@@ -25,11 +25,10 @@ public class ResourceDaoImpl implements IResourceDao {
 	//∑÷“≥≤È’“
 	@Override
 	public List<Resource> findAllResource(String tag, Integer currentPage, Integer maxResults) {
-		System.out.println(tag+""+currentPage+""+maxResults);
 		Resource resource = new Resource();
 		resource.setResTag(tag);
 		List<Resource> list =  hibernateTemplate.findByExample(resource, (currentPage-1)*maxResults, maxResults) ;
-		System.out.println("list:"+list.get(0));
+		System.out.println("list+++++++++++++"+list);
 		return list ;
 	}
 

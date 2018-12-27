@@ -196,7 +196,12 @@ A.active {
 												</TR>
 												<TR>
 													<TD class=menuSmall>
-														<A class=style2 href="${pageContext.request.contextPath}/Resource/resList" target=main>－资源列表</A>
+														<A class=style2 href="${pageContext.request.contextPath}/Resource/list.action?resTag=pic" target=main>－图片列表</A>
+													</TD>
+												</TR>
+												<TR>
+													<TD class=menuSmall>
+														<A class=style2 href="${pageContext.request.contextPath}/Resource/list.action?resTag=mov" target=main>－视频列表</A>
 													</TD>
 												</TR>
 												<TR>

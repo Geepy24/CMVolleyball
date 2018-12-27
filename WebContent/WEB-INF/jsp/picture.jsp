@@ -20,7 +20,7 @@
 		</TR>
 	<c:forEach items="${resources}" var="resource">
 		<TR style="FONT-WEIGHT: normal; FONT-STYLE: normal; BACKGROUND-COLOR: white; TEXT-DECORATION: none">
-				<TD><a href="${pageContext.request.contextPath }/Resource/resDetail.action?resId=${resource.resId}"><img style="width:50px;height:50px" src="/pic/${resource.resName}" /></a></TD>
+				<TD><a href="${pageContext.request.contextPath }/Resource/resDetailforUser.action?resId=${resource.resId}"><img style="width:50px;height:50px" src="/pic/${resource.resName}" /></a></TD>
 				<TD>${resource.resTag}</TD>
 				<TD>${resource.userName}</TD>
 				<TD>${resource.resCom}</TD>
@@ -29,6 +29,7 @@
 		</TR>	
 	</c:forEach>
 </TABLE>
+	<a href="${pageContext.request.contextPath }/index.jsp">返回首页</a>
 <s:debug></s:debug>
 </body>
 </html>

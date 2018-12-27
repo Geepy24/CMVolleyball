@@ -59,6 +59,8 @@ public class privateSourceAction extends ActionSupport {
 			return "AuthorityError" ;
 		}
 		
+		//是管理员，添加管理员标记manager
+		ServletActionContext.getRequest().getSession().setAttribute("manager", 1);
 		return "manager"; 
 	}
 	

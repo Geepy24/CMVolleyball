@@ -70,7 +70,7 @@
 												</TR>
 												<c:forEach items="${resources}" var="resource">
 												<TR style="FONT-WEIGHT: normal; FONT-STYLE: normal; BACKGROUND-COLOR: white; TEXT-DECORATION: none">
-													<TD><img style="width:50px;height:50px" src="/pic/${resource.resName}" /></TD>
+													<TD><img style="width:50px;height:50px" src="/${resource.resTag}/${resource.resName}" /></TD>
 													<TD>${resource.resTag}</TD>
 													<TD>${resource.userName}</TD>
 													<TD>${resource.resCom}</TD>

@@ -30,6 +30,7 @@ import com.cm.service.IResourceService;
 import com.cm.web.action.userRegister;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import com.sun.javafx.geom.PickRay;
 import com.sun.org.apache.xerces.internal.impl.xs.SchemaSymbols;
 @Namespace("/Resource")
 @ParentPackage("p1")
@@ -125,13 +126,21 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 	public void setUploadFileName(String uploadFileName) {
 		this.uploadFileName = uploadFileName;
 	}
-	
+
+	/**
+	 * 转到新增资源视图
+	 * @return
+	 */
 	@Action(value="uploadRes",results= {@Result(name="success",location="/WEB-INF/jsp/management/resource/resUpload.jsp")})
 	public String uploadResource() {
 		
 		return SUCCESS ;
 	}
-
+	/**
+	 * 增加资源
+	 * @return
+	 * @throws IOException
+	 */
 	@Action(value="addRes",results= {@Result(name="success",location="/WEB-INF/jsp/management/resource/addSuccess.jsp")})
 	public String addResource() throws IOException {
 		System.out.println("上传图片");
@@ -140,12 +149,26 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 		System.out.println(uploadFileName);
 		System.out.println(upload.toString());
 		//上传的文件路径
+		String filePath = "" ;
 		String realpath = request.getRealPath("/") ;
 		String root = request.getContextPath() ;
 		String [] temp = root.split("/") ;
 		temp = realpath.split(temp[1]) ;
-		String filePath = temp[0]+"pic" ;
+		System.out.println("资源类别"+resource.getResTag());
 		
+		
+		if(resource.getResTag().equals("mov")) {
+			//存到视频文件夹
+			filePath = temp[0]+"mov" ;
+			//存入标记
+			request.getSession().setAttribute("picOrmov","mov");
+		}else {
+			//存到图片文件夹
+			 filePath = temp[0]+"pic" ;
+			 request.getSession().setAttribute("picOrmov","mov");
+		}
+		
+		System.out.println(filePath);
 		
 		File file = new File(filePath); 
         if(!file.exists()){ 
@@ -173,6 +196,23 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 	}
 	
 	/**
+	 * 菜单的图片/视频列表选择
+	 */
+	@Action(value="list",results= {@Result(name="success",type="chain",location="resList")})
+	public String toList() {
+		System.out.println(resource.getResTag());
+		if (resource.getResTag().equals("pic")) {
+			request.getSession().setAttribute("picOrmov", "pic");
+		}else {
+			request.getSession().setAttribute("picOrmov", "mov");
+		}
+		
+		
+		return SUCCESS ;
+		
+	}
+	
+	/**
 	 * 	资源列表
 	 * @return
 	 */
@@ -180,8 +220,8 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 	public String resourceList() {
 		
 		currentPage = 1 ;
-		tag = "pic" ;
-		
+		tag = request.getSession().getAttribute("picOrmov").toString();
+
 		
 		 //加上页码
 		//所有文章
@@ -209,7 +249,7 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 	//文章列表的页码选择，前端不同页显示返回的不同页的数据
 		@Action(value="selectPage",results= {@Result(name="success",location="/WEB-INF/jsp/management/resource/resList.jsp")})
 		public String selectPage() {
-			tag = "pic" ;
+			tag = request.getSession().getAttribute("picOrmov").toString();
 			System.out.println(toPage);
 			currentPage = toPage ;
 			resources = resourceService.findAllResource(tag, currentPage, MAXRESULTS);
@@ -218,22 +258,27 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 			return SUCCESS ;
 		}
 	//下一页资源列表
-		@Action(value="nextPage",results= {@Result(name="success",location="/WEB-INF/jsp/management/resource/resList.jsp")})
+		@Action(value="nextPage",results= {
+				@Result(name="success",location="/WEB-INF/jsp/management/resource/resList.jsp"),
+				@Result(name="fail",location="/fail.jsp")
+		})
 		public String nPage() {
-			tag = "pic" ;
+			tag = request.getSession().getAttribute("picOrmov").toString();
 			//不能改变currentPage的地址，不然属性驱动被放进值栈的永远是最开始的那个地址
 			int temp = currentPage ;
 			temp = temp + 1 ;
 			currentPage = temp ;
-			
 			resources = resourceService.findAllResource(tag, currentPage, MAXRESULTS);
-			
+			System.out.println(resources.size());
+			if(0 == resources.size()) {
+				return "fail" ;
+			}
 			return SUCCESS ;
 		}
 		//上一页资源列表
 		@Action(value="prePage",results= {@Result(name="success",location="/WEB-INF/jsp/management/resource/resList.jsp")})
 		public String pPage() {
-			tag = "pic" ;
+			tag = request.getSession().getAttribute("picOrmov").toString();
 			int temp = currentPage ;
 			temp = temp - 1 ;
 			currentPage = temp ;
@@ -248,11 +293,9 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 		public String resourceDetail() {
 			
 			
-			
 			if(request.getAttribute("resId") != null) {
 				resource.setResId((Integer)request.getAttribute("resId"));
 			}
-			
 			
 			System.out.println("要显示的资源的id"+resource.getResId());
 			Resource resourceTemp = new Resource() ;
@@ -270,7 +313,7 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 			
 			return SUCCESS ;
 		}
-		//下一张图片
+		//下一张图片或视频
 		@Action(value="nextRes",results= {@Result(name="success",type="chain",location="resDetail")})
 		public String nextResource() {
 		
@@ -280,7 +323,7 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 			request.setAttribute("resId", nextId);
 			return SUCCESS ;
 		}
-		//上一张图片
+		//上一张图片或视频
 		@Action(value="preRes",results= {@Result(name="success",type="chain",location="resDetail")})
 		public String preResource() {
 				
@@ -300,15 +343,41 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 			
 			return SUCCESS ;
 		}
-		@Action(value="indexpic",results= {@Result(name="success",location="/WEB-INF/jsp/picture.jsp")})
+		
+		
+		
+//-----------------------用户资源动作类------------------------------------------------		
+		@Action(value="indexresource",results= {@Result(name="success",location="/WEB-INF/jsp/picture.jsp")})
 		public String indexPicture() {
-			tag = "pic" ;
+			tag = resource.getResTag() ;
+			System.out.println(tag);
 			currentPage = 1 ;
 			resources = resourceService.findAllResource(tag, currentPage, MAXRESULTS*2);
 			
 			return SUCCESS ;
 			
-			
 		}
-
+		//用户的resDetail视图，与管理员不同
+		@Action(value="resDetailforUser",results= {@Result(name="success",location="/WEB-INF/jsp/resDetail.jsp")})
+		public String resourceDetailForUser() {
+			
+			if(request.getAttribute("resId") != null) {
+				resource.setResId((Integer)request.getAttribute("resId"));
+			}
+			
+			System.out.println("要显示的资源的id"+resource.getResId());
+			Resource resourceTemp = new Resource() ;
+			resourceTemp = resourceService.findResourceById(resource.getResId()) ;
+			resource.setAdsName(resourceTemp.getUserName());
+			resource.setPubTime(resourceTemp.getPubTime());
+			resource.setResCom(resourceTemp.getResCom());
+			resource.setResName(resourceTemp.getResName());
+			resource.setUserName(resourceTemp.getUserName());
+			resource.setResTag(resourceTemp.getResTag());
+			resource.setResUri(resourceTemp.getResUri());
+			resource.setUserId(resourceTemp.getUserId());
+			
+			
+			return SUCCESS ; 
+		}
 }
