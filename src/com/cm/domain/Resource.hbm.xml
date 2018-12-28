@@ -19,6 +19,6 @@
 			<!-- class是外键所在实体类的名字 -->
 			<!-- column是外键名 -->
 			<!-- unique表示唯一限制，将多对一变成了一对一 -->
-			<many-to-one name="mediaPreview" class="MediaPreview" column="mpId" unique="true" cascade="save-update,delete"></many-to-one>
+			<many-to-one name="mediaPreview" class="MediaPreview" column="mpId" unique="true" cascade="save-update,delete"  lazy="false" fetch="join"></many-to-one>
 		</class>
 </hibernate-mapping>

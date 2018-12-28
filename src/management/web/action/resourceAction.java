@@ -3,15 +3,13 @@ package management.web.action;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
-import javax.annotation.Resources;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.ObjectUtils.Null;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
@@ -20,21 +18,15 @@ import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
-import org.hibernate.result.ResultSetOutput;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 
 import com.cm.domain.MediaPreview;
 import com.cm.domain.Resource;
 import com.cm.domain.User;
 import com.cm.service.IResourceService;
 import com.cm.utils.movieUtils;
-import com.cm.web.action.userRegister;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
-import com.sun.javafx.geom.PickRay;
-import com.sun.media.jfxmediaimpl.MediaUtils;
-import com.sun.org.apache.xerces.internal.impl.xs.SchemaSymbols;
 @Namespace("/Resource")
 @ParentPackage("p1")
 @InterceptorRefs({@InterceptorRef("loginDefault")})
@@ -52,6 +44,7 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 	private List<Resource> resources ;
 	private int currentPage ;
 	private int toPage ;
+	
 	//分页的条目数
 		private static int MAXRESULTS = 10;
 	private String tag ;
@@ -252,7 +245,10 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 	 * 	资源列表
 	 * @return
 	 */
-	@Action(value="resList",results= {@Result(name="success",location="/WEB-INF/jsp/management/resource/resList.jsp")})
+	@Action(value="resList",results= {
+			@Result(name="success",location="/WEB-INF/jsp/management/resource/picList.jsp"),
+			@Result(name="movie",location="/WEB-INF/jsp/management/resource/movList.jsp")
+	})
 	public String resourceList() {
 		
 		currentPage = 1 ;
@@ -276,6 +272,19 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 			//放进session
 			
 			resources = resourceService.findAllResource(tag, currentPage, MAXRESULTS);
+			if(tag.equals("mov")) {
+				for (Resource r : resources) {
+					MediaPreview m = r.getMediaPreview();
+					if(m == null) {
+						continue ;
+					}
+					String mpName =	m.getMpName() ;
+					r.setResName(mpName);
+					
+				}
+				return "movie" ;
+			}
+			
 			//System.out.println(resources.get(0));
 			session.setAttribute("totalResource",totalResource );
 			
@@ -325,7 +334,10 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 			return SUCCESS ;
 		}
 		//资源详情
-		@Action(value="resDetail",results= {@Result(name="success",location="/WEB-INF/jsp/management/resource/resDetail.jsp")})
+		@Action(value="resDetail",results= {
+				@Result(name="success",location="/WEB-INF/jsp/management/resource/picDetail.jsp"),
+				@Result(name="movie",location="/WEB-INF/jsp/management/resource/movDetail.jsp")
+		})
 		public String resourceDetail() {
 			
 			
@@ -344,8 +356,11 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 			resource.setResTag(resourceTemp.getResTag());
 			resource.setResUri(resourceTemp.getResUri());
 			resource.setUserId(resourceTemp.getUserId());
-			
-			
+			resource.setMediaPreview(resourceTemp.getMediaPreview());
+			if(resource.getResTag().equals("mov")) {
+				resource.setResName(resource.getMediaPreview().getMpName()) ;
+				return "movie" ;
+			}
 			
 			return SUCCESS ;
 		}
@@ -385,7 +400,8 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 //-----------------------用户资源动作类------------------------------------------------		
 		//跳转图片列表或视频列表
 		@Action(value="indexresource",results= {
-				@Result(name="success",location="/WEB-INF/jsp/picture.jsp")
+				@Result(name="success",location="/WEB-INF/jsp/picture.jsp"),
+				@Result(name="movie",location="/WEB-INF/jsp/movie.jsp")
 				
 		})
 		public String indexPicture() {
@@ -396,14 +412,30 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 			
 			if(tag.equals("mov")) {
 				//通过mpId取出缩略图的名字，将名字再赋给resourceName，这样前端就不用改动了
-			
-			
+
+				
+				for (Resource r : resources) {
+					MediaPreview m = r.getMediaPreview();
+					if(m == null) {
+						continue ;
+					}
+					String mpName =	m.getMpName() ;
+					r.setResName(mpName);
+					
+				}
+				
+				
+			return "movie" ;
 			}
 			return SUCCESS ;
 			
 		}
 		//用户的resDetail视图，与管理员不同
-		@Action(value="resDetailforUser",results= {@Result(name="success",location="/WEB-INF/jsp/resDetail.jsp")})
+		@Action(value="resDetailforUser",results= {
+				@Result(name="success",location="/WEB-INF/jsp/picDetail.jsp"),
+				@Result(name="movie",location="/WEB-INF/jsp/movDetail.jsp"),
+				
+		})
 		public String resourceDetailForUser() {
 			
 			if(request.getAttribute("resId") != null) {
@@ -421,7 +453,12 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 			resource.setResTag(resourceTemp.getResTag());
 			resource.setResUri(resourceTemp.getResUri());
 			resource.setUserId(resourceTemp.getUserId());
+			resource.setMediaPreview(resourceTemp.getMediaPreview());
 			
+			if(resource.getResTag().equals("mov")) {
+				resource.setResName(resource.getMediaPreview().getMpName()) ;
+				return "movie" ;
+			}
 			
 			return SUCCESS ; 
 		}

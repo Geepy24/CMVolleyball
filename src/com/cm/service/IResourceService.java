@@ -55,5 +55,5 @@ public interface IResourceService {
 	/**
 	 * 通过id查找上一个条记录的id
 	 */
-	Integer preResourceId(Integer resId);
+	Integer preResourceId(Integer resId) ;
 }
