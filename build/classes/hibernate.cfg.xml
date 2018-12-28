@@ -39,6 +39,7 @@
 		<mapping resource="com/cm/domain/Resource.hbm.xml" />
 		<mapping resource="com/cm/domain/Dustbin.hbm.xml" />
 		<mapping resource="com/cm/domain/Draft.hbm.xml" />
+		<mapping resource="com/cm/domain/MediaPreview.hbm.xml" />
 		
 
 	</session-factory>

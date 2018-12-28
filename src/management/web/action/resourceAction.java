@@ -24,19 +24,23 @@ import org.hibernate.result.ResultSetOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 
+import com.cm.domain.MediaPreview;
 import com.cm.domain.Resource;
 import com.cm.domain.User;
 import com.cm.service.IResourceService;
+import com.cm.utils.movieUtils;
 import com.cm.web.action.userRegister;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.sun.javafx.geom.PickRay;
+import com.sun.media.jfxmediaimpl.MediaUtils;
 import com.sun.org.apache.xerces.internal.impl.xs.SchemaSymbols;
 @Namespace("/Resource")
 @ParentPackage("p1")
 @InterceptorRefs({@InterceptorRef("loginDefault")})
 @Results({
 	@Result(name="login",type="chain",location="login",params= {"namespace","/User"}),
+	@Result(name="fail",location="/fail.jsp")
 })
 public class resourceAction extends ActionSupport implements Serializable, ModelDriven<Resource> {
 
@@ -137,12 +141,17 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 		return SUCCESS ;
 	}
 	/**
-	 * 增加资源
+	 * 增加资源：
+	 * 	对于图片文件，直接保存即可
+	 * 	对于视频文件，要生成视频缩略图，并保存缩略图信息到缩略图的表中
 	 * @return
 	 * @throws IOException
 	 */
 	@Action(value="addRes",results= {@Result(name="success",location="/WEB-INF/jsp/management/resource/addSuccess.jsp")})
 	public String addResource() throws IOException {
+		
+		
+		
 		System.out.println("上传图片");
 		//当前项目路径
 		String t=Thread.currentThread().getContextClassLoader().getResource("").getPath();
@@ -174,24 +183,50 @@ public class resourceAction extends ActionSupport implements Serializable, Model
         if(!file.exists()){ 
             file.mkdir(); 
         } 
+        
 		//将页面传过来的数据通过FileUtils拷贝到文件路径下,文件名是前端传入的uploadFileName
-       
-//      //获得当前时间的毫秒数，作为种子数传入到Random的构造器中
-//        Random rd = new Random(System.currentTimeMillis());
-//        int rand = rd.nextInt(1000)+1;//生成随机整数
-//        
         FileUtils.copyFile(upload, new File(file,uploadFileName));
         System.out.println(filePath);
+
+        //保存到数据库中
         //chrome上传失败，出现Provisional headers are shown,设置最大下载
 		resource.setResName(uploadFileName);
         resource.setAdsName(user.getUserName());
         resource.setUserId(user.getUserId());
         resource.setUserName(user.getUserName());
-        resource.setResUri(filePath+uploadFileName);
-        
-        System.out.println(resource);
-		resourceService.saveResource(resource);
-        return SUCCESS ; 
+        resource.setResUri(filePath+"/"+uploadFileName);
+        //是图片，则直接保存
+        if(resource.getResTag().equals("piv")) {
+        	resourceService.saveResource(resource);
+            System.out.println("保存了图片："+resource);
+        	return SUCCESS ; 
+        }else {
+        	//否则是视频，就要生成缩略图，同时将缩略图id作为外键保存
+    		//设置缩略图表，并级联保存
+			
+			String mpPath = temp[0]+"media_preview" ;
+			File mpFile = new File(mpPath); 
+	        if(!mpFile.exists()){ 
+	            mpFile.mkdir(); 
+	            }
+	        //要输出的jpg文件的uri
+	        String mpName = resource.getResName().split("\\.")[0] + ".jpg";
+	        String mpUri = mpPath+"/"+mpName;
+	        
+	        System.out.println(mpUri+"---"+mpName);
+			movieUtils.handler(movieUtils.ffmpegPath, resource.getResUri(),mpUri );
+			
+			MediaPreview mediaPreview = new MediaPreview() ;
+			mediaPreview.setMpName(mpName);
+			mediaPreview.setMpUri(mpUri);
+			//与resource对象关联，然后级联保存
+			resource.setMediaPreview(mediaPreview);
+			System.out.println("保存了视频："+resource);
+			System.out.println("保存了缩略图："+mediaPreview);
+    		
+			resourceService.saveResource(resource);
+			return SUCCESS ; 
+        }
 		
 	}
 	
@@ -205,6 +240,7 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 			request.getSession().setAttribute("picOrmov", "pic");
 		}else {
 			request.getSession().setAttribute("picOrmov", "mov");
+			
 		}
 		
 		
@@ -347,13 +383,22 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 		
 		
 //-----------------------用户资源动作类------------------------------------------------		
-		@Action(value="indexresource",results= {@Result(name="success",location="/WEB-INF/jsp/picture.jsp")})
+		//跳转图片列表或视频列表
+		@Action(value="indexresource",results= {
+				@Result(name="success",location="/WEB-INF/jsp/picture.jsp")
+				
+		})
 		public String indexPicture() {
 			tag = resource.getResTag() ;
 			System.out.println(tag);
 			currentPage = 1 ;
 			resources = resourceService.findAllResource(tag, currentPage, MAXRESULTS*2);
 			
+			if(tag.equals("mov")) {
+				//通过mpId取出缩略图的名字，将名字再赋给resourceName，这样前端就不用改动了
+			
+			
+			}
 			return SUCCESS ;
 			
 		}

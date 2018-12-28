@@ -13,7 +13,16 @@ public class Resource implements Serializable {
 	private String adsName ;
 	private String pubTime ;
 	private String resName ;
+
+	private MediaPreview mediaPreview ;
 	
+	
+	public MediaPreview getMediaPreview() {
+		return mediaPreview;
+	}
+	public void setMediaPreview(MediaPreview mediaPreview) {
+		this.mediaPreview = mediaPreview;
+	}
 	public String getResName() {
 		return resName;
 	}
@@ -73,8 +82,10 @@ public class Resource implements Serializable {
 	public String toString() {
 		return "Resource [resId=" + resId + ", resTag=" + resTag + ", resCom=" + resCom + ", resUri=" + resUri
 				+ ", userId=" + userId + ", userName=" + userName + ", adsName=" + adsName + ", pubTime=" + pubTime
-				+ ", resName=" + resName + "]";
+				+ ", resName=" + resName + ", mediaPreview=" + mediaPreview + "]";
 	}
+	
+	
 
 	
 	
