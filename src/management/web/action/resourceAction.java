@@ -21,6 +21,8 @@ import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.cm.domain.MediaPreview;
+import com.cm.domain.Movie;
+import com.cm.domain.Picture;
 import com.cm.domain.Resource;
 import com.cm.domain.User;
 import com.cm.service.IResourceService;
@@ -62,86 +64,54 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 	HttpServletRequest request = ServletActionContext.getRequest() ;
 	private User user =(User) session.getAttribute("loginInfo")  ;
 	
-	
-	
 	@Override
 	public Resource getModel() {
 		return resource;
 	}
-	
-	
-	
 
 	public List<Resource> getResources() {
 		return resources;
 	}
 
-
-
-
 	public void setResources(List<Resource> resources) {
 		this.resources = resources;
 	}
-
-
-
 
 	public int getCurrentPage() {
 		return currentPage;
 	}
 
-
-
-
 	public void setCurrentPage(int currentPage) {
 		this.currentPage = currentPage;
 	}
-
-
-
 
 	public String getMpName() {
 		return mpName;
 	}
 
-
-
-
 	public void setMpName(String mpName) {
 		this.mpName = mpName;
 	}
-
-
-
 
 	public int getToPage() {
 		return toPage;
 	}
 
-
-
-
 	public void setToPage(int toPage) {
 		this.toPage = toPage;
 	}
-
-
-
 
 	public File getUpload() {
 		return upload;
 	}
 
-
 	public void setUpload(File upload) {
 		this.upload = upload;
 	}
 
-
 	public String getUploadFileName() {
 		return uploadFileName;
 	}
-
 
 	public void setUploadFileName(String uploadFileName) {
 		this.uploadFileName = uploadFileName;
@@ -151,7 +121,10 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 	 * 转到新增资源视图
 	 * @return
 	 */
-	@Action(value="uploadRes",results= {@Result(name="success",location="/WEB-INF/jsp/management/resource/resUpload.jsp")})
+	@Action(value="uploadRes",results= {
+			@Result(name="success",location="/WEB-INF/jsp/management/resource/resUpload.jsp")
+			
+	})
 	public String uploadResource() {
 		
 		return SUCCESS ;
@@ -160,25 +133,29 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 	 * 增加资源：
 	 * 	对于图片文件，直接保存即可
 	 * 	对于视频文件，要生成视频缩略图，并保存缩略图信息到缩略图的表中
+	 * 	模型驱动传入resTag,resCom,pubTime
 	 * @return
 	 * @throws IOException
 	 */
 	@Action(value="addRes",results= {@Result(name="success",location="/WEB-INF/jsp/management/resource/addSuccess.jsp")})
 	public String addResource() throws IOException {
 		
-		
-		
-		System.out.println("上传图片");
-		//当前项目路径
+		System.out.println("上传资源");
+		//当前项目路径t
 		String t=Thread.currentThread().getContextClassLoader().getResource("").getPath();
+		
+		//上传的文件名：uploadFileName
 		System.out.println(uploadFileName);
+		//上传的文件
 		System.out.println(upload.toString());
+		
 		//上传的文件路径
 		String filePath = "" ;
 		String realpath = request.getRealPath("/") ;
 		String root = request.getContextPath() ;
 		String [] temp = root.split("/") ;
 		temp = realpath.split(temp[1]) ;
+		
 		System.out.println("资源类别"+resource.getResTag());
 		
 		
@@ -190,56 +167,81 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 		}else {
 			//存到图片文件夹
 			 filePath = temp[0]+"pic" ;
-			 request.getSession().setAttribute("picOrmov","mov");
+			 request.getSession().setAttribute("picOrmov","pic");
 		}
-		
+		//保存到的文件夹的位置
 		System.out.println(filePath);
 		
+		//文件夹不存在则创建
 		File file = new File(filePath); 
         if(!file.exists()){ 
             file.mkdir(); 
         } 
         
 		//将页面传过来的数据通过FileUtils拷贝到文件路径下,文件名是前端传入的uploadFileName
+        //upload是页面传过来的文件，file是文件夹，uploadFileName是文件名称
         FileUtils.copyFile(upload, new File(file,uploadFileName));
-        System.out.println(filePath);
+        System.out.println("要保存的文件完整路径："+filePath);
 
         //保存到数据库中
         //chrome上传失败，出现Provisional headers are shown,设置最大下载
-		resource.setResName(uploadFileName);
-        resource.setAdsName(user.getUserName());
-        resource.setUserId(user.getUserId());
-        resource.setUserName(user.getUserName());
-        resource.setResUri(filePath+"/"+uploadFileName);
+        
+        
+        //uploadFileName：文件名。xxx.mp4/xxx.jpg
+        //filePath+"/"+uploadFileName：完整的文件的路径，如xxx/xxx/xxx.jpg或者xxx/xxx/xxx.mp4
+ 
         //是图片，则直接保存
-        if(resource.getResTag().equals("piv")) {
+        if(resource.getResTag().equals("pic")) {
+        	Picture picture = new Picture() ;
+        	
+        	picture.setPicUri(filePath+"/"+uploadFileName);
+        	picture.setPicName(uploadFileName);
+        	resource.setAdsId(user.getUserId());
+        	resource.setUser(user);
+        	resource.setPicture(picture);
+        	//级联保存
         	resourceService.saveResource(resource);
             System.out.println("保存了图片："+resource);
         	return SUCCESS ; 
+        	
         }else {
         	//否则是视频，就要生成缩略图，同时将缩略图id作为外键保存
     		//设置缩略图表，并级联保存
+        
+			Movie movie = new Movie() ;
+			movie.setMovUri(filePath+"/"+uploadFileName);
+			movie.setMovName(uploadFileName);
 			
+			//缩略图的文件夹
 			String mpPath = temp[0]+"media_preview" ;
 			File mpFile = new File(mpPath); 
 	        if(!mpFile.exists()){ 
 	            mpFile.mkdir(); 
-	            }
-	        //要输出的jpg文件的uri
-	        String mpName = resource.getResName().split("\\.")[0] + ".jpg";
+	        }
+	        //要输出的jpg文件的uri，即输出的jpg的完整uri
+	        String mpName = movie.getMovName().split("\\.")[0] + ".jpg";
 	        String mpUri = mpPath+"/"+mpName;
 	        
 	        System.out.println(mpUri+"---"+mpName);
-			movieUtils.handler(movieUtils.ffmpegPath, resource.getResUri(),mpUri );
+	        //缩略图工具类
+			movieUtils.handler(movieUtils.ffmpegPath, movie.getMovUri(),mpUri );
 			
 			MediaPreview mediaPreview = new MediaPreview() ;
 			mediaPreview.setMpName(mpName);
 			mediaPreview.setMpUri(mpUri);
-			//与resource对象关联，然后级联保存
-			resource.setMediaPreview(mediaPreview);
+			
+			//与movie对象关联，然后级联保存
+			movie.setMediaPreview(mediaPreview);
+			
+			
+        	resource.setUser(user);
+			resource.setAdsId(user.getUserId());
+			resource.setMovie(movie);
+			
 			System.out.println("保存了视频："+resource);
 			System.out.println("保存了缩略图："+mediaPreview);
     		
+			//resource级联保存movie，movie再级联保存mediaPreview
 			resourceService.saveResource(resource);
 			return SUCCESS ; 
         }
@@ -269,7 +271,7 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 	 * @return
 	 */
 	@Action(value="resList",results= {
-			@Result(name="success",location="/WEB-INF/jsp/management/resource/picList.jsp"),
+			@Result(name="picture",location="/WEB-INF/jsp/management/resource/picList.jsp"),
 			@Result(name="movie",location="/WEB-INF/jsp/management/resource/movList.jsp")
 	})
 	public String resourceList() {
@@ -280,8 +282,6 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 		}catch(NullPointerException e){
 			tag = resource.getResTag() ;
 		}
-		
-
 		
 		 //加上页码
 		//所有文章
@@ -297,19 +297,9 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 				totalResource = (totalItems/10) + 1  ;
 			}
 			
-			//放进session
-			
 			resources = resourceService.findAllResource(tag, currentPage, MAXRESULTS);
 			if(tag.equals("mov")) {
-				for (Resource r : resources) {
-					MediaPreview m = r.getMediaPreview();
-					if(m == null) {
-						continue ;
-					}
-					String mpName =	m.getMpName() ;
-					r.setResName(mpName);
-					
-				}
+				
 				return "movie" ;
 			}
 			
@@ -317,7 +307,7 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 			session.setAttribute("totalResource",totalResource );
 			
 			
-		return SUCCESS ;
+		return "picture" ;
 	}
 	//文章列表的页码选择，前端不同页显示返回的不同页的数据
 		@Action(value="selectPage",results= {@Result(name="success",location="/WEB-INF/jsp/management/resource/resList.jsp")})
@@ -349,13 +339,18 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 			return SUCCESS ;
 		}
 		//上一页资源列表
-		@Action(value="prePage",results= {@Result(name="success",location="/WEB-INF/jsp/management/resource/resList.jsp")})
+		@Action(value="prePage",results= {
+				@Result(name="success",location="/WEB-INF/jsp/management/resource/resList.jsp"),
+				@Result(name="fail",location="/fail.jsp")
+		})
 		public String pPage() {
 			tag = request.getSession().getAttribute("picOrmov").toString();
 			int temp = currentPage ;
 			temp = temp - 1 ;
 			currentPage = temp ;
-			
+			if(currentPage <= 0) {
+				return "fail" ;
+			}
 			
 			resources = resourceService.findAllResource(tag, currentPage, MAXRESULTS);
 			
@@ -363,58 +358,72 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 		}
 		//资源详情
 		@Action(value="resDetail",results= {
-				@Result(name="success",location="/WEB-INF/jsp/management/resource/picDetail.jsp"),
+				@Result(name="picture",location="/WEB-INF/jsp/management/resource/picDetail.jsp"),
 				@Result(name="movie",location="/WEB-INF/jsp/management/resource/movDetail.jsp")
 		})
 		public String resourceDetail() {
 			
-			
 			if(request.getAttribute("resId") != null) {
 				resource.setResId((Integer)request.getAttribute("resId"));
 			}
-			
 			System.out.println("要显示的资源的id"+resource.getResId());
 			Resource resourceTemp = new Resource() ;
 			resourceTemp = resourceService.findResourceById(resource.getResId()) ;
-			resource.setAdsName(resourceTemp.getUserName());
+			resource.setAdsId(resourceTemp.getAdsId());
 			resource.setPubTime(resourceTemp.getPubTime());
 			resource.setResCom(resourceTemp.getResCom());
-			resource.setResName(resourceTemp.getResName());
-			resource.setUserName(resourceTemp.getUserName());
+			resource.setUser(resourceTemp.getUser()) ;
 			resource.setResTag(resourceTemp.getResTag());
-			resource.setResUri(resourceTemp.getResUri());
-			resource.setUserId(resourceTemp.getUserId());
-			resource.setMediaPreview(resourceTemp.getMediaPreview());
+			resource.setMovie(resourceTemp.getMovie());
+			resource.setPicture(resourceTemp.getPicture());
 			if(resource.getResTag().equals("mov")) {
-				mpName = resource.getMediaPreview().getMpName() ;
+				
 				return "movie" ;
 			}
 			
-			return SUCCESS ;
+			return "picture" ;
 		}
 		//下一张图片或视频
 		@Action(value="nextRes",results= {@Result(name="success",type="chain",location="resDetail")})
 		public String nextResource() {
-		
-			System.out.println("当前的resId，要查找下一个id"+resource.getResId()); ;
-			Integer nextId = resourceService.nextResourceId(resource.getResId()) ;
-			resource.setResId(nextId);
-			//图片和视频保存在一起，导致下一条id是mov，要再加判断条件，或者重构数据库表
-			request.setAttribute("resId", nextId);
+			tag = resource.getResTag() ;
+			System.out.println("下一个要找的资源类别"+tag);
+			System.out.println("当前的resId，要查找下一个id"+resource.getResId()); 
+			try {
+				//查找下一个同一个类型的资源id
+				Integer nextId = resourceService.nextResourceId(resource.getResId(),tag) ;
 			
-			return SUCCESS ;
+				resource.setResId(nextId);
+				//传给resDetail.action
+				request.setAttribute("resId", nextId);
+				
+				return SUCCESS ;
+			}catch (Exception e) {
+				System.out.println("不存在下一个同类型资源");
+				return "fail" ;
+			}
+			
 		}
 		//上一张图片或视频
-		@Action(value="preRes",results= {@Result(name="success",type="chain",location="resDetail")})
+		@Action(value="preRes",results= {
+				@Result(name="success",type="chain",location="resDetail")
+		})
 		public String preResource() {
-				
+			tag = resource.getResTag() ;
+			System.out.println("上一个要找的资源类别"+tag);
 			System.out.println("当前的resId，要查找上一个id"+resource.getResId()); ;
-			Integer preId = resourceService.preResourceId(resource.getResId()) ;
-					
-			System.out.println(preId);
-			request.setAttribute("resId", preId);
-			return SUCCESS ;
+			try {
+				Integer preId = resourceService.preResourceId(resource.getResId(),tag) ;
+				System.out.println(preId);
+				//传给resDetail.action
+				request.setAttribute("resId", preId);
+				return SUCCESS ;
+			} catch (Exception e) {
+				return "fail" ;
+			}
+			
 		}
+		
 		@Action(value="delResource",results= {@Result(name="success",type="json")})
 		public String deleteResource() {
 			

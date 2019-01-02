@@ -25,8 +25,8 @@
 <body style="text-align:center;">
 	 <div class="m">
       <video id="my-video" class="video-js" controls preload="auto" width="960" height="400"
-		  poster="/movpre/${mpName }" data-setup="{}">
-        <source src="/mov/${resName }" type="video/mp4">
+		  poster="/movpre/${movie.mediaPreview.mpName }" data-setup="{}">
+        <source src="/mov/${movie.movName }" type="video/mp4">
       </video>
 
 	</div>
@@ -49,9 +49,9 @@
 		</tr>
 		<tr>
 			<td></td>
-			<td><a href="${pageContext.request.contextPath }/userResource/nextRes.action?resId=${resId}">下一张</a>
-				<a href="${pageContext.request.contextPath }/userResource/preRes.action?resId=${resId}">上一张</a></td>
-			<td><a href="${pageContext.request.contextPath }/userResource/indexresource.action">返回列表</a></td>
+			<td><a href="${pageContext.request.contextPath }/userResource/nextRes.action?resId=${resId}&resTag=${resTag}">下一张</a>
+				<a href="${pageContext.request.contextPath }/userResource/preRes.action?resId=${resId}&resTag=${resTag}">上一张</a></td>
+			<td><a href="${pageContext.request.contextPath }/userResource/indexresource.action?resTag=${resTag}">返回列表</a></td>
 		</tr>
 		
 		</table>

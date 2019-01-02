@@ -36,7 +36,7 @@ import net.sf.json.JSONObject;
 @ParentPackage("json-default")
 public class dustbinAction extends ActionSupport implements ModelDriven<Dustbin> {
 	private Dustbin dustbin = new Dustbin() ;
-	//模型驱动的是dustbi
+	//模型驱动的是dustbin
 	private Article article ;
 	private String returndata ;
 	private Integer currentPage ;
@@ -106,13 +106,16 @@ public class dustbinAction extends ActionSupport implements ModelDriven<Dustbin>
 	}
 	
 	
-	
+	/**
+	 * 删除
+	 * @return
+	 */
 	@Action(value="deleteArticle",results= {@Result(name="success",type="json",
 			params= {"root","returndata"})})
 	public String delete() {
 		System.out.println("刚进来的dustbin:"+dustbin);
 		//文章内容
-		article = articleService.findById(dustbin.getArtId()) ;
+		article = articleService.findById(dustbin.getUser().getUserId()) ;
 		System.out.println("查完之后的article："+article);
 		//在article表中删除文章
 		articleService.deleteArticle(article);
@@ -266,7 +269,7 @@ public class dustbinAction extends ActionSupport implements ModelDriven<Dustbin>
 		map.put("artId", String.valueOf(dustbinTemp.getArtId())) ;
 		map.put("artContent", dustbinTemp.getArtContent()) ;
 		map.put("artTitle",	dustbinTemp.getArtTitle()) ;
-		map.put("authorName", dustbinTemp.getAuthorName()) ;
+		map.put("authorName", dustbinTemp.getUser().getUserName()) ;
 		map.put("delTime,", dustbinTemp.getDelTime()) ;
 		
 		JSONObject json = JSONObject.fromObject(map) ;

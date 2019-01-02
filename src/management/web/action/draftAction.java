@@ -123,16 +123,12 @@ public class draftAction extends ActionSupport implements ModelDriven<Draft> {
 		System.out.println(draft);
 		System.out.println(user);
 		
-		draft.setAuthorId(user.getUserId());
-		
-		
+		draft.setUser(user);
+
 		articleService.saveDraft(draft);
 		
 		System.out.println(draft.getDraId());
-		returndata = "{\"draId\" :  \""+draft.getDraId()+"\",\"authorId\" : \""+draft.getAuthorId()+"\"}" ;
-		
-		
-		
+		returndata = "{\"draId\" :  \""+draft.getDraId()+"\",\"authorId\" : \""+draft.getUser().getUserId()+"\"}" ;
 		
 		return SUCCESS ;
 	}
@@ -149,19 +145,21 @@ public class draftAction extends ActionSupport implements ModelDriven<Draft> {
 		currentPage = 1 ;
 		
  		//Draft draftTemp = null ;
-		draft.setAuthorId(user.getUserId());
+		//draft.setAuthorId(user.getUserId());
+		draft.setUser(user);
 		System.out.println(draft.getDraId());
 		//用这种办法让值栈顶端的对象有值，不改变实体类的地址
 		//draftTemp = articleService.findDraftById(draft.getDraId());
-		System.out.println(draft.getAuthorId());
+		//System.out.println(draft.getAuthorId());
+		System.out.println(draft.getUser().getUserId());
 		//draft.setArtTitle(draftTemp.getArtTitle());
 		//draft.setArtContent(draftTemp.getArtContent());
 		//draft.setLastMod(draftTemp.getLastMod());
 		//使用hibernateTemplate的findByExample方法
-		drafts = articleService.findAllDraft(draft.getAuthorId(), currentPage, MAXRESULTS) ;
+		drafts = articleService.findAllDraft(draft.getUser().getUserId(), currentPage, MAXRESULTS) ;
 		
 		//所有草稿
-		Long totalItems = articleService.AllDraftNumber(draft.getAuthorId()) ;
+		Long totalItems = articleService.AllDraftNumber(draft.getUser().getUserId()) ;
 		Long totalPages ;
 		//总页数
 		if(0 == totalItems) {

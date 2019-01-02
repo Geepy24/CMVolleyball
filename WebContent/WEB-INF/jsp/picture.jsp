@@ -20,9 +20,9 @@
 		</TR>
 	<c:forEach items="${resources}" var="resource">
 		<TR style="FONT-WEIGHT: normal; FONT-STYLE: normal; BACKGROUND-COLOR: white; TEXT-DECORATION: none">
-				<TD><a href="${pageContext.request.contextPath }/userResource/resDetail.action?resId=${resource.resId}"><img style="width:50px;height:50px" src="/pic/${resource.resName}" /></a></TD>
+				<TD><a href="${pageContext.request.contextPath }/userResource/resDetail.action?resId=${resource.resId}"><img style="width:50px;height:50px" src="/pic/${resource.picture.picName}" /></a></TD>
 				<TD>${resource.resTag}</TD>
-				<TD>${resource.userName}</TD>
+				<TD>${resource.user.userName}</TD>
 				<TD>${resource.resCom}</TD>
 				<TD>${resource.pubTime}</TD>
 

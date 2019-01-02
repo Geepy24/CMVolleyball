@@ -14,6 +14,7 @@ import org.apache.struts2.convention.annotation.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.cm.domain.Article;
+import com.cm.domain.Dustbin;
 import com.cm.domain.User;
 import com.cm.service.IArticleService;
 import com.opensymphony.xwork2.ActionSupport;
@@ -32,6 +33,8 @@ public class articleAction extends ActionSupport implements ModelDriven<Article>
 	@Autowired
 	IArticleService articleService ;
 	
+	
+	
 	//模型驱动
 	private Article article = new Article() ;
 	
@@ -41,8 +44,9 @@ public class articleAction extends ActionSupport implements ModelDriven<Article>
 	private List<Article> articles ;
 	private int currentPage ;
 	private int toPage ;
+	private String delTime ;
 	//分页的条目数
-		private static int MAXRESULTS = 10;
+	private static int MAXRESULTS = 10;
 	private String returndata ;
 	private JSONObject json ;
 	//private int article_Id ;
@@ -56,6 +60,14 @@ public class articleAction extends ActionSupport implements ModelDriven<Article>
 		return article;
 	}
 	
+	public String getDelTime() {
+		return delTime;
+	}
+
+	public void setDelTime(String delTime) {
+		this.delTime = delTime;
+	}
+
 	public int getCurrentPage() {
 		return currentPage;
 	}
@@ -115,8 +127,6 @@ public class articleAction extends ActionSupport implements ModelDriven<Article>
 
 
 
-
-
 	//该动作类处理管理员的文章提交
 	@Action(value="articleHndler",results= {@Result(name="handle",type="json")},
 				params= {"root","article"})
@@ -126,8 +136,7 @@ public class articleAction extends ActionSupport implements ModelDriven<Article>
 		System.out.println("当前页面用户"+user);
 		System.out.println("模型驱动进来："+article);
 		
-		article.setAuthorName(user.getUserName());
-		article.setAuthorId(user.getUserId());
+		article.setUser(user);
 		article.setAdsName(user.getUserName());
 		article.setLastMod(article.getPubTime());
 		
@@ -256,8 +265,7 @@ public class articleAction extends ActionSupport implements ModelDriven<Article>
 		article.setAdsName(articleTemp.getAdsName());
 		article.setArtContent(articleTemp.getArtContent());
 		article.setArtTitle(articleTemp.getArtTitle());
-		article.setAuthorId(articleTemp.getAuthorId());
-		article.setAuthorName(articleTemp.getAuthorName());
+		article.setUser(articleTemp.getUser());
 		article.setLastMod(articleTemp.getLastMod());
 		article.setPubTime(articleTemp.getPubTime());
 		
@@ -265,6 +273,28 @@ public class articleAction extends ActionSupport implements ModelDriven<Article>
 		System.out.println(article);
 		return SUCCESS ;
 	}
-	
+	/**
+	 * 删除文章,先加入回收站，不真正删除
+	 */
+	@Action(value="deleteArticle",results= {
+			@Result(name="success",type="json")
+			
+	})
+	public String delAction() {
+		System.out.println("json进来："+article.getArtId()+"-"+delTime);
+		
+		Article articleTemp = articleService.findById(article.getArtId()) ;		
+		Dustbin dustbin = new Dustbin() ;
+		dustbin.setArtContent(articleTemp.getArtContent()) ;
+		dustbin.setUser(articleTemp.getUser());
+		dustbin.setArtId(articleTemp.getArtId());
+		dustbin.setDelTime(delTime);
+		dustbin.setArtTitle(articleTemp.getArtTitle());
+		
+		articleService.saveDustbin(dustbin);
+		articleService.deleteArticle(articleTemp);
+		
+		return SUCCESS ;
+	}
 	
 }	

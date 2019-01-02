@@ -11,11 +11,15 @@ public class Article implements Serializable {
 	private int artId ;
 	private String artTitle ;
 	private String artContent ;
-	private int authorId ;
-	private String authorName ;
+//	private int authorId ;
+//	private String authorName ;
 	private String adsName ;
 	private String pubTime ;
 	private String lastMod ;
+	
+	//多对一，artId作为外键
+	private User user ;
+	
 	
 	public int getArtId() {
 		return artId;
@@ -29,8 +33,14 @@ public class Article implements Serializable {
 	public void setArtTitle(String artTitle) {
 		this.artTitle = artTitle;
 	}
-
 	
+	
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
 	public String getArtContent() {
 		return artContent;
 	}
@@ -38,18 +48,18 @@ public class Article implements Serializable {
 		this.artContent = artContent;
 	}
 	
-	public int getAuthorId() {
-		return authorId;
-	}
-	public void setAuthorId(int authorId) {
-		this.authorId = authorId;
-	}
-	public String getAuthorName() {
-		return authorName;
-	}
-	public void setAuthorName(String authorName) {
-		this.authorName = authorName;
-	}
+//	public int getAuthorId() {
+//		return authorId;
+//	}
+//	public void setAuthorId(int authorId) {
+//		this.authorId = authorId;
+//	}
+//	public String getAuthorName() {
+//		return authorName;
+//	}
+//	public void setAuthorName(String authorName) {
+//		this.authorName = authorName;
+//	}
 	public String getAdsName() {
 		return adsName;
 	}
@@ -71,7 +81,7 @@ public class Article implements Serializable {
 	@Override
 	public String toString() {
 		return "Article [artId=" + artId + ", artTitle=" + artTitle + ", artContent=" + artContent + ", authorId="
-				+ authorId + ", authorName=" + authorName + ", adsName=" + adsName + ", pubTime=" + pubTime
+				+ ", adsName=" + adsName + ", pubTime=" + pubTime
 				+ ", lastMod=" + lastMod + "]";
 	}
 

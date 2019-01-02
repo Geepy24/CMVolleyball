@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.cm.domain">
+		<class name="Movie" table="movie">
+			<id name="movId" column="mov_id">
+				<generator class="native"></generator>
+			</id>
+			<property name="movName" column="mov_name"></property>
+			<property name="movUri" column="mov_uri"></property>
+			<many-to-one name="mediaPreview" class="MediaPreview" column="mp_id" unique="true" not-null="true" cascade="save-update,delete"  lazy="false" fetch="join"></many-to-one>
+		</class>
+</hibernate-mapping>

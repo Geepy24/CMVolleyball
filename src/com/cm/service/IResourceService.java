@@ -51,9 +51,9 @@ public interface IResourceService {
 	/**
 	 * 通过id查找下一条记录的id
 	 */
-	Integer nextResourceId(Integer resId) ;
+	Integer nextResourceId(Integer resId,String tag) ;
 	/**
 	 * 通过id查找上一个条记录的id
 	 */
-	Integer preResourceId(Integer resId) ;
+	Integer preResourceId(Integer resId,String tag) ;
 }

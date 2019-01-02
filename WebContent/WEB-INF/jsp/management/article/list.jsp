@@ -74,14 +74,14 @@
 												<TR style="FONT-WEIGHT: normal; FONT-STYLE: normal; BACKGROUND-COLOR: white; TEXT-DECORATION: none">
 													<TD>${article.artId }</TD>
 													<TD>${article.artTitle}</TD>
-													<TD>${article.authorName}</TD>
-													<TD>${article.authorId}</TD>
+													 <TD>${article.user.userName}</TD>
+													<TD>${article.user.userId}</TD>  
 													<TD>${article.pubTime}</TD>
 													<TD>${article.lastMod}</TD>
 													
 													<TD>
 													<a href="${pageContext.request.contextPath }/Article/artDetail.action?artId=${article.artId}">文章详情</a>
-													<a href="javascript:void(0)" onclick="deleteArticle('${article.artId}','${article.authorName}','${article.artTitle}')">删除</a>
+													<a href="javascript:void(0)" onclick="deleteArticle('${article.artId}')">删除</a> 
 													
 													&nbsp;&nbsp;
 													</TD>
@@ -147,7 +147,7 @@
 		</TABLE>
 	</FORM>
 	<script type="text/javascript">
-		function deleteArticle(artId,authorName,artTitle){
+		function deleteArticle(artId,artTitle){
 			//删除的时间
 			var date = new Date() ;
 			var year = date.getFullYear() ;
@@ -156,13 +156,10 @@
 			var now = year + "-" + month + "-" + day ;
 			
 			var art_id = artId ;
-			var author_name = authorName ;
 			var article_title = artTitle ;
 			
 			var content = {
 					"artId"  :  art_id  ,
-					"authorName" : author_name ,
-					"artTitle"  :  article_title,
 					"delTime"  : now 
 			} ;
 			alert(JSON.stringify(content)) ;

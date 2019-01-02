@@ -51,7 +51,7 @@
 							<TR>
 								<td>作者名：</td>
 								<td>
-									<INPUT class=textbox id=sChannel2 style="WIDTH: 180px" maxLength=50 name="userName" value="${authorName}">
+									<INPUT class=textbox id=sChannel2 style="WIDTH: 180px" maxLength=50 name="userName" value="${user.userName}">
 								</td>
 							</TR>	
 							<TR>	

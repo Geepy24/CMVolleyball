@@ -8,30 +8,42 @@ import java.io.Serializable;
  */
 public class Dustbin implements Serializable {
 
-	private int dustId ;
-	private int artId ;
-	private String authorName ;
+	private Integer dustId ;
+	private Integer artId ;
+//	private String authorName ;
 	private String artTitle ;
 	private String artContent ;
 	private String delTime ;
-	public int getDustId() {
+	
+	//Ò»¶Ô¶à
+	private User user ;
+	
+	
+	
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	public Integer getDustId() {
 		return dustId;
 	}
-	public void setDustId(int dustId) {
+	public void setDustId(Integer dustId) {
 		this.dustId = dustId;
 	}
-	public int getArtId() {
+	public Integer getArtId() {
 		return artId;
 	}
-	public void setArtId(int artId) {
+	public void setArtId(Integer artId) {
 		this.artId = artId;
 	}
-	public String getAuthorName() {
-		return authorName;
-	}
-	public void setAuthorName(String authorName) {
-		this.authorName = authorName;
-	}
+//	public String getAuthorName() {
+//		return authorName;
+//	}
+//	public void setAuthorName(String authorName) {
+//		this.authorName = authorName;
+//	}
 	public String getArtTitle() {
 		return artTitle;
 	}
@@ -52,7 +64,7 @@ public class Dustbin implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "Dustbin [dustId=" + dustId + ", artId=" + artId + ", authorName=" + authorName + ", artTitle="
+		return "Dustbin [dustId=" + dustId + ", artId=" +", artTitle="
 				+ artTitle + ", artContent=" + artContent + ", delTime=" + delTime + "]";
 	}
 	

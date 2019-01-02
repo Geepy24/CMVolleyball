@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.cm.dao.IResourceDao;
 import com.cm.domain.Resource;
+import com.cm.domain.User;
 @Repository("resourceDao")
 public class ResourceDaoImpl implements IResourceDao {
 
@@ -54,7 +55,9 @@ public class ResourceDaoImpl implements IResourceDao {
 	public List<Resource> findAllResource(String tag, Integer userId, Integer currentPage, Integer maxResults) {
 		Resource resource = new Resource() ;
 		resource.setResTag(tag); 
-		resource.setUserId(userId);
+		User user = new User() ;
+		user.setUserId(userId);
+		resource.setUser(user);
 		return hibernateTemplate.findByExample(resource, (currentPage-1)*maxResults, maxResults) ;
 	}
 
@@ -76,16 +79,17 @@ public class ResourceDaoImpl implements IResourceDao {
 	}
 	//根据id查找下一条记录的id
 	@Override
-	public Integer nextResourceId(Integer resId) {
-		String hql = "select resId From Resource WHERE resId >"+resId+" ORDER BY resId ASC"  ;
+	public Integer nextResourceId(Integer resId,String tag) {
+		String hql = "select resId From Resource WHERE resId >"+resId+" AND resTag=\'"+tag+"\' ORDER BY resId ASC"  ;
 		Query query = hibernateTemplate.getSessionFactory().getCurrentSession().createQuery(hql) ;
 		query.setMaxResults(1) ;
+		System.out.println(query.list().get(0));
 		return (Integer) query.list().get(0) ;
 	}
 	//根据id查找上一条记录的id
 		@Override
-		public Integer preResourceId(Integer resId) {
-			String hql = "select resId From Resource WHERE resId <"+resId+" ORDER BY resId DESC"  ;
+		public Integer preResourceId(Integer resId,String tag) {
+			String hql = "select resId From Resource WHERE resId <"+resId+" AND resTag=\'"+tag+"\' ORDER BY resId DESC"  ;
 			Query query = hibernateTemplate.getSessionFactory().getCurrentSession().createQuery(hql) ;
 			query.setMaxResults(1) ;
 			return (Integer) query.list().get(0) ;

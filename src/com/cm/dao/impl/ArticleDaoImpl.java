@@ -15,6 +15,7 @@ import com.cm.dao.IArticleDao;
 import com.cm.domain.Article;
 import com.cm.domain.Draft;
 import com.cm.domain.Dustbin;
+import com.cm.domain.User;
 
 @Repository("articleDao")
 public class ArticleDaoImpl implements IArticleDao {
@@ -219,7 +220,9 @@ public class ArticleDaoImpl implements IArticleDao {
 	public List<Draft> findAllDraft(Integer authorId , Integer currentPage, Integer maxResults) {
 		
 		Draft draft = new Draft() ;
-		draft.setAuthorId(authorId);
+		User user = new User() ;
+		user.setUserId(authorId);
+		draft.setUser(user);
 		return hibernateTemplate.findByExample(draft, (currentPage-1)*maxResults, maxResults) ;
 		
 		
@@ -229,9 +232,11 @@ public class ArticleDaoImpl implements IArticleDao {
 	 */
 	@Override
 	public Long AllDraftNumber(Integer authorId) {
-		String sql = "SELECT COUNT(*) FROM Draft WHERE authorId=:id" ;
+		User user = new User() ;
+		user.setUserId(authorId);
+		String sql = "SELECT COUNT(*) FROM Draft WHERE user=:id" ;
 		String param = "id" ;
-		int value = authorId ;
+		User value = user  ;
 		return  (Long) hibernateTemplate.findByNamedParam(sql, param, value).get(0) ;
 				
 	}
@@ -263,6 +268,7 @@ public class ArticleDaoImpl implements IArticleDao {
 	 * 无条件的分页
 	 */
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Dustbin> findAllDustbin(Integer currentPage, Integer MAXRESULTS) {
 		DetachedCriteria criteria = DetachedCriteria.forClass(Dustbin.class) ;

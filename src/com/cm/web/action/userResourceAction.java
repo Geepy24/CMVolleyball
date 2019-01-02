@@ -52,8 +52,7 @@ public class userResourceAction extends ActionSupport implements Serializable, M
 	private List<Resource> resources;
 	private int currentPage;
 	private int toPage;
-	// 缩略图的名字
-	private String mpName;
+	
 
 	// 分页的条目数
 	private static int MAXRESULTS = 10;
@@ -84,13 +83,7 @@ public class userResourceAction extends ActionSupport implements Serializable, M
 		this.currentPage = currentPage;
 	}
 
-	public String getMpName() {
-		return mpName;
-	}
-
-	public void setMpName(String mpName) {
-		this.mpName = mpName;
-	}
+	
 
 	public int getToPage() {
 		return toPage;
@@ -147,18 +140,6 @@ public class userResourceAction extends ActionSupport implements Serializable, M
 		session.setAttribute("totalResource", totalResource);
 
 		if (tag.equals("mov")) {
-			// 通过mpId取出缩略图的名字，将名字再赋给resourceName，这样前端就不用改动了
-			// 此时resName可用于显示缩略图
-
-			for (Resource r : resources) {
-				MediaPreview m = r.getMediaPreview();
-				if (m == null) {
-					continue;
-				}
-				String mpName = m.getMpName();
-				r.setResName(mpName);
-
-			}
 
 			return "movie";
 		}
@@ -176,39 +157,25 @@ public class userResourceAction extends ActionSupport implements Serializable, M
 			@Result(name = "movie", location = "/WEB-INF/jsp/resource/userMovDetail.jsp") })
 	public String resourceDetail() {
 
-		if (request.getAttribute("resId") != null) {
-			resource.setResId((Integer) request.getAttribute("resId"));
+		if(request.getAttribute("resId") != null) {
+			resource.setResId((Integer)request.getAttribute("resId"));
 		}
-
-		System.out.println("【user】要显示的资源的id" + resource.getResId());
-		Resource resourceTemp = new Resource();
-		resourceTemp = resourceService.findResourceById(resource.getResId());
-		resource.setAdsName(resourceTemp.getUserName());
+		System.out.println("要显示的资源的id"+resource.getResId());
+		Resource resourceTemp = new Resource() ;
+		resourceTemp = resourceService.findResourceById(resource.getResId()) ;
+		resource.setAdsId(resourceTemp.getAdsId());
 		resource.setPubTime(resourceTemp.getPubTime());
 		resource.setResCom(resourceTemp.getResCom());
-		resource.setResName(resourceTemp.getResName());
-		resource.setUserName(resourceTemp.getUserName());
+		resource.setUser(resourceTemp.getUser());
 		resource.setResTag(resourceTemp.getResTag());
-		resource.setResUri(resourceTemp.getResUri());
-		resource.setUserId(resourceTemp.getUserId());
-		resource.setMediaPreview(resourceTemp.getMediaPreview());
-
-		if (resource.getResTag().equals("mov")) {
-			mpName = resource.getMediaPreview().getMpName();
+		resource.setMovie(resourceTemp.getMovie());
+		resource.setPicture(resourceTemp.getPicture());
+		if(resource.getResTag().equals("mov")) {
 			
-			for (Resource r : resources) {
-				MediaPreview m = r.getMediaPreview();
-				if (m == null) {
-					continue;
-				}
-				String mpName = m.getMpName();
-				r.setResName(mpName);
-				
-				return "movie";
-			}
+			return "movie" ;
 		}
-
-		return "picture";
+		
+		return "picture" ;
 	}
 
 	/**
@@ -225,16 +192,7 @@ public class userResourceAction extends ActionSupport implements Serializable, M
 		currentPage = toPage;
 		resources = resourceService.findAllResource(tag, currentPage, MAXRESULTS);
 		if("mov".equals(tag)) {
-			mpName = resource.getMediaPreview().getMpName();
 			
-			for (Resource r : resources) {
-				MediaPreview m = r.getMediaPreview();
-				if (m == null) {
-					continue;
-				}
-				String mpName = m.getMpName();
-				r.setResName(mpName);
-			}
 			return "movie" ;
 		}else {
 			return "picture";
@@ -267,16 +225,7 @@ public class userResourceAction extends ActionSupport implements Serializable, M
 			return "fail";
 		}
 		if("mov".equals(tag)) {
-			mpName = resource.getMediaPreview().getMpName();
 			
-			for (Resource r : resources) {
-				MediaPreview m = r.getMediaPreview();
-				if (m == null) {
-					continue;
-				}
-				String mpName = m.getMpName();
-				r.setResName(mpName);
-			}
 			return "movie" ;
 		}else {
 			return "picture";
@@ -299,21 +248,12 @@ public class userResourceAction extends ActionSupport implements Serializable, M
 		int temp = currentPage;
 		temp = temp - 1;
 		currentPage = temp;
-		if(currentPage == -1) {
+		if(currentPage <= 0) {
 			return "fail" ;
 		}
 		resources = resourceService.findAllResource(tag, currentPage, MAXRESULTS);
 		if("mov".equals(tag)) {
-			mpName = resource.getMediaPreview().getMpName();
-			
-			for (Resource r : resources) {
-				MediaPreview m = r.getMediaPreview();
-				if (m == null) {
-					continue;
-				}
-				String mpName = m.getMpName();
-				r.setResName(mpName);
-			}
+		
 			return "movie" ;
 		}else {
 			return "picture";
@@ -331,11 +271,14 @@ public class userResourceAction extends ActionSupport implements Serializable, M
 	})
 	public String nextResource() {
 		//因为视频和图片都存在同一张表，所以图片的下一个可能是视频
+		tag = resource.getResTag() ;
+		System.out.println("下一个要找的资源类别"+tag);
 		System.out.println("当前的resId，要查找下一个id" + resource.getResId());
 		try {
-			Integer nextId = resourceService.nextResourceId(resource.getResId());
-			resource.setResId(nextId);
-			System.out.println("下一个resource"+resource);
+			
+			Integer nextId = resourceService.nextResourceId(resource.getResId(),tag);
+			
+			System.out.println("下一个resource"+resourceService.findResourceById(nextId));
 			//可以通过result的参数将数据发送给另外一个action
 			
 			request.setAttribute("resId", nextId);
@@ -343,6 +286,7 @@ public class userResourceAction extends ActionSupport implements Serializable, M
 			return SUCCESS;
 		}catch (Exception e) {
 			System.out.println("不存在下一个资源");
+			e.printStackTrace();
 			return "fail" ;
 		}
 		
@@ -357,15 +301,21 @@ public class userResourceAction extends ActionSupport implements Serializable, M
 			@Result(name="fail",location="/fail.jsp")
 	})
 	public String preResource() {
-		//因为视频和图片都存在同一张表，所以图片的一个可能是视频
+	
+		tag = resource.getResTag() ;
+		System.out.println("下一个要找的资源类别"+tag);
 		System.out.println("当前的resId，要查找上一个id" + resource.getResId());
 		try {
-			Integer preId = resourceService.preResourceId(resource.getResId());
+			Integer preId = resourceService.preResourceId(resource.getResId(),tag);
 			System.out.println(preId);
+			
+			System.out.println("上一个资源："+resourceService.findResourceById(preId));		
+			
 			request.setAttribute("resId", preId);
 			return SUCCESS;
 		}catch(Exception e){
 			System.out.println("不存在上一个资源id");
+			e.printStackTrace();
 			return "fail" ;
 		}
 		

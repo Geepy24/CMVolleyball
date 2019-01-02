@@ -9,7 +9,7 @@
 </head>
 <body style="text-align:center;">
 	<div id="show_pic" style="margin:0,auto;width:100%;height:800px;">
-	<img style="width:500px;height:500px;margin:0,auto;" alt="${resCom}" src="/pic/${resName}">
+	<img style="width:500px;height:500px;margin:0,auto;" alt="${resCom}" src="/pic/${picture.picName}">
 	<table>
 		<tr>
 			<td></td>
@@ -26,8 +26,8 @@
 		</tr>
 		<tr>
 			<td></td>
-			<td><a href="${pageContext.request.contextPath }/Resource/nextRes.action?resId=${resId}">下一张</a>
-				<a href="${pageContext.request.contextPath }/Resource/preRes.action?resId=${resId}">上一张</a></td>
+			<td><a href="${pageContext.request.contextPath }/Resource/nextRes.action?resId=${resId}&resTag=${resTag}">下一张</a>
+				<a href="${pageContext.request.contextPath }/Resource/preRes.action?resId=${resId}&resTag=${resTag}">上一张</a></td>
 			<td><a href="${pageContext.request.contextPath }/Resource/resList.action">返回列表</a></td>
 		</tr>
 		

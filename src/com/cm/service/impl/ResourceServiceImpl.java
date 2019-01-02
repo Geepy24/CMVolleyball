@@ -65,13 +65,13 @@ public class ResourceServiceImpl implements IResourceService {
 	}
 
 	@Override
-	public Integer nextResourceId(Integer resId) {
-		return resourceDao.nextResourceId(resId);
+	public Integer nextResourceId(Integer resId,String tag) {
+		return resourceDao.nextResourceId(resId,tag);
 	}
 
 	@Override
-	public Integer preResourceId(Integer resId) {
-		return resourceDao.preResourceId(resId);
+	public Integer preResourceId(Integer resId,String tag) {
+		return resourceDao.preResourceId(resId,tag);
 	}
 
 	

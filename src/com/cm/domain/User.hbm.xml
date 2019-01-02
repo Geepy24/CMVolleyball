@@ -13,5 +13,26 @@
 			<property name="gender" column="gender"></property>
 			<property name="tel" column="tel"></property>
 			
+			<!-- 主表一对多关系映射,在多的一端加上一个外键，指向一的主键
+				可以由一找到多，不能多找到一
+				主表的字段不会由任何变化
+			-->
+			<set name="articles" table="article" cascade="save-update" lazy="false">
+				<key column="art_user_id"></key>
+				<one-to-many class="Article" />
+			</set>
+			<set name="resources" table="resource" cascade="save-update" lazy="false">
+				<key column="res_user_id"></key>
+				<one-to-many class="Resource" />
+			</set>
+			<set name="drafts" table="draft" cascade="save-update" lazy="false">
+				<key column="dra_user_id"></key>
+				<one-to-many class="Draft" />
+			</set>
+			<set name="dustbins" table="dustbin" cascade="save-update" lazy="false">
+				<key column="dust_user_id"></key>
+				<one-to-many class="Dustbin" />
+			</set>
+			
 		</class>
 </hibernate-mapping>

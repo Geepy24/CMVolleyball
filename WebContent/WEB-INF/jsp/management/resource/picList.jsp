@@ -40,7 +40,7 @@
 					<TD vAlign=top width="100%" bgColor=#ffffff>
 						<TABLE cellSpacing=0 cellPadding=5 width="100%" border=0>
 							<TR>
-								<TD class=manageHead>当前位置：资源管理 &gt; 资源列表</TD>
+								<TD class=manageHead>当前位置：资源管理 &gt; 图片列表</TD>
 							</TR>
 							<TR>
 								<TD height=2></TD>
@@ -70,9 +70,9 @@
 												</TR>
 												<c:forEach items="${resources}" var="resource">
 												<TR style="FONT-WEIGHT: normal; FONT-STYLE: normal; BACKGROUND-COLOR: white; TEXT-DECORATION: none">
-													<TD><img style="width:50px;height:50px" src="/${resource.resTag}/${resource.resName}" /></TD>
+													<TD><img style="width:50px;height:50px" src="/pic/${resource.picture.picName}" /></TD>
 													<TD>${resource.resTag}</TD>
-													<TD>${resource.userName}</TD>
+													<TD>${resource.user.userName}</TD>
 													<TD>${resource.resCom}</TD>
 													<TD>${resource.pubTime}</TD>
 													

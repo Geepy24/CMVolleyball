@@ -7,28 +7,15 @@ public class Resource implements Serializable {
 	private Integer resId ;
 	private String resTag ;
 	private String resCom ;
-	private String resUri ;
-	private Integer userId ;
-	private String userName ;
-	private String adsName ;
 	private String pubTime ;
-	private String resName ;
-
-	private MediaPreview mediaPreview ;
+	private Integer adsId ;
+//	private Integer userId ;
+	//外键字段
+	private Picture picture ;
+	private Movie movie ;
+	//多对一，resId作为外键
+	private User user ;
 	
-	
-	public MediaPreview getMediaPreview() {
-		return mediaPreview;
-	}
-	public void setMediaPreview(MediaPreview mediaPreview) {
-		this.mediaPreview = mediaPreview;
-	}
-	public String getResName() {
-		return resName;
-	}
-	public void setResName(String resName) {
-		this.resName = resName;
-	}
 	public Integer getResId() {
 		return resId;
 	}
@@ -47,44 +34,52 @@ public class Resource implements Serializable {
 	public void setResCom(String resCom) {
 		this.resCom = resCom;
 	}
-	public String getResUri() {
-		return resUri;
-	}
-	public void setResUri(String resUri) {
-		this.resUri = resUri;
-	}
-	public Integer getUserId() {
-		return userId;
-	}
-	public void setUserId(Integer userId) {
-		this.userId = userId;
-	}
-	public String getUserName() {
-		return userName;
-	}
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-	public String getAdsName() {
-		return adsName;
-	}
-	public void setAdsName(String adsName) {
-		this.adsName = adsName;
-	}
-	
 	public String getPubTime() {
 		return pubTime;
 	}
 	public void setPubTime(String pubTime) {
 		this.pubTime = pubTime;
 	}
-	@Override
-	public String toString() {
-		return "Resource [resId=" + resId + ", resTag=" + resTag + ", resCom=" + resCom + ", resUri=" + resUri
-				+ ", userId=" + userId + ", userName=" + userName + ", adsName=" + adsName + ", pubTime=" + pubTime
-				+ ", resName=" + resName + ", mediaPreview=" + mediaPreview + "]";
+	
+	
+//	public Integer getUserId() {
+//		return userId;
+//	}
+//	public void setUserId(Integer userId) {
+//		this.userId = userId;
+//	}
+	public Picture getPicture() {
+		return picture;
+	}
+	public void setPicture(Picture picture) {
+		this.picture = picture;
+	}
+	public Movie getMovie() {
+		return movie;
+	}
+	public void setMovie(Movie movie) {
+		this.movie = movie;
 	}
 	
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
+	public Integer getAdsId() {
+		return adsId;
+	}
+	public void setAdsId(Integer adsId) {
+		this.adsId = adsId;
+	}
+	@Override
+	public String toString() {
+		return "Resource [resId=" + resId + ", resTag=" + resTag + ", resCom=" + resCom + ", pubTime=" + pubTime
+				+  ", adsId=" + adsId + ",  picture=" + picture +
+				", movie=" + movie + "]";
+	}
 	
 
 	

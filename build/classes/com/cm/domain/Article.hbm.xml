@@ -9,10 +9,14 @@
 			</id>
 			<property name="artTitle" column="art_title"></property>
 			<property name="artContent" column="art_content"></property>
-			<property name="authorId" column="author_id"></property>
-			<property name="authorName" column="author_name"></property>
+			<!-- <property name="authorId" column="author_id"></property>
+			<property name="authorName" column="author_name"></property> -->
 			<property name="adsName" column="ads_name"></property>
 			<property name="pubTime" column="pub_time"></property>
 			<property name="lastMod" column="last_mod"></property>
+			
+			<!--从表建立多对一关系映射  column是主表中外键的名称,从表中多出一个外键指向user的主键-->
+			<many-to-one name="user" class="User" column="art_user_id" lazy="false"></many-to-one>
+			
 		</class>
 </hibernate-mapping>
