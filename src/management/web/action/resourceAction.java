@@ -27,6 +27,13 @@ import com.cm.service.IResourceService;
 import com.cm.utils.movieUtils;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+/**
+ * 管理系统的资源访问动作类
+ * @author mac
+ *
+ */
+
+
 @Namespace("/Resource")
 @ParentPackage("p1")
 @InterceptorRefs({@InterceptorRef("loginDefault")})
@@ -44,6 +51,8 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 	private List<Resource> resources ;
 	private int currentPage ;
 	private int toPage ;
+	//缩略图的名字
+	private String mpName ;
 	
 	//分页的条目数
 		private static int MAXRESULTS = 10;
@@ -86,6 +95,20 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 
 	public void setCurrentPage(int currentPage) {
 		this.currentPage = currentPage;
+	}
+
+
+
+
+	public String getMpName() {
+		return mpName;
+	}
+
+
+
+
+	public void setMpName(String mpName) {
+		this.mpName = mpName;
 	}
 
 
@@ -252,7 +275,12 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 	public String resourceList() {
 		
 		currentPage = 1 ;
-		tag = request.getSession().getAttribute("picOrmov").toString();
+		try {
+			tag = request.getSession().getAttribute("picOrmov").toString();
+		}catch(NullPointerException e){
+			tag = resource.getResTag() ;
+		}
+		
 
 		
 		 //加上页码
@@ -358,7 +386,7 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 			resource.setUserId(resourceTemp.getUserId());
 			resource.setMediaPreview(resourceTemp.getMediaPreview());
 			if(resource.getResTag().equals("mov")) {
-				resource.setResName(resource.getMediaPreview().getMpName()) ;
+				mpName = resource.getMediaPreview().getMpName() ;
 				return "movie" ;
 			}
 			
@@ -371,7 +399,9 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 			System.out.println("当前的resId，要查找下一个id"+resource.getResId()); ;
 			Integer nextId = resourceService.nextResourceId(resource.getResId()) ;
 			resource.setResId(nextId);
+			//图片和视频保存在一起，导致下一条id是mov，要再加判断条件，或者重构数据库表
 			request.setAttribute("resId", nextId);
+			
 			return SUCCESS ;
 		}
 		//上一张图片或视频
@@ -397,69 +427,4 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 		
 		
 		
-//-----------------------用户资源动作类------------------------------------------------		
-		//跳转图片列表或视频列表
-		@Action(value="indexresource",results= {
-				@Result(name="success",location="/WEB-INF/jsp/picture.jsp"),
-				@Result(name="movie",location="/WEB-INF/jsp/movie.jsp")
-				
-		})
-		public String indexPicture() {
-			tag = resource.getResTag() ;
-			System.out.println(tag);
-			currentPage = 1 ;
-			resources = resourceService.findAllResource(tag, currentPage, MAXRESULTS*2);
-			
-			if(tag.equals("mov")) {
-				//通过mpId取出缩略图的名字，将名字再赋给resourceName，这样前端就不用改动了
-
-				
-				for (Resource r : resources) {
-					MediaPreview m = r.getMediaPreview();
-					if(m == null) {
-						continue ;
-					}
-					String mpName =	m.getMpName() ;
-					r.setResName(mpName);
-					
-				}
-				
-				
-			return "movie" ;
-			}
-			return SUCCESS ;
-			
-		}
-		//用户的resDetail视图，与管理员不同
-		@Action(value="resDetailforUser",results= {
-				@Result(name="success",location="/WEB-INF/jsp/picDetail.jsp"),
-				@Result(name="movie",location="/WEB-INF/jsp/movDetail.jsp"),
-				
-		})
-		public String resourceDetailForUser() {
-			
-			if(request.getAttribute("resId") != null) {
-				resource.setResId((Integer)request.getAttribute("resId"));
-			}
-			
-			System.out.println("要显示的资源的id"+resource.getResId());
-			Resource resourceTemp = new Resource() ;
-			resourceTemp = resourceService.findResourceById(resource.getResId()) ;
-			resource.setAdsName(resourceTemp.getUserName());
-			resource.setPubTime(resourceTemp.getPubTime());
-			resource.setResCom(resourceTemp.getResCom());
-			resource.setResName(resourceTemp.getResName());
-			resource.setUserName(resourceTemp.getUserName());
-			resource.setResTag(resourceTemp.getResTag());
-			resource.setResUri(resourceTemp.getResUri());
-			resource.setUserId(resourceTemp.getUserId());
-			resource.setMediaPreview(resourceTemp.getMediaPreview());
-			
-			if(resource.getResTag().equals("mov")) {
-				resource.setResName(resource.getMediaPreview().getMpName()) ;
-				return "movie" ;
-			}
-			
-			return SUCCESS ; 
-		}
 }
