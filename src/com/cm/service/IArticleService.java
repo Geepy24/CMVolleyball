@@ -5,6 +5,7 @@ import java.util.List;
 import com.cm.domain.Article;
 import com.cm.domain.Draft;
 import com.cm.domain.Dustbin;
+import com.cm.domain.User;
 
 /**
  * 	文章的业务层接口
@@ -63,7 +64,10 @@ public interface IArticleService {
 	 * 删除草稿
 	 */
 	void deleteDraft(Integer draId) ;
-	
+	/**
+	 * 分页查找指定用户的所有文章，每页10条
+	 */
+	public List<Article> findByUserId(User user,Integer currentPage,Integer maxResults) ;
 	//-----------草稿箱------------
 	/**
 	 * 保存至草稿箱
@@ -77,7 +81,7 @@ public interface IArticleService {
 	/**
 	 * 根据authorName查找分页查找所有草稿
 	 */
-	List<Draft> findAllDraft(Integer authorId ,Integer currentPage,Integer maxResults);
+	List<Draft> findAllDraft(Draft draft ,Integer currentPage,Integer maxResults);
 	/**
 	 * 根据Id查找草稿总数
 	 * @param authorId

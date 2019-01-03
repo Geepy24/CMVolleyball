@@ -5,6 +5,7 @@ import java.util.List;
 import com.cm.domain.Article;
 import com.cm.domain.Draft;
 import com.cm.domain.Dustbin;
+import com.cm.domain.User;
 
 public interface IArticleDao {
 	/**
@@ -48,6 +49,10 @@ public interface IArticleDao {
 	 * 查找文章总数
 	 */
 	Long AllArticleNumber();
+	/**
+	 * 分页查找指定用户的所有文章，每页10条
+	 */
+	public List<Article> findByUserId(User user,Integer currentPage,Integer maxResults);
 //---------------草稿箱的操作------------------
 	
 	/**
@@ -62,7 +67,7 @@ public interface IArticleDao {
 	/**
 	 * 根据Id分页查找所有草稿
 	 */
-	List<Draft> findAllDraft(Integer authorId,Integer currentPage,Integer maxResults);
+	List<Draft> findAllDraft(Draft draft,Integer currentPage,Integer maxResults);
 	/**
 	 * 根据Id查找草稿总数
 	 * @param authorId

@@ -9,6 +9,7 @@ import com.cm.dao.IArticleDao;
 import com.cm.domain.Article;
 import com.cm.domain.Draft;
 import com.cm.domain.Dustbin;
+import com.cm.domain.User;
 import com.cm.service.IArticleService;
 
 import management.web.action.articleAction;
@@ -67,6 +68,15 @@ public class ArticleServiceImpl implements IArticleService {
 	public List<String> find(String content) {
 		return articleDao.find(content);
 	}
+	
+	/**
+	 * 分页查找指定用户的所有文章，每页10条
+	 */
+	public List<Article> findByUserId(User user,Integer currentPage,Integer maxResults){
+		
+		return articleDao.findByUserId(user, currentPage, maxResults) ;
+		
+	} 
 //-------------------草稿箱操作----------------------------
 	@Override
 	public void saveDraft(Draft draft) {
@@ -83,9 +93,9 @@ public class ArticleServiceImpl implements IArticleService {
 	}
 
 	@Override
-	public List<Draft> findAllDraft(Integer authorId ,Integer currentPage, Integer maxResults) {
+	public List<Draft> findAllDraft(Draft draft ,Integer currentPage, Integer maxResults) {
 
-		return articleDao.findAllDraft(authorId,currentPage,maxResults);
+		return articleDao.findAllDraft(draft,currentPage,maxResults);
 	}
 
 	@Override

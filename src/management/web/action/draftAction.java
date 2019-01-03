@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
@@ -115,7 +116,7 @@ public class draftAction extends ActionSupport implements ModelDriven<Draft> {
 		articleService.saveDraft(draft);
 		
 		System.out.println(draft.getDraId());
-		returndata = "{\"draId\" :  \""+draft.getDraId()+"\",\"authorId\" : \""+draft.getUser().getUserId()+"\"}" ;
+		returndata = "{\"draId\" :  \""+draft.getDraId()+"\",\"userId\" : \""+draft.getUser().getUserId()+"\"}" ;
 		
 		return SUCCESS ;
 	}
@@ -128,6 +129,8 @@ public class draftAction extends ActionSupport implements ModelDriven<Draft> {
  */
 	@Action(value="toDraftList",results= {@Result(name="success",location="/WEB-INF/jsp/management/article/tempList.jsp")})
 	public String toList() {
+		HttpServletRequest request = ServletActionContext.getRequest() ;
+		System.out.println("页面来源："+request.getRequestURL());
 		
 		currentPage = 1 ;
 		
@@ -143,7 +146,7 @@ public class draftAction extends ActionSupport implements ModelDriven<Draft> {
 		//draft.setArtContent(draftTemp.getArtContent());
 		//draft.setLastMod(draftTemp.getLastMod());
 		//使用hibernateTemplate的findByExample方法
-		drafts = articleService.findAllDraft(draft.getUser().getUserId(), currentPage, MAXRESULTS) ;
+		drafts = articleService.findAllDraft(draft, currentPage, MAXRESULTS) ;
 		
 		//所有草稿
 		Long totalItems = articleService.AllDraftNumber(draft.getUser().getUserId()) ;
@@ -169,8 +172,10 @@ public class draftAction extends ActionSupport implements ModelDriven<Draft> {
 			int temp = currentPage ;
 			temp = temp + 1 ;
 			currentPage = temp ;
+			draft.setUser(user);
 			
-			drafts = articleService.findAllDraft(user.getUserId(), currentPage, MAXRESULTS) ;
+			
+			drafts = articleService.findAllDraft(draft, currentPage, MAXRESULTS) ;
 			if(drafts.size() == 0) {
 				return "fail" ;
 			}
@@ -187,8 +192,8 @@ public class draftAction extends ActionSupport implements ModelDriven<Draft> {
 			if(currentPage <= 0) {
 				return "fail" ;
 			}
-			
-			drafts = articleService.findAllDraft(user.getUserId(), currentPage, MAXRESULTS) ;
+			draft.setUser(user);
+			drafts = articleService.findAllDraft(draft, currentPage, MAXRESULTS) ;
 			
 		
 			
@@ -200,7 +205,8 @@ public class draftAction extends ActionSupport implements ModelDriven<Draft> {
 			
 			System.out.println(toPage);
 			currentPage = toPage ;
-			drafts = articleService.findAllDraft(user.getUserId(),toPage, MAXRESULTS) ;
+			draft.setUser(user);
+			drafts = articleService.findAllDraft(draft,toPage, MAXRESULTS) ;
 			
 		
 			

@@ -140,7 +140,19 @@ public class ArticleDaoImpl implements IArticleDao {
 		return articles;
 
 	}
-
+	
+	/**
+	 * 分页查找指定用户的所有文章，每页10条
+	 */
+	public List<Article> findByUserId(User user,Integer currentPage,Integer maxResults){
+		
+		Article article = new Article() ;
+		article.setUser(user);
+		return hibernateTemplate.findByExample(article, (currentPage-1)*maxResults, maxResults) ;
+		
+	}
+	
+	
 	/**
 	 * 查询指定内容
 	 * @return
@@ -217,12 +229,9 @@ public class ArticleDaoImpl implements IArticleDao {
 	 * 	分页查询，find的分页方法
 	 */
 	@Override
-	public List<Draft> findAllDraft(Integer authorId , Integer currentPage, Integer maxResults) {
+	public List<Draft> findAllDraft(Draft draft , Integer currentPage, Integer maxResults) {
 		
-		Draft draft = new Draft() ;
-		User user = new User() ;
-		user.setUserId(authorId);
-		draft.setUser(user);
+		
 		return hibernateTemplate.findByExample(draft, (currentPage-1)*maxResults, maxResults) ;
 		
 		

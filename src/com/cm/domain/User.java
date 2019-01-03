@@ -2,6 +2,7 @@ package com.cm.domain;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -18,10 +19,10 @@ public class User implements Serializable{
 	//一对多关系映射
 	//文章，图片，视频
 	//使用set集合方便，参数0表示只分配内存地址，不开辟内存
-	private Set<Resource> resources = new HashSet<>(0) ;
-	private Set<Article>articles =new HashSet<>(0) ;
-	private Set<Dustbin> dustbins = new HashSet<>(0) ;
-	private Set<Draft> drafts =new HashSet<>(0) ;
+	private Set<Resource> resources = new LinkedHashSet<>(0) ;
+	private Set<Article>articles =new LinkedHashSet<>(0) ;
+	private Set<Dustbin> dustbins = new LinkedHashSet<>(0) ;
+	private Set<Draft> drafts =new LinkedHashSet<>(0) ;
 	
 	public User() {}
 	public User(String userName, String realName, String password,String gender,String tel) {
