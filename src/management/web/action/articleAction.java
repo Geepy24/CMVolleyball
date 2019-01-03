@@ -28,6 +28,7 @@ import net.sf.json.JSONObject;
  */
 @ParentPackage("json-default")
 @Namespace("/Article")
+@Result(name="fail",location="/fail.jsp")
 public class articleAction extends ActionSupport implements ModelDriven<Article> {
 	
 	@Autowired
@@ -211,6 +212,9 @@ public class articleAction extends ActionSupport implements ModelDriven<Article>
 		currentPage = temp ;
 		
 		articles = articleService.findAllArticle(currentPage,MAXRESULTS);
+		if(articles.size() == 0) {
+			return "fail" ;
+		}
 		
 		return SUCCESS ;
 	}
@@ -221,7 +225,9 @@ public class articleAction extends ActionSupport implements ModelDriven<Article>
 		int temp = currentPage ;
 		temp = temp - 1 ;
 		currentPage = temp ;
-		
+		if(currentPage <=0) {
+			return "fail" ;
+		}
 		
 		articles = articleService.findAllArticle(currentPage,MAXRESULTS);
 		

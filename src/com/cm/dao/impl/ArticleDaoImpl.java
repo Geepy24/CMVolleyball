@@ -286,7 +286,14 @@ public class ArticleDaoImpl implements IArticleDao {
 	 */
 	@Override
 	public void deleteDustbin(Integer dustId) {
-		
+//		
+//		Dustbin dustbin = this.findDustbinById(dustId) ;
+//		dustbin.setUser(null);
+//		hibernateTemplate.update(dustbin);
+//		
+//		System.out.println("½â³ý¹ØÏµ");
+//		
+//		System.out.println(this.findDustbinById(dustId).getUser() == null);
 		hibernateTemplate.delete(this.findDustbinById(dustId));
 		
 			

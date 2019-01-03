@@ -16,7 +16,7 @@
 			<property name="lastMod" column="last_mod"></property>
 			
 			<!--从表建立多对一关系映射  column是主表中外键的名称,从表中多出一个外键指向user的主键-->
-			<many-to-one name="user" class="User" column="art_user_id" lazy="false"></many-to-one>
+			<many-to-one name="user" class="User" column="art_user_id" cascade="save-update" lazy="false"></many-to-one>
 			
 		</class>
 </hibernate-mapping>

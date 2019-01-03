@@ -11,6 +11,6 @@
 			<property name="artContent" column="art_content"></property>
 			<!-- <property name="authorId" column="author_id"></property> -->
 			<property name="lastMod" column="last_mod"></property>
-			<many-to-one name="user" class="User" column="dra_user_id" lazy="false"></many-to-one>
+			<many-to-one name="user" class="User" column="dra_user_id" cascade="save-update" lazy="false"></many-to-one>
 		</class>
 </hibernate-mapping>

@@ -12,6 +12,6 @@
 			<property name="artContent" column="art_content"></property>
 			<!-- <property name="authorName" column="author_name"></property> -->
 			<property name="delTime" column="del_time"></property>
-			<many-to-one name="user" class="User" column="dust_user_id" lazy="false"></many-to-one>
+			<many-to-one name="user" class="User" column="dust_user_id"  cascade="save-update" lazy="false" ></many-to-one>
 		</class>
 </hibernate-mapping>

@@ -17,19 +17,19 @@
 				可以由一找到多，不能多找到一
 				主表的字段不会由任何变化
 			-->
-			<set name="articles" table="article" cascade="save-update" lazy="false">
+			<set name="articles" table="article"  lazy="false">
 				<key column="art_user_id"></key>
 				<one-to-many class="Article" />
 			</set>
-			<set name="resources" table="resource" cascade="save-update" lazy="false">
+			<set name="resources" table="resource"  lazy="false">
 				<key column="res_user_id"></key>
 				<one-to-many class="Resource" />
 			</set>
-			<set name="drafts" table="draft" cascade="save-update" lazy="false">
+			<set name="drafts" table="draft"  lazy="false" >
 				<key column="dra_user_id"></key>
-				<one-to-many class="Draft" />
+				<one-to-many class="Draft"/>
 			</set>
-			<set name="dustbins" table="dustbin" cascade="save-update" lazy="false">
+			<set name="dustbins" table="dustbin" lazy="false">
 				<key column="dust_user_id"></key>
 				<one-to-many class="Dustbin" />
 			</set>

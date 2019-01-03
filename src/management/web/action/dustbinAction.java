@@ -34,6 +34,7 @@ import net.sf.json.JSONObject;
  */
 @Namespace("/Article")
 @ParentPackage("json-default")
+@Result(name="fail",location="/fail.jsp")
 public class dustbinAction extends ActionSupport implements ModelDriven<Dustbin> {
 	private Dustbin dustbin = new Dustbin() ;
 	//模型驱动的是dustbin
@@ -105,11 +106,18 @@ public class dustbinAction extends ActionSupport implements ModelDriven<Dustbin>
 		this.returndata = returndata;
 	}
 	
-	
+	public User getUser() {
+		return user;
+	}
+
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 	/**
-	 * 删除
+	 * 删除,在articleAction中已给出
 	 * @return
-	 */
+	 
 	@Action(value="deleteArticle",results= {@Result(name="success",type="json",
 			params= {"root","returndata"})})
 	public String delete() {
@@ -127,7 +135,7 @@ public class dustbinAction extends ActionSupport implements ModelDriven<Dustbin>
 		
 		return SUCCESS;
 	}
-	
+	*/
 	/**
 	 * 首页菜单跳转回收站列表
 	 */
@@ -164,11 +172,10 @@ public class dustbinAction extends ActionSupport implements ModelDriven<Dustbin>
 	
 	
 	/**
-	 * 	彻底删除
+	 * 	彻底删除,要先解除关联关系，再删除,在dao中
 	 */
 	@Action(value="compDelete",results= {@Result(name="success",type="chain",location="dustbinList")})
 	public String cDelete() {
-		
 		
 		articleService.deleteDustbin(dustbin.getDustId()) ;
 		
@@ -209,11 +216,12 @@ public class dustbinAction extends ActionSupport implements ModelDriven<Dustbin>
 		temp = temp + 1 ;
 		currentPage = temp ;
 		
-		dustbins = articleService.findAllDustbin(currentPage, MAXRESULTS) ;
+			dustbins = articleService.findAllDustbin(currentPage, MAXRESULTS) ;
+			if(dustbins.size() == 0) {
+				return "fail" ;
+			}
+			return SUCCESS ;
 		
-		
-		
-		return SUCCESS ;
 	}
 	//上一页文章列表
 	@Action(value="preDustbin",results= {@Result(name="success",location="/WEB-INF/jsp/management/article/dustbinList.jsp")})
@@ -222,6 +230,9 @@ public class dustbinAction extends ActionSupport implements ModelDriven<Dustbin>
 		int temp = currentPage ;
 		temp = temp - 1 ;
 		currentPage = temp ;
+		if(currentPage <= 0) {
+			return "fail" ;
+		}
 		
 		
 		dustbins = articleService.findAllDustbin(currentPage, MAXRESULTS) ;
@@ -236,11 +247,14 @@ public class dustbinAction extends ActionSupport implements ModelDriven<Dustbin>
 		
 		System.out.println(toPage);
 		currentPage = toPage ;
-		dustbins = articleService.findAllDustbin(currentPage, MAXRESULTS) ;
-		
+		try {
+			dustbins = articleService.findAllDustbin(currentPage, MAXRESULTS) ;
+			return SUCCESS ;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "fail" ;
+		}
 	
-		
-		return SUCCESS ;
 	}
 	/**
 	 * 跳转到编辑页面
@@ -278,5 +292,8 @@ public class dustbinAction extends ActionSupport implements ModelDriven<Dustbin>
 		System.out.println(returndata);
 		return SUCCESS ;
 	}
+
+
+	
 	
 }

@@ -72,7 +72,7 @@
 												<c:forEach items="${dustbins}" var="dustbin">
 												<TR style="FONT-WEIGHT: normal; FONT-STYLE: normal; BACKGROUND-COLOR: white; TEXT-DECORATION: none">
 													<TD>${dustbin.artTitle}</TD>
-													<TD>${dustbin.authorName}</TD>
+													<TD>${dustbin.user.userName}</TD>
 													<TD>${dustbin.delTime}</TD>
 													
 													<TD>

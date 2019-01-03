@@ -27,6 +27,7 @@ import net.sf.json.JSONObject;
 
 @ParentPackage("json-default")
 @Namespace("/Article")
+@Result(name="fail",location="/fail.jsp")
 public class draftAction extends ActionSupport implements ModelDriven<Draft> {
 	
 	@Autowired
@@ -63,48 +64,34 @@ public class draftAction extends ActionSupport implements ModelDriven<Draft> {
 	public void setArticleService(IArticleService articleService) {
 		this.articleService = articleService;
 	}	
-	
-	
-
-
 
 	public int getToPage() {
 		return toPage;
 	}
 
-
 	public void setToPage(int toPage) {
 		this.toPage = toPage;
 	}
-
 
 	public int getCurrentPage() {
 		return currentPage;
 	}
 
-
 	public void setCurrentPage(int currentPage) {
 		this.currentPage = currentPage;
 	}
-
-
-
-
 
 	public List<Draft> getDrafts() {
 		return drafts;
 	}
 
-
 	public void setDrafts(List<Draft> drafts) {
 		this.drafts = drafts;
 	}
 
-
 	public String getReturndata() {
 		return returndata;
 	}
-
 
 	public void setReturndata(String returndata) {
 		this.returndata = returndata;
@@ -184,8 +171,9 @@ public class draftAction extends ActionSupport implements ModelDriven<Draft> {
 			currentPage = temp ;
 			
 			drafts = articleService.findAllDraft(user.getUserId(), currentPage, MAXRESULTS) ;
-			
-			
+			if(drafts.size() == 0) {
+				return "fail" ;
+			}
 			
 			return SUCCESS ;
 		}
@@ -196,7 +184,9 @@ public class draftAction extends ActionSupport implements ModelDriven<Draft> {
 			int temp = currentPage ;
 			temp = temp - 1 ;
 			currentPage = temp ;
-			
+			if(currentPage <= 0) {
+				return "fail" ;
+			}
 			
 			drafts = articleService.findAllDraft(user.getUserId(), currentPage, MAXRESULTS) ;
 			

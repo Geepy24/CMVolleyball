@@ -14,7 +14,7 @@
         <td align="center"><h1>${article.artTitle}</h1></td> 
     </tr>
     <tr>   
-        <td align="center">${article.authorName }  </td>
+        <td align="center">${article.user.userName }  </td>
     </tr>
     <tr>
         <td>${article.artContent }</td>

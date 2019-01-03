@@ -21,7 +21,7 @@
 			<many-to-one name="movie" class="Movie" column="mov_id" unique="true" cascade="save-update,delete"  lazy="false" fetch="join"></many-to-one>
 		
 			<!-- 一个user有多个resource,resource作为User的从表,从表中多出一个外键指向user的主键 -->
-			<many-to-one name="user" class="User" column="res_user_id" lazy="false"></many-to-one>
+			<many-to-one name="user" class="User" column="res_user_id" cascade="save-update" lazy="false"></many-to-one>
 		
 		</class>
 </hibernate-mapping>
