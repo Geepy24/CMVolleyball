@@ -34,12 +34,8 @@ public class articleAction extends ActionSupport implements ModelDriven<Article>
 	@Autowired
 	IArticleService articleService ;
 	
-	
-	
 	//模型驱动
 	private Article article = new Article() ;
-	
-	
 
 	//属性驱动
 	private List<Article> articles ;

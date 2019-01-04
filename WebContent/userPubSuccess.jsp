@@ -18,7 +18,7 @@
 	<h1>文章发布成功！</h1>
 	<br>
 	<h3><a id="a">点击查看</a></h3>
-	<h3><a href="${pageContext.request.contextPath}/Persional/userAddArt.action">再写一篇</a></h3>
+	<h3><a href="${pageContext.request.contextPath}/Persional/comein.action">返回首页</a></h3>
 	
 	<script type="text/javascript">
 		$("#a").click(function(){

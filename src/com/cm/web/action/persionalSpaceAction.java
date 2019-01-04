@@ -1,11 +1,6 @@
 package com.cm.web.action;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -29,12 +24,15 @@ import com.cm.domain.User;
 import com.cm.service.IArticleService;
 import com.cm.service.IResourceService;
 import com.cm.service.IUserService;
+import com.cm.utils.jsonUtils;
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
-
-import net.sf.json.JSONObject;
+import com.opensymphony.xwork2.util.ValueStack;
 /**
  * 	用于控制个人空间模块
+ * 	type使用json，注意，使用json即不进行跳转操作，进入action再回到页面中时，不会改变值栈的值！
+ * 	要手动入栈
  * @author mac
  *
  */
@@ -45,9 +43,10 @@ import net.sf.json.JSONObject;
 @Results({ @Result(name = "login", type = "chain", location = "login", params = { "namespace", "/User" }),
 	@Result(name = "fail", location = "/fail.jsp") })
 public class persionalSpaceAction extends ActionSupport implements ModelDriven<User>{
-
-	private HttpServletRequest request = ServletActionContext.getRequest() ;
 	
+	
+	//	request对象
+	private HttpServletRequest request = ServletActionContext.getRequest() ;
 	private String returndata ;
 	private User user =  (User) request.getSession().getAttribute("loginInfo")  ;
 	@Autowired
@@ -57,9 +56,11 @@ public class persionalSpaceAction extends ActionSupport implements ModelDriven<U
 	@Autowired
 	IResourceService resourceService ;
 	
-
+	
 	private  static final Integer MAXRESULTS = 10 ;
-	private Integer currentPage  ;
+	private String pageRef ;
+	private int currentPage ;
+	private int toPage ;
 	private List<Article> articles ;
 	private List<Draft> drafts  ;
 	private List<Dustbin> dustbins  ;
@@ -146,17 +147,30 @@ public class persionalSpaceAction extends ActionSupport implements ModelDriven<U
 		this.user = user;
 	}
 
-	public Integer getCurrentPage() {
-		return currentPage;
+	
+
+
+	
+
+	public int getToPage() {
+		return toPage;
 	}
 
-	public void setCurrentPage(Integer currentPage) {
-		this.currentPage = currentPage;
+	public void setToPage(int toPage) {
+		this.toPage = toPage;
 	}
 
+	public String getPageRef() {
+		return pageRef;
+	}
+
+	public void setPageRef(String pageRef) {
+		this.pageRef = pageRef;
+	}
+/**-----------------------------动作方法----------------------------**/
 	//首页跳转进入会员页面
 	@Action(value="comein",results= {
-			@Result(name="success",location="/UI/user.jsp")
+			@Result(name="success",location="/UI2/index.html")
 			
 	})
 	public String comeIn() {
@@ -174,34 +188,23 @@ public class persionalSpaceAction extends ActionSupport implements ModelDriven<U
 	public String indexArticles() {
 		currentPage = 1 ;
 		//分页查找
-		articles = articleService.findByUserId(user, currentPage, MAXRESULTS) ;
+		Article article = new Article() ;
+		article.setUser(user);
+		articles = articleService.findByUser(article, currentPage, MAXRESULTS) ;
+		request.getSession().setAttribute("currentPage", currentPage);
 		
-		
-		Map<String ,String> map = new HashMap<String, String>() ;
-		Iterator<Article> iterator = articles.iterator() ;
-		int i = 1 ;
-		while (iterator.hasNext()) {
-			Article article = iterator.next() ;
-			String artTitle = article.getArtTitle() ;
-			String pubTime = article.getPubTime() ;
-			String lastMod = article.getLastMod() ;
-			String artId = String.valueOf(article.getArtId()) ;
-			System.out.println(i+"-"+artTitle);
-			//合并在一个String中，通过###分割
-			String content = artTitle+"###"+pubTime+"###"+lastMod+"###"+artId ;
-			map.put(String.valueOf(i), content) ;
-			
-			i++ ;
-			
-		}
-		
-		
-		JSONObject jsonObject = JSONObject.fromObject(map) ;
-		
-		returndata = jsonObject.toString() ;
+		//json字符串的格式是{"i" : "artTitle+###+pubTime###lastMod###artId"}
+		returndata = jsonUtils.artListToJsonString(articles) ;
 		
 		return SUCCESS ;
 	}
+//	//去管理文章
+//	@Action(value="toArtList",results= {@Result(name="success",location="/UI/artList.jsp")})
+//	public String toArticleList() {
+//		currentPage = 1 ;
+//		request.getSession().setAttribute("currentPage", currentPage);
+//		return SUCCESS;
+//	}
 	//新增文章
 	@Action(value="userAddArt",results= {
 			@Result(name="success",location="/UI/editor.jsp")
@@ -209,48 +212,243 @@ public class persionalSpaceAction extends ActionSupport implements ModelDriven<U
 	public String userAddArticle() {
 		return SUCCESS;
 	}
-	//去草稿箱
-	@Action(value="toDraftList",results= {@Result(name="success",location="/UI/draftList.jsp")})
-	public String toDraftList() {
-		
-		
-		return SUCCESS ;
-	}//用草稿填充草稿箱的表格
+//	//去草稿箱
+//	@Action(value="toDraftList",results= {@Result(name="success",location="/UI/draftList.jsp")})
+//	public String toDraftList() {
+//		
+//		
+//		return SUCCESS ;
+//	}
+	//用草稿填充草稿箱的表格
 	@Action(value="draList",results= {
 			@Result(name="success",type= "json",params= {"root","returndata"})
 	})
 	public String draftList() {
 		currentPage = 1 ;
+		request.getSession().setAttribute("currentPage", currentPage);
 		Draft draft = new Draft() ;
 		draft.setUser(user);
 		
 		//分页查找
 		drafts = articleService.findAllDraft(draft, currentPage, MAXRESULTS) ;
 		
-		
-		Map<String ,String> map = new HashMap<String, String>() ;
-		Iterator<Draft> iterator = drafts.iterator() ;
-		int i = 1 ;
-		while (iterator.hasNext()) {
-			Draft draft2 = iterator.next() ;
-			String artTitle = draft2.getArtTitle() ;
-			String lastMod = draft2.getLastMod() ;
-			String draId = String.valueOf(draft2.getDraId()) ;
-			System.out.println(i+"-"+artTitle);
-			//合并在一个String中，通过###分割
-			String content = artTitle+"###"+lastMod+"###"+ draId;
-			map.put(String.valueOf(i), content) ;
-			
-			i++ ;
-			
-		}
-		
-		
-		JSONObject jsonObject = JSONObject.fromObject(map) ;
-		
-		returndata = jsonObject.toString() ;
+		//json字符串的格式是{"i" : "artTitle###lastMod###draId"}
+		returndata = jsonUtils.draListToJsonString(drafts) ;
 		
 		return SUCCESS ;
 	}
 	
+	
+//	//前往回收站
+//	@Action(value="toDustbinList",results= {@Result(name="success",location="/UI/dustbinList.jsp")})
+//	public String toDustbinList() {
+//		
+//		return SUCCESS ;
+//	}
+	//用回收站填充草稿箱的表格
+		@Action(value="dustList",results= {
+				@Result(name="success",type= "json",params= {"root","returndata"})
+		})
+		public String dustbinList() {
+			
+			currentPage = 1 ;
+			request.getSession().setAttribute("currentPage", currentPage);
+			Dustbin  dustbin = new Dustbin() ;
+			dustbin.setUser(user);
+			
+			//分页查找
+			dustbins = articleService.findAllDustbinByUser(dustbin,currentPage,MAXRESULTS) ;
+			
+			//json字符串的格式：{"i" : "artTitle###delTime###dustId"}
+			returndata = jsonUtils.dsutListToJsonString(dustbins) ;
+			
+			return SUCCESS ;
+		}
+	
+	//上一页
+	@Action(value="prePage",results= {
+			@Result(name="success",type="json",params= {"root","returndata"}),
+			@Result(name="fail",type="json",params= {"root","returndata"})
+	})
+	public String previousPage() {
+		//currentPage,pageRef
+		currentPage = (int) request.getSession().getAttribute("currentPage") ;
+		currentPage = currentPage - 1 ;
+		if(currentPage <=0 ) {
+			returndata = "error : 没有更多了！" ;
+			return "fail" ;
+		}
+		
+		if(pageRef.equals("dustbin")) {
+			Dustbin dustbin = new Dustbin() ;
+			dustbin.setUser(user);
+			dustbins = articleService.findAllDustbinByUser(dustbin, currentPage, MAXRESULTS) ;
+			returndata = jsonUtils.dsutListToJsonString(dustbins) ;
+			request.getSession().setAttribute("currentPage", currentPage);
+			return SUCCESS ;
+		}
+		if(pageRef.equals("article")) {
+			Article article = new Article() ;
+			article.setUser(user);
+			articles = articleService.findByUser(article, currentPage, MAXRESULTS) ;
+			returndata = jsonUtils.artListToJsonString(articles) ;
+			request.getSession().setAttribute("currentPage", currentPage);
+			return SUCCESS ;
+		}
+		if(pageRef.equals("draft")) {
+			Draft draft = new Draft() ;
+			draft.setUser(user);
+			drafts = articleService.findAllDraft(draft, currentPage, MAXRESULTS) ;
+			returndata = jsonUtils.draListToJsonString(drafts) ;
+			request.getSession().setAttribute("currentPage", currentPage);
+			return SUCCESS ;
+			
+		}
+		
+		
+		
+		return "fail" ;
+	}
+		
+	//下一页
+	@Action(value="nPage",results= {
+			@Result(name="success",type="json",params= {"root","returndata"}),
+			@Result(name="fail",type="json",params= {"root","returndata"})
+	})
+	public String nextPage() {
+		//currentPage,pageRef
+			currentPage = (int) request.getSession().getAttribute("currentPage");
+			System.out.println("页面标记："+pageRef);
+			currentPage = currentPage + 1 ;
+				
+				System.out.println("下一页"+currentPage);
+				if(pageRef.equals("dustbin")) {
+				Dustbin dustbin = new Dustbin() ;
+				dustbin.setUser(user);
+				dustbins = articleService.findAllDustbinByUser(dustbin, currentPage, MAXRESULTS) ;
+					if(dustbins.size() == 0) {
+						returndata = "error : 没有更多了！" ;
+						return "fail" ;
+					}else {
+						returndata = jsonUtils.dsutListToJsonString(dustbins) ;
+						request.getSession().setAttribute("currentPage", currentPage);
+						return SUCCESS ;
+					}
+					
+				}
+				if(pageRef.equals("article")) {
+					Article article = new Article() ;
+					article.setUser(user);
+					articles = articleService.findByUser(article, currentPage, MAXRESULTS) ;
+					if(articles.size() == 0) {
+						returndata = "error : 没有更多了！" ;
+						return "fail" ;
+					}else {
+						returndata = jsonUtils.artListToJsonString(articles) ;
+						request.getSession().setAttribute("currentPage", currentPage);
+						return SUCCESS ;
+					}
+					
+				}
+				if(pageRef.equals("draft")) {
+					Draft draft = new Draft() ;
+					draft.setUser(user);
+					drafts = articleService.findAllDraft(draft, currentPage, MAXRESULTS) ;
+					if(drafts.size() == 0) {
+						returndata = "error : 没有更多了！" ;
+						return "fail" ;
+					}else {
+						returndata = jsonUtils.draListToJsonString(drafts) ;
+						request.getSession().setAttribute("currentPage", currentPage);
+						return SUCCESS ;
+					}
+					
+				}
+		return "fail" ;
+	}
+	
+	
+	//选择页码
+	@Action(value="sPage",results= {
+			@Result(name="success",type="json",params= {"root","returndata"})
+	})
+	public String selectPage() {
+		currentPage = toPage ;
+		System.out.println(pageRef);
+		request.getSession().setAttribute("currentPage", currentPage);
+		System.out.println(currentPage);
+		if(pageRef.equals("article")) {
+			Article article = new Article() ;
+			article.setUser(user);
+			articles = articleService.findByUser(article, currentPage, MAXRESULTS) ;
+			returndata = jsonUtils.artListToJsonString(articles) ;
+			return SUCCESS ;
+		}
+		if(pageRef.equals("draft")) {
+			Draft draft = new Draft() ;
+			draft.setUser(user);
+			drafts = articleService.findAllDraft(draft, currentPage, MAXRESULTS) ;
+			returndata = jsonUtils.draListToJsonString(drafts) ;
+			return SUCCESS ;
+		}
+		if(pageRef.equals("dustbin")) {
+			Dustbin dustbin = new Dustbin() ;
+			dustbin.setUser(user);
+			dustbins = articleService.findAllDustbinByUser(dustbin, currentPage, MAXRESULTS) ;
+			returndata = jsonUtils.dsutListToJsonString(dustbins) ;
+			return SUCCESS ;
+		}
+	return "fail" ;
+		
+	}
+		
+	//全部页码
+	@Action(value="pages",results= {
+			@Result(name="success",type="json",params= {"root","returndata"})
+
+	})
+	public String pages() {
+		Long number = 1l ;
+		Long pages ;
+		System.out.println("来源："+pageRef);
+		if(pageRef.equals("article")) {
+			number = articleService.AllArticleNumber(user.getUserId()) ;
+		}
+		if(pageRef.equals("draft")) {
+			 number = articleService.AllDraftNumber(user.getUserId()) ;
+		}
+		if(pageRef.equals("dustbin")) {
+			number = articleService.AllDustbinNumber(user.getUserId()) ;
+		}
+		if(0 == number) {
+			pages = 1l ;
+		}else if( 0 == number % MAXRESULTS ) {
+			pages = number / MAXRESULTS ;
+		}else {
+			pages = number / MAXRESULTS +1 ;
+		}
+		System.out.println(number);
+		System.out.println("总页数："+pages);
+		returndata = String.valueOf(pages) ;
+		return SUCCESS ;
+	}
+	//当前页码
+	@Action(value="thePage",results= {
+			@Result(name="success",type="json",params= {"root","returndata"})
+
+	})
+	public String thePage() {
+		
+		System.out.println(pageRef);
+		if(pageRef.equals("previous")) {
+			
+		}
+		if(pageRef.equals("next")) {
+			
+		}
+		
+		returndata = String.valueOf((int)request.getSession().getAttribute("currentPage")+1) ;
+		
+		return SUCCESS ;
+	}
 }

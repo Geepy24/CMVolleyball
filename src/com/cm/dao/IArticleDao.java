@@ -49,10 +49,11 @@ public interface IArticleDao {
 	 * 查找文章总数
 	 */
 	Long AllArticleNumber();
+	Long AllArticleNumber(Integer userId);
 	/**
 	 * 分页查找指定用户的所有文章，每页10条
 	 */
-	public List<Article> findByUserId(User user,Integer currentPage,Integer maxResults);
+	public List<Article> findByUser(Article article,Integer currentPage,Integer maxResults);
 //---------------草稿箱的操作------------------
 	
 	/**
@@ -94,6 +95,7 @@ public interface IArticleDao {
 	 * 所有dustbin总数
 	 */
 	Long AllDustbinNumber() ;
+	Long AllDustbinNumber(Integer userId);
 	/**
 	 * 	彻底删除
 	 * @param dustId
@@ -105,5 +107,15 @@ public interface IArticleDao {
 	 * @return
 	 */
 	Dustbin findDustbinById(Integer dustId) ;
+	/**
+	 * 通过用户查找用户的回收站
+	 * @param user
+	 * @param currentPage
+	 * @param maxresults
+	 * @return
+	 */
+	List<Dustbin> findAllDustbinByUser(Dustbin dustbin, Integer currentPage, Integer maxresults);
+
+	
 	
 }

@@ -72,9 +72,9 @@ public class ArticleServiceImpl implements IArticleService {
 	/**
 	 * 分页查找指定用户的所有文章，每页10条
 	 */
-	public List<Article> findByUserId(User user,Integer currentPage,Integer maxResults){
+	public List<Article> findByUser(Article article,Integer currentPage,Integer maxResults){
 		
-		return articleDao.findByUserId(user, currentPage, maxResults) ;
+		return articleDao.findByUser(article, currentPage, maxResults) ;
 		
 	} 
 //-------------------草稿箱操作----------------------------
@@ -140,6 +140,22 @@ public class ArticleServiceImpl implements IArticleService {
 	@Override
 	public Dustbin findDustbinById(Integer dustId) {
 		return articleDao.findDustbinById(dustId);
+	}
+
+	@Override
+	public List<Dustbin> findAllDustbinByUser(Dustbin dustbin, Integer currentPage, Integer maxresults) {
+		
+		return articleDao.findAllDustbinByUser(dustbin, currentPage, maxresults);
+	}
+
+	@Override
+	public Long AllArticleNumber(Integer userId) {
+		return articleDao.AllArticleNumber(userId) ;
+	}
+
+	@Override
+	public Long AllDustbinNumber(Integer userId) {
+		return articleDao.AllDustbinNumber(userId) ;
 	}
 	
 

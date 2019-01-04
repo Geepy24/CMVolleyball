@@ -1,17 +1,12 @@
 package com.cm.web.action;
 
-import static org.junit.Assert.fail;
-
 import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
@@ -22,11 +17,9 @@ import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.cm.domain.MediaPreview;
 import com.cm.domain.Resource;
 import com.cm.domain.User;
 import com.cm.service.IResourceService;
-import com.cm.utils.movieUtils;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 

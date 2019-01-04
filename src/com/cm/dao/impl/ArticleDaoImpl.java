@@ -17,6 +17,8 @@ import com.cm.domain.Draft;
 import com.cm.domain.Dustbin;
 import com.cm.domain.User;
 
+import management.web.action.dustbinAction;
+
 @Repository("articleDao")
 public class ArticleDaoImpl implements IArticleDao {
 
@@ -144,10 +146,9 @@ public class ArticleDaoImpl implements IArticleDao {
 	/**
 	 * 分页查找指定用户的所有文章，每页10条
 	 */
-	public List<Article> findByUserId(User user,Integer currentPage,Integer maxResults){
+	public List<Article> findByUser(Article article,Integer currentPage,Integer maxResults){
 		
-		Article article = new Article() ;
-		article.setUser(user);
+		
 		return hibernateTemplate.findByExample(article, (currentPage-1)*maxResults, maxResults) ;
 		
 	}
@@ -224,6 +225,19 @@ public class ArticleDaoImpl implements IArticleDao {
 		return  (Long) hibernateTemplate.find("SELECT COUNT(*) FROM Article ").get(0) ;
 				
 	}
+	/**
+	 * 	根据用户id统计所有文章数目
+	 */
+	@Override
+	public Long AllArticleNumber(Integer userId) {
+		User user = new User() ;
+		user.setUserId(userId);
+		String sql = "SELECT COUNT(*) FROM Article WHERE user=:id" ;
+		String param = "id" ;
+		User value = user  ;
+		return  (Long) hibernateTemplate.findByNamedParam(sql, param, value).get(0) ;
+				
+	}
 
 	/**
 	 * 	分页查询，find的分页方法
@@ -291,6 +305,20 @@ public class ArticleDaoImpl implements IArticleDao {
 		return (Long) hibernateTemplate.find("SELECT COUNT(*) FROM Dustbin").get(0);
 	}
 	/**
+	 *	根据id查找总数
+	 */
+	@Override
+	public Long AllDustbinNumber(Integer userId) {
+		User user = new User() ;
+		user.setUserId(userId);
+		String sql = "SELECT COUNT(*) FROM Dustbin WHERE user=:id" ;
+		String param = "id" ;
+		User value = user  ;
+		return  (Long) hibernateTemplate.findByNamedParam(sql, param, value).get(0) ;
+	}
+	
+	
+	/**
 	 * 	彻底删除
 	 */
 	@Override
@@ -306,6 +334,11 @@ public class ArticleDaoImpl implements IArticleDao {
 		hibernateTemplate.delete(this.findDustbinById(dustId));
 		
 			
+	}
+
+	@Override
+	public List<Dustbin> findAllDustbinByUser(Dustbin dustbin, Integer currentPage, Integer maxresults) {
+		return hibernateTemplate.findByExample(dustbin, (currentPage-1)*maxresults, maxresults);
 	}
 
 

@@ -46,21 +46,25 @@ $(document).ready(function(){
 		);
 
     // Content box tabs:
+		//ul.content-box-tabs : 列表与表单按钮，有default-tab的加current
+		//tab-content中有default-tab的显示，开始的default-tab div是表单
 		
-		$('.content-box .content-box-content div.tab-content').hide(); // Hide the content divs
-		$('ul.content-box-tabs li a.default-tab').addClass('current'); // Add the class "current" to the default tab
-		$('.content-box-content div.default-tab').show(); // Show the div with class "default-tab"
+		//$("#tab1").hide() ;
+		//$("#tab2").hide() ;
+		//$('.content-box .content-box-content div.tab-content').hide(); // Hide the content divs
+		//$('ul.content-box-tabs li a.default-tab').addClass('current'); // Add the class "current" to the default tab
+		//$('.content-box-content div.default-tab').show(); // Show the div with class "default-tab"
 		
-		$('.content-box ul.content-box-tabs li a').click( // When a tab is clicked...
-			function() { 
-				$(this).parent().siblings().find("a").removeClass('current'); // Remove "current" class from all tabs
-				$(this).addClass('current'); // Add class "current" to clicked tab
-				var currentTab = $(this).attr('href'); // Set variable "currentTab" to the value of href of clicked tab
-				$(currentTab).siblings().hide(); // Hide all content divs
-				$(currentTab).show(); // Show the content div with the id equal to the id of clicked tab
-				return false; 
-			}
-		);
+//		$('.content-box ul.content-box-tabs li a').click( // When a tab is clicked...
+//			function() { 
+//				$(this).parent().siblings().find("a").removeClass('current'); // Remove "current" class from all tabs
+//				$(this).addClass('current'); // Add class "current" to clicked tab
+//				var currentTab = $(this).attr('href'); // Set variable "currentTab" to the value of href of clicked tab
+//				$(currentTab).siblings().hide(); // Hide all content divs
+//				$(currentTab).show(); // Show the content div with the id equal to the id of clicked tab
+//				return false; 
+//			}
+//		);
 
     //Close button:
 		
@@ -87,11 +91,11 @@ $(document).ready(function(){
 
     // Initialise Facebox Modal window:
 		
-	//	$('a[rel*=modal]').facebox(); // Applies modal window to any link with attribute rel="modal"
+		$('a[rel*=modal]').facebox(); // Applies modal window to any link with attribute rel="modal"
 
     // Initialise jQuery WYSIWYG:
 		
-	//	$(".wysiwyg").wysiwyg(); // Applies WYSIWYG editor to any textarea with the class "wysiwyg"
+		$(".wysiwyg").wysiwyg(); // Applies WYSIWYG editor to any textarea with the class "wysiwyg"
 
 });
   

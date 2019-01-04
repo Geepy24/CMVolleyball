@@ -147,7 +147,7 @@
 		</TABLE>
 	</FORM>
 	<script type="text/javascript">
-		function deleteArticle(artId,artTitle){
+		function deleteArticle(artId){
 			//删除的时间
 			var date = new Date() ;
 			var year = date.getFullYear() ;
@@ -156,7 +156,7 @@
 			var now = year + "-" + month + "-" + day ;
 			
 			var art_id = artId ;
-			var article_title = artTitle ;
+			
 			
 			var content = {
 					"artId"  :  art_id  ,

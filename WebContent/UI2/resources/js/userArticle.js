@@ -59,8 +59,8 @@
 		//读取标题与编辑器中的html 
 		var article_title = $('#medium-input').val() ;
 		var article_content = editor.txt.html() ;
-        alert("标题："+article_title) ;
-		alert("内容："+article_content) ;
+        //alert("标题："+article_title) ;
+		//alert("内容："+article_content) ;
 		
 		//发布的时间
 		var date = new Date() ;
@@ -89,18 +89,15 @@
 		data : content,
 		dataType : 'json',
 		success:function(data){
-			alert(JSON.stringify(data)) ;
+			//alert(JSON.stringify(data)) ;
 			//取出保存到数据库后返回的文章ID
 			data = JSON.parse(data) ;
 //			var dra_id = data.draId ;
 //			var user_id = data.userId ;
 //			alert(dra_id+"-"+author_id) ;
 			alert("保存成功") ;
-			//alert(typeof(dra_id)) ;
-//			dra_id = parseInt(dra_id) ;
-//			author_id = parseInt(user_id) ;
-			//WEB-INF下目录不能地址访问
-			window.location = "../Persional/toDraftList.action" ;
+			//保存成功后前往草稿箱
+			window.location = "../Persional/draList.action" ;
 			
 			}
 		});
