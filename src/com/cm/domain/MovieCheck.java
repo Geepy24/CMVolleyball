@@ -1,0 +1,81 @@
+package com.cm.domain;
+
+import java.io.Serializable;
+
+public class MovieCheck implements Serializable {
+
+	private Integer movId ;
+	private String movUri ;
+	private String movName ;
+	private String checkTag ;
+	private String checkCom ;
+	private Integer userId ; 
+	
+	
+	private MediaPreview mediaPreview ;
+	public Integer getMovId() {
+		return movId;
+	}
+
+	public void setMovId(Integer movId) {
+		this.movId = movId;
+	}
+
+	public String getMovUri() {
+		return movUri;
+	}
+
+	public void setMovUri(String movUri) {
+		this.movUri = movUri;
+	}
+
+	public String getMovName() {
+		return movName;
+	}
+
+	public void setMovName(String movName) {
+		this.movName = movName;
+	}
+
+	public MediaPreview getMediaPreview() {
+		return mediaPreview;
+	}
+
+	public void setMediaPreview(MediaPreview mediaPreview) {
+		this.mediaPreview = mediaPreview;
+	}
+
+	
+	public String getCheckTag() {
+		return checkTag;
+	}
+
+	public void setCheckTag(String checkTag) {
+		this.checkTag = checkTag;
+	}
+
+	public String getCheckCom() {
+		return checkCom;
+	}
+
+	public void setCheckCom(String checkCom) {
+		this.checkCom = checkCom;
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+	@Override
+	public String toString() {
+		return "MovieCheck [movId=" + movId + ", movUri=" + movUri + ", movName=" + movName + ", checkTag=" + checkTag
+				+ ", checkCom=" + checkCom + ", userId=" + userId + "]";
+	}
+
+	
+	
+}

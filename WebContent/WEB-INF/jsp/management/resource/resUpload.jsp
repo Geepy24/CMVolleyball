@@ -14,15 +14,15 @@
 	<s:debug></s:debug>
 	<h2>编辑资源信息</h2>
 		
-	<form name="uploadForm" method="post" enctype="multipart/form-data" action="${pageContext.request.contextPath}/Resource/addRes.action"
-		onsubmit="return verify()"> 
-		<input type="hidden" id="pubTime" name="pubTime"  >
+	<form name='uploadForm' method='post' enctype='multipart/form-data' action='${pageContext.request.contextPath}/Resource/addRes.action'
+		onsubmit='return verify()'> 
+		<input type='hidden' id='pubTime' name='pubTime'  >
 		<table>
 			<tr>
 				<td><h4>上传资源:</h4></td>
 			</tr>
 			<tr>
-				<td><input type="file" name="upload" id="upload"></td>
+				<td><input type='file' name='upload' id='upload'></td>
 			</tr>
 			<tr>
 				<td><h4>资源类别:</h4></td>
@@ -30,8 +30,8 @@
 			</tr>
 			<tr>
 				<td>
-					<input type="radio"name="resTag" id="resTag" value="pic">图片
-					<input type="radio"name="resTag" id="resTag" value="mov">视频
+					<input type='radio'name='resTag' id='resTag' value='pic'>图片
+					<input type='radio'name='resTag' id='resTag' value='mov'>视频
 				</td>
 			</tr>
 			<tr>
@@ -39,10 +39,10 @@
 				
 			</tr>
 			<tr>
-				<td><input type="text" name="resCom" id="resCom" ></td>
+				<td><input type='text' name='resCom' id='resCom' ></td>
 			</tr>
 			<tr>
-				<td><input type="submit"  onclick="getNow()"  value="确认提交"></td>
+				<td><input type='submit'  onclick='getNow()'  value='确认提交'></td>
 				
 			</tr>
 		</table>
@@ -56,27 +56,27 @@
 	  		var month = date.getMonth()+1 ;
 	  		var day = date.getDate() ;
 	  		
-	  		var now = year + "-" + month + "-" + day ;
+	  		var now = year + '-' + month + '-' + day ;
 			alert(now) ;
-	  		document.getElementById("pubTime").value = now ;
-	  		alert($("#pubTime").val()) ;
+	  		document.getElementById('pubTime').value = now ;
+	  		alert($('#pubTime').val()) ;
 	}
 	</script>
 	<script type="text/javascript">
 		function verify(){
-			var file = $("#upload").val() ;
-			var tag = $("#resTag").val() ;
-			var com = $("#resCom").val() ;
-			if("" == file || null == file){
-				alert("请选择要上传的文件") ;
+			var file = $('#upload').val() ;
+			var tag = $('#resTag').val() ;
+			var com = $('#resCom').val() ;
+			if('' == file || null == file){
+				alert('请选择要上传的文件') ;
 				return false ;
 			}
-			if("" == tag || null == tag){
-				alert("请选择资源类别") ;
+			if('' == tag || null == tag){
+				alert('请选择资源类别') ;
 				return false ;
 			}
-			if("" == com || null == com){
-				alert("请给资源添加一点描述") ;
+			if('' == com || null == com){
+				alert('请给资源添加一点描述') ;
 				return false ;
 			}
 			

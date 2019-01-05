@@ -42,6 +42,8 @@
 		<mapping resource="com/cm/domain/MediaPreview.hbm.xml" />
 		<mapping resource="com/cm/domain/Movie.hbm.xml" />
 		<mapping resource="com/cm/domain/Picture.hbm.xml" />
+		<mapping resource="com/cm/domain/PictureCheck.hbm.xml" />
+		<mapping resource="com/cm/domain/MovieCheck.hbm.xml" />
 		
 
 	</session-factory>

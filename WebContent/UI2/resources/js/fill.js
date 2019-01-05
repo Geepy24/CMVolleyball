@@ -15,6 +15,7 @@ function getUser(){
 function article(){
 		//alert("页面来源"+document.referrer) ;
 			$("#tab2").hide() ;
+			$("#tab3").hide() ;
 			$("#tab1").show() ;
 			$("#ul1 a").removeClass("current") ;
 			$("#art").addClass("current") ;
@@ -74,6 +75,7 @@ function article(){
 	
 	function dustbin(){
 			$("#tab2").hide() ;
+			$("#tab3").hide() ;
 			$("#tab1").show() ;
 			//alert("回收站") ;
 			//alert(document.referrer) ;
@@ -137,6 +139,7 @@ function article(){
 			//alert("草稿箱") ;
 			
 				$("#tab2").hide() ;
+				$("#tab3").hide() ;
 				$("#tab1").show() ;
 				$("#ul1 a").removeClass("current") ;
 				$("#dra").addClass("current") ;
@@ -193,10 +196,19 @@ function article(){
 	} 	
 	function edit(){
 		$("#tab1").hide() ;
+		$("#tab3").hide() ;
 		$("#tab2").show() ;
 		$("#ul1 a").removeClass("current") ;
 		$("#editArt").addClass("current") ;
 		
 		
 	}
-	
+	//上传资源
+	function resource(data){
+		$("#tab1").hide() ;
+		$("#tab2").hide() ;
+		$("#tab3").show() ;
+		
+		$("#resTag").val(data) ;
+		//alert($("#resTag").val() );
+	}

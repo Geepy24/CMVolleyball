@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.cm.domain">
+		<class name="PictureCheck" table="picture_check">
+			<id name="picId" column="pic_id">
+				<generator class="native"></generator>
+			</id>
+			<property name="picName" column="pic_name"></property>
+			<property name="picUri" column="pic_uri"></property>
+			<property name="checkTag" column="check_tag"></property>
+			<property name="checkCom" column="check_com"></property>
+			<property name="userId" column="user_id"></property>
+		</class>
+</hibernate-mapping>
