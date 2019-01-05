@@ -157,6 +157,12 @@ public class ArticleServiceImpl implements IArticleService {
 	public Long AllDustbinNumber(Integer userId) {
 		return articleDao.AllDustbinNumber(userId) ;
 	}
+
+	@Override
+	public void updateDraft(Draft draft) {
+		articleDao. updateDraft(draft);
+		
+	}
 	
 
 }

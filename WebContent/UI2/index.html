@@ -21,7 +21,7 @@
 <script type="text/javascript" src="../UI2/resources/scripts/jquery.wysiwyg.js"></script>
 <!-- jQuery Datepicker Plugin 
 <script type="text/javascript" src="../UI2/resources/scripts/jquery.datePicker.js"></script>
-<script type="text/javascript" src="../UI2/resources/scripts/jquery.date.js"></script>--><!--                       myJavascripts                       --><script type="text/javascript" src="../UI2/resources/js/fill.js"></script><script type="text/javascript" src="../UI2/resources/js/article.js"></script>
+<script type="text/javascript" src="../UI2/resources/scripts/jquery.date.js"></script>--><!--                       myJavascripts                       --><script type="text/javascript" src="../UI2/resources/js/fill.js"></script><script type="text/javascript" src="../UI2/resources/js/article.js"></script>
 </head>
 <body>
 <div id="body-wrapper">
@@ -33,7 +33,7 @@
       <!-- Logo (221px wide) -->
       <a href="#"><img id="logo" src="../UI2/resources/images/logo.png" alt="Simpla Admin logo" /></a>
       <!-- Sidebar Profile links -->
-      <div id="profile-links">					您好, <a href="#" title="Edit your profile">xxx</a><br /> <br /> <a						href="#" title="View the Site">返回网站首页</a> | <a href="#"						title="Sign Out">登出</a>				</div>
+      <div id="profile-links">					您好, <a href="javascript:void(0)" id="userName" title="Edit your profile">xxx</a><br /> <br /> <a						href="../index.jsp" title="View the Site">返回网站首页</a> 				</div>
       <ul id="main-nav">
         <!-- Accordion Menu -->
         <li> <a href="#/" class="nav-top-item no-submenu">
@@ -92,7 +92,7 @@
     <h2>欢迎</h2>
     <p id="page-intro">你想做什么?</p>
     <ul class="shortcut-buttons-set">
-      <li><a class="shortcut-button" href="#"><span> <img src="../UI2/resources/images/icons/pencil_48.png" alt="icon" /><br />
+      <li><a class="shortcut-button" href="javascript:void(0)" onclick="edit()"><span> <img src="../UI2/resources/images/icons/pencil_48.png" alt="icon" /><br />
         编写文章 </span></a></li>
       <li><a class="shortcut-button" href="#"><span> <img src="../UI2/resources/images/icons/paper_content_pencil_48.png" alt="icon" /><br />
        上传视频</span></a></li>
@@ -135,7 +135,7 @@
             <tfoot>
               <tr>
                 <td colspan="6">
-                  <div class="bulk-actions align-left">											<select name="dropdown" id="selectPage" onclick="pages()">												<option value="option1">Choose an action...</option>											</select> <a class="button" href="javascript:void(0)" onclick="toPage()" id="select">Apply to selected</a>										</div>																		<div class="pagination">											<a href="javascript:void(0)" onclick="prePage()"title="Previous Page" id="previous">&laquo; Previous</a>											<a href="#" class="number" id="n1" title="1">1</a> 											<a href="javascript:void(0)" onclick="nextPage()" title="Next Page" id="next">Next &raquo;</a>										</div> <!-- End .pagination -->
+                  <div class="bulk-actions align-left">											<select name="dropdown" id="selectPage" onclick="pages()">												<option value="option1">Choose an action...</option>											</select> <a class="button" href="javascript:void(0)" onclick="toPage()" id="select">Apply to selected</a>					</div>																		<div class="pagination">											<a href="javascript:void(0)" onclick="prePage()"title="Previous Page" id="previous">&laquo; Previous</a>											<a href="#" class="number" id="n1" title="1">1</a> 											<a href="javascript:void(0)" onclick="nextPage()" title="Next Page" id="next">Next &raquo;</a>																					</div> <!-- End .pagination -->										
                   <div class="clear"></div>
                 </td>
               </tr>
@@ -154,7 +154,7 @@
             <!--  <span class="input-notification success png_bg">Successful message</span> -->			<p>
              <label>文章标题</label>                           <!--  <span class="input-notification error png_bg">Error message</span> </p> -->				<input class="text-input medium-input datepicker" type="text"										id="medium-input" name="medium-input" /> 
             </p>            			<p>			 <label>文章正文</label> 			 </p>			<div id="editor">			</div>
-             <p>             		<input class="button" type="button" id="btn1" value="Submit" />					<input class="button" type="button" id="btn2" value="Save" />					<!-- 创建编辑器，控制发布与保存  -->					<script type="text/javascript" src="../UI2/resources/js/wangEditor.min.js"></script>					<script type="text/javascript" src="../UI2/resources/js/userArticle.js"></script>             </p>
+             <p>             		<input type="hidden" id="id" />             		<input class="button" type="button" id="btn1" value="提交" />					<input class="button" type="button" id="btn2" value="保存" />					<!-- 创建编辑器，控制发布与保存  -->					<script type="text/javascript" src="../UI2/resources/js/wangEditor.min.js"></script>					<script type="text/javascript" src="../UI2/resources/js/userArticle.js"></script>             </p>
 
             </fieldset>
             <div class="clear"></div>

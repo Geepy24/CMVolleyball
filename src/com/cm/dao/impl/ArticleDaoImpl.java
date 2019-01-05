@@ -331,6 +331,7 @@ public class ArticleDaoImpl implements IArticleDao {
 //		System.out.println("解除关系");
 //		
 //		System.out.println(this.findDustbinById(dustId).getUser() == null);
+		
 		hibernateTemplate.delete(this.findDustbinById(dustId));
 		
 			
@@ -339,6 +340,12 @@ public class ArticleDaoImpl implements IArticleDao {
 	@Override
 	public List<Dustbin> findAllDustbinByUser(Dustbin dustbin, Integer currentPage, Integer maxresults) {
 		return hibernateTemplate.findByExample(dustbin, (currentPage-1)*maxresults, maxresults);
+	}
+	//修改草稿
+	@Override
+	public void updateDraft(Draft draft) {
+		hibernateTemplate.update(draft);
+		
 	}
 
 

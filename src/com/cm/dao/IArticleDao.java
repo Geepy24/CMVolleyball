@@ -115,6 +115,11 @@ public interface IArticleDao {
 	 * @return
 	 */
 	List<Dustbin> findAllDustbinByUser(Dustbin dustbin, Integer currentPage, Integer maxresults);
+	/**
+	 * ÐÞ¸Ä²Ý¸å
+	 * @param draft
+	 */
+	void updateDraft(Draft draft);
 
 	
 	

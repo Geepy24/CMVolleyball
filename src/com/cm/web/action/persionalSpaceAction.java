@@ -1,6 +1,8 @@
 package com.cm.web.action;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,10 +27,10 @@ import com.cm.service.IArticleService;
 import com.cm.service.IResourceService;
 import com.cm.service.IUserService;
 import com.cm.utils.jsonUtils;
-import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
-import com.opensymphony.xwork2.util.ValueStack;
+
+import net.sf.json.JSONObject;
 /**
  * 	用于控制个人空间模块
  * 	type使用json，注意，使用json即不进行跳转操作，进入action再回到页面中时，不会改变值栈的值！
@@ -67,6 +69,8 @@ public class persionalSpaceAction extends ActionSupport implements ModelDriven<U
 	private List<Resource> resources  ;
 	private List<Picture> pictures ;
 	private List<Movie> movies ;
+	private String jsonFlag ;
+	private int jsonId ;
 	
 	@Override
 	public User getModel() {
@@ -152,6 +156,22 @@ public class persionalSpaceAction extends ActionSupport implements ModelDriven<U
 
 	
 
+	public String getJsonFlag() {
+		return jsonFlag;
+	}
+
+	public void setJsonFlag(String jsonFlag) {
+		this.jsonFlag = jsonFlag;
+	}
+
+	public int getJsonId() {
+		return jsonId;
+	}
+
+	public void setJsonId(int jsonId) {
+		this.jsonId = jsonId;
+	}
+
 	public int getToPage() {
 		return toPage;
 	}
@@ -180,6 +200,15 @@ public class persionalSpaceAction extends ActionSupport implements ModelDriven<U
 		
 		return SUCCESS ;
 		
+	}
+	@Action(value="sendUser",results= {
+			@Result(name="success",type="json",params= {"root","returndata"})
+	})
+	public String sendUser() {
+		
+		returndata = user.getUserName() ;
+		
+		return SUCCESS ;
 	}
 	//用文章填充首页的表格
 	@Action(value="indexArticles",results= {
@@ -450,5 +479,38 @@ public class persionalSpaceAction extends ActionSupport implements ModelDriven<U
 		returndata = String.valueOf((int)request.getSession().getAttribute("currentPage")+1) ;
 		
 		return SUCCESS ;
+	}
+	
+	
+	//编辑文章，包括文章，回收站，草稿。草稿的编辑的save应该是修改，更新操作。其他不用更改
+	@Action(value="edit",results= {
+			@Result(name="success",type="json",params= {"root","returndata"})
+	})
+	public String Edit() {
+		System.out.println("要编辑的内容:"+jsonFlag+"-"+jsonId);
+		Map<String, String> map = new HashMap<String, String>() ;
+		String title = "" ;
+		String content = "" ; 
+		if(jsonFlag.equals("article")) {
+			Article article = articleService.findById(jsonId) ;
+			title = article.getArtTitle() ;
+			content = article.getArtContent() ;
+			
+		}if(jsonFlag.equals("draft")) {
+			Draft draft = articleService.findDraftById(jsonId) ;
+			title = draft.getArtTitle() ;
+			content = draft.getArtContent() ;
+		}if(jsonFlag.equals("dustbin")) {
+			Dustbin dustbin = articleService.findDustbinById(jsonId) ;
+			title = dustbin.getArtTitle() ;
+			content = dustbin.getArtContent() ;
+			
+		}
+		map.put("artTitle", title) ;
+		map.put("artContent", content) ;
+		JSONObject jsonObject = JSONObject.fromObject(map) ;
+		returndata = jsonObject.toString() ;
+		return SUCCESS ;
+		
 	}
 }

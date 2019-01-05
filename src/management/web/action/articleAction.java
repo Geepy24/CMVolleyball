@@ -14,6 +14,7 @@ import org.apache.struts2.convention.annotation.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.cm.domain.Article;
+import com.cm.domain.Draft;
 import com.cm.domain.Dustbin;
 import com.cm.domain.User;
 import com.cm.service.IArticleService;
@@ -298,5 +299,62 @@ public class articleAction extends ActionSupport implements ModelDriven<Article>
 		
 		return SUCCESS ;
 	}
-	
+	//修改文章
+	@Action(value="updateArt",results= {
+			@Result(name="success",type="json",params= {"root","returndata"})
+	})
+	public String updataArticle() {
+		System.out.println("要修改的文章："+article);
+		//可能修改了标题，内容,必定修改了lastMod
+		String title = article.getArtTitle() ;
+		String content = article.getArtContent() ;
+		String lastMod = article.getLastMod() ;
+		//查出原来的
+		article = articleService.findById(article.getArtId()) ;
+		article.setArtTitle(title);
+		article.setArtContent(content);
+		article.setLastMod(lastMod);
+		articleService.updateArticle(article);
+		returndata = "success" ;
+		
+		return SUCCESS ;
+	}
+	//修改草稿
+	@Action(value="updateDra",results= {
+			@Result(name="success",type="json",params= {"root","returndata"})
+	})
+	public String updataDra() {
+		System.out.println("要修改的草稿："+article);
+		//查找原来的
+		Draft draft = articleService.findDraftById(article.getArtId()) ;
+		draft.setArtContent(article.getArtContent());
+		draft.setArtTitle(article.getArtTitle());
+		draft.setLastMod(article.getLastMod());
+		
+		articleService.updateDraft(draft) ;
+		returndata = "success" ;
+		return SUCCESS ;
+	}
+	//删除草稿
+	@Action(value="delDraft",results= {
+			@Result(name="success",type="json",params= {"root","returndata"})
+	})
+	public String deleteDraft() {
+		
+		System.out.println("要删除的id"+article.getArtId());
+		articleService.deleteDraft(article.getArtId());
+		return SUCCESS ;
+		
+	}
+	//删除回收站
+	@Action(value="delDustbin",results= {
+			@Result(name="success",type="json",params= {"root","returndata"})
+	})
+	public String deleteDustbin() {
+		
+		System.out.println("要删除的id"+article.getArtId());
+		articleService.deleteDustbin(article.getArtId());
+		return SUCCESS ;
+		
+	}
 }	

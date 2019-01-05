@@ -1,4 +1,4 @@
-		//删除文章
+		//删除文章  
 		function deleteArticle(artId){
 			//删除的时间
 			var date = new Date() ;
@@ -21,11 +21,50 @@
 				dataType : "json",
 				success : function(data){
 					alert("删除成功！您可以前往回收站查看");
+					
 					//window.location = "${pageContext.request.contextPath}/Article/articleList.action" ;
 				}
 			}) ;
+			dustbin();
 		}
-		
+	//删除回收站
+		function deleteDustbin(dustId){
+			var content = {
+					"artId" :	dustId 
+			} ;
+			//alert(JSON.stringify(content)) ;
+			$.ajax({
+			//注意url的写法
+			url : '../Article/delDustbin.action' ,
+			type : 'post',
+			data : content,
+			dataType : 'json',
+			//async:false,
+			success:function(data){
+				dustbin();
+			}
+			});
+			
+		}
+	//删除草稿，不进入回收站
+		function deleteDraft(draId){
+			var content = {
+					"artId" : draId 
+			} ;
+			//alert(JSON.stringify(content)) ;
+			$.ajax({
+			//注意url的写法
+			url : '../Article/delDraft.action' ,
+			type : 'post',
+			data : content,
+			dataType : 'json',
+			//async:false,
+			success:function(data){
+				draft() ;
+				}
+			});
+			
+		}
 		
 //---------------------------处理页码事件--------------------------------------
 		//获取总页码
@@ -101,9 +140,9 @@
 									+"<td><a href='#' title='title'>"+artTitle+"</a></td>"
 									+"<td>"+pubTime+"</td>"
 									+"<td>"+lastMod+"</td>"
-									+"<td><a href='#' title='Edit'>"
-									+"<img src='../UI/resources/images/icons/pencil.png' alt='编辑' /></a>"
-									+"<a href='javascript:void(0)' onclick='deleteArticle("+artId+")' title='Delete'><img src='../UI/resources/images/icons/cross.png' alt='删除' /></a>"
+									+"<td><a href='javascript:void(0)' onclick='reEdit("+artId+")' title='Edit'>"
+									+"<img src='../UI2/resources/images/icons/pencil.png' alt='编辑' /></a>"
+									+"<a href='javascript:void(0)' onclick='deleteArticle("+artId+")' title='Delete'><img src='../UI2/resources/images/icons/cross.png' alt='删除' /></a>"
 									+"</td>"
 								+"</tr>") ;
 						
@@ -153,9 +192,9 @@
 									+"<td><a href='#' title='title'>"+artTitle+"</a></td>"
 									+"<td>"+pubTime+"</td>"
 									+"<td>"+lastMod+"</td>"
-									+"<td><a href='#' title='Edit'>"
-									+"<img src='../UI/resources/images/icons/pencil.png' alt='编辑' /></a>"
-									+"<a href='javascript:void(0)' onclick='deleteArticle("+artId+")' title='Delete'><img src='../UI/resources/images/icons/cross.png' alt='删除' /></a>"
+									+"<td><a href='javascript:void(0)' onclick='reEdit("+artId+")' title='Edit'>"
+									+"<img src='../UI2/resources/images/icons/pencil.png' alt='编辑' /></a>"
+									+"<a href='javascript:void(0)' onclick='deleteArticle("+artId+")' title='Delete'><img src='../UI2/resources/images/icons/cross.png' alt='删除' /></a>"
 									+"</td>"
 								+"</tr>") ;
 						
@@ -204,9 +243,9 @@
 								+"<td><a href='#' title='title'>"+artTitle+"</a></td>"
 								+"<td>"+pubTime+"</td>"
 								+"<td>"+lastMod+"</td>"
-								+"<td><a href='#' title='Edit'>"
-								+"<img src='../UI/resources/images/icons/pencil.png' alt='编辑' /></a>"
-								+"<a href='javascript:void(0)' onclick='deleteArticle("+artId+")' title='Delete'><img src='../UI/resources/images/icons/cross.png' alt='删除' /></a>"
+								+"<td><a href='javascript:void(0)' onclick='reEdit("+artId+")' title='Edit'>"
+								+"<img src='../UI2/resources/images/icons/pencil.png' alt='编辑' /></a>"
+								+"<a href='javascript:void(0)' onclick='deleteArticle("+artId+")' title='Delete'><img src='../UI2/resources/images/icons/cross.png' alt='删除' /></a>"
 								+"</td>"
 							+"</tr>") ;
 					
@@ -216,8 +255,41 @@
 			}) ;
 			
 		}
-		
-	
-		
+////-----------------------------------编辑文章改到userarticle.js-------------------------------------------------------
+//		
+//		function reEdit(id){
+//			var flag =  $("#column1").text() ;
+//			$("#ul1 a").removeClass("current") ;
+//			$("#editArt").addClass("current") ;
+//			$("#tab1").hide() ;
+//			$("#tab2").show() ;
+//			var content = {
+//					"jsonId" : id ,
+//					"jsonFlag" : flag  
+//			}
+//			alert(flag+"-"+id) ;
+//			//需要返回标题和内容
+//			$.ajax({
+//				url: "../Persional/edit.action",
+//				type: "post",
+//				data: content,
+//				dataType: "json" ,
+//				success : function(data){
+//					var backdata = JSON.parse(data) ;
+//					alert(typeof(backdata)) ;
+//					var title = backdata.artTitle ;
+//					var content = backdata.artContent ;
+//					//alert(title) ;
+//					$("#medium-input").val(title) ;
+//					
+//				}
+//				
+//			});
+//			
+//			
+//			
+//			
+//		}
+//		
 		
 		

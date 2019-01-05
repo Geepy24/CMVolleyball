@@ -22,7 +22,9 @@
 <tr>
 <td>${article.pubTime}</td>
 </tr>
- 
+<tr>
+<td><a href="javascript:history.go(-1)">返回</a></td>
+</tr>
 </table>
 </body>
 </html>

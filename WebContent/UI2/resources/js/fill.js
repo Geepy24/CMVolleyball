@@ -1,7 +1,21 @@
+$(document).ready(article) ;
+$(document).ready(getUser) ;
+
+function getUser(){
+	$.ajax({
+		url : "../Persional/sendUser.action",
+		type : "get",
+		success: function(data){
+			$("#userName").text(data) ;
+		}
+	}) ;
+}
+
 //每次点击要把页码置为1	
 function article(){
 		//alert("页面来源"+document.referrer) ;
 			$("#tab2").hide() ;
+			$("#tab1").show() ;
 			$("#ul1 a").removeClass("current") ;
 			$("#art").addClass("current") ;
 			$("#column1").html("article") ;
@@ -41,10 +55,10 @@ function article(){
 							"<tr>"
 								+"<td><input type='checkbox' /></td>"
 								+"<td>"+i+"</td>"
-								+"<td><a href='#' title='title'>"+artTitle+"</a></td>"
+								+"<td><a href='../Article/showArticle?artId="+artId+"' title='title'>"+artTitle+"</a></td>"
 								+"<td>"+pubTime+"</td>"
 								+"<td>"+lastMod+"</td>"
-								+"<td><a href='#' title='Edit'>"
+								+"<td><a href='javascript:void(0)' onclick='reEdit("+artId+")' title='Edit'>"
 								+"<img src='../UI2/resources/images/icons/pencil.png' alt='编辑' /></a>"
 								+"<a href='javascript:void(0)' onclick='deleteArticle("+artId+")' title='Delete'><img src='../UI2/resources/images/icons/cross.png' alt='删除' /></a>"
 								+"</td>"
@@ -60,6 +74,7 @@ function article(){
 	
 	function dustbin(){
 			$("#tab2").hide() ;
+			$("#tab1").show() ;
 			//alert("回收站") ;
 			//alert(document.referrer) ;
 				$("#ul1 a").removeClass("current") ;
@@ -93,16 +108,16 @@ function article(){
 						var content = backdata[item].split("###") ; 
 						var artTitle = content[0] ;
 						var delTime = content[1] ;
-						var draId = content[2] ; //id在后面会有用
+						var dustId = content[2] ; //id在后面会有用
 						$("#rows").prepend(
 								"<tr>"
 									+"<td><input type='checkbox' /></td>"
 									+"<td>"+i+"</td>"
-									+"<td><a href='#' title='title'>"+artTitle+"</a></td>"
+									+"<td><a href='javascript:void(0)' onclick='reEdit("+dustId+")' title='title'>"+artTitle+"</a></td>"
 									+"<td>"+delTime+"</td>"
-									+"<td><a href='#' title='Edit'>"
+									+"<td><a href='javascript:void(0)' onclick='reEdit("+dustId+")' title='Edit'>"
 									+"<img src='../UI2/resources/images/icons/pencil.png' alt='编辑' /></a>"
-									+"<a href=''#' title='Delete'><img src='../UI2/resources/images/icons/cross.png' alt='删除' /></a>"
+									+"<a href='javascript:void(0)' onclick='deleteDustbin("+dustId+")' title='Delete'><img src='../UI2/resources/images/icons/cross.png' alt='删除' /></a>"
 									+"</td>"
 								+"</tr>") ;
 						
@@ -122,6 +137,7 @@ function article(){
 			//alert("草稿箱") ;
 			
 				$("#tab2").hide() ;
+				$("#tab1").show() ;
 				$("#ul1 a").removeClass("current") ;
 				$("#dra").addClass("current") ;
 				
@@ -160,11 +176,11 @@ function article(){
 								"<tr>"
 									+"<td><input type='checkbox' /></td>"
 									+"<td>"+i+"</td>"
-									+"<td><a href='#' title='title'>"+artTitle+"</a></td>"
+									+"<td><a href='javascript:void(0)' onclick='reEdit("+draId+")' title='title'>"+artTitle+"</a></td>"
 									+"<td>"+lastMod+"</td>"
-									+"<td><a href='#' title='Edit'>"
+									+"<td><a href='javascript:void(0)' onclick='reEdit("+draId+")' title='Edit'>"
 									+"<img src='../UI2/resources/images/icons/pencil.png' alt='编辑' /></a>"
-									+"<a href=''#' title='Delete'><img src='../UI2/resources/images/icons/cross.png' alt='删除' /></a>"
+									+"<a href='javascript:void(0)' onclick='deleteDraft("+draId+")' title='Delete'><img src='../UI2/resources/images/icons/cross.png' alt='删除' /></a>"
 									+"</td>"
 								+"</tr>") ;
 						
