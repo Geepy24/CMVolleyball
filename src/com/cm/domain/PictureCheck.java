@@ -10,7 +10,7 @@ public class PictureCheck implements Serializable {
 	private String checkTag ;
 	private String checkCom ;
 	private Integer userId ; 
-	
+	private String resCom ;
 	
 	public Integer getPicId() {
 		return picId;
@@ -44,6 +44,12 @@ public class PictureCheck implements Serializable {
 	}
 	
 	
+	public String getResCom() {
+		return resCom;
+	}
+	public void setResCom(String resCom) {
+		this.resCom = resCom;
+	}
 	public Integer getUserId() {
 		return userId;
 	}
@@ -53,7 +59,7 @@ public class PictureCheck implements Serializable {
 	@Override
 	public String toString() {
 		return "PictureCheck [picId=" + picId + ", picUri=" + picUri + ", picName=" + picName + ", checkTag=" + checkTag
-				+ ", checkCom=" + checkCom + ", userId=" + userId + "]";
+				+ ", checkCom=" + checkCom +",resCom"+resCom+ ", userId=" + userId + "]";
 	}
 	
 	

@@ -10,6 +10,7 @@ public class MovieCheck implements Serializable {
 	private String checkTag ;
 	private String checkCom ;
 	private Integer userId ; 
+	private String resCom ;
 	
 	
 	private MediaPreview mediaPreview ;
@@ -70,10 +71,18 @@ public class MovieCheck implements Serializable {
 		this.userId = userId;
 	}
 
+	public String getResCom() {
+		return resCom;
+	}
+
+	public void setResCom(String resCom) {
+		this.resCom = resCom;
+	}
+
 	@Override
 	public String toString() {
 		return "MovieCheck [movId=" + movId + ", movUri=" + movUri + ", movName=" + movName + ", checkTag=" + checkTag
-				+ ", checkCom=" + checkCom + ", userId=" + userId + "]";
+				+ ", checkCom=" + checkCom + "resTag="+resCom +", userId=" + userId + "]";
 	}
 
 	

@@ -2,6 +2,7 @@ package com.cm.web.action;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.cm.domain.MediaPreview;
 import com.cm.domain.MovieCheck;
+import com.cm.domain.PictureCheck;
 import com.cm.domain.User;
 import com.cm.service.IResourceService;
 import com.cm.utils.movieUtils;
@@ -50,6 +52,13 @@ public class checkMovieAction extends ActionSupport implements ModelDriven<Movie
 	private String returndata ;
 	private File upload ;
 	private String uploadFileName ;
+	private List<MovieCheck> movieChecks ;
+	private static int MAXRESULTS = 10  ;
+	private int currentPage ;
+	
+	
+	
+	
 	
 	@Override
 	public MovieCheck getModel() {
@@ -91,13 +100,27 @@ public class checkMovieAction extends ActionSupport implements ModelDriven<Movie
 		this.uploadFileName = uploadFileName;
 	}
 
+	
+	public List<MovieCheck> getMovieChecks() {
+		return movieChecks;
+	}
+
+
+
+	public void setMovieChecks(List<MovieCheck> movieChecks) {
+		this.movieChecks = movieChecks;
+	}
+
+
+
+	//---------------------------------用户提交，等待审核------------------------------------------------
 	@Action(value="movToCheck",results= {
-			@Result(name="success",type="json",params= {"root","returndata"})
+			@Result(name="success",location="/UI2/addSuccess.html")
 			
 	})
 	public String addCheck() {
 		//需要的信息：视频名称：uploadFileName，视频文件：upload，图片存储文件夹位置：filePath
-		//保存到数据表的信息：uri,name,com,tag,user_id
+		//保存到数据表的信息：uri,name,com,tag,user_id,movCom	
 		//图片存储文件夹位置
 		String filePath =  pathUtils.moviePath() ;
 		System.out.println(filePath);
@@ -133,7 +156,7 @@ public class checkMovieAction extends ActionSupport implements ModelDriven<Movie
 		movieCheck.setMediaPreview(mediaPreview);
 		System.out.println(movieCheck);
 		//保存到表
-		//resourceService.saveMovieCheck(pictureCheck) ;
+		resourceService.saveMovieCheck(movieCheck) ;
 		
 		
 		//保存视频及缩略图到本地
@@ -147,16 +170,36 @@ public class checkMovieAction extends ActionSupport implements ModelDriven<Movie
 		}
 		
 		
-		returndata = "添加成功，请等待审核" ;
-		
-		//要改成返回一个页面，而不是json
 		return SUCCESS ;
 	}
 
 
 
+//---------------------------------管理员审核，这部分是jsp------------------------------------------------
+	//显示待审核资源列表
+	@Action(value="toMcList",results= {
+			@Result(name="success",location="/WEB-INF/jsp/management/resource/mcList.jsp")
+	})
+	public String showCheckList() {
+		currentPage = 1 ;
+		request.getSession().setAttribute("currentPage", currentPage);
+		//查找未审核
+		movieChecks = resourceService.findMCsByCheckTag("n", currentPage, MAXRESULTS) ;
+		
+		return SUCCESS;
+	}
+	//审核查看视频详情
+		@Action(value="mcDetail",results= {
+				@Result(name="success",location= "/WEB-INF/jsp/management/resource/mcDetail.jsp")
+		})
+		public String mcDetail() {
+			System.out.println(movieCheck);
 
-
+			MovieCheck movieCheckTemp = resourceService.findMCById(movieCheck.getMovId()) ;
+			
+			System.out.println("2"+movieCheck);
+			return SUCCESS ;
+		}
 
 	
 }

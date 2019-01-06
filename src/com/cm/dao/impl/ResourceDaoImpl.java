@@ -8,6 +8,8 @@ import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.cm.dao.IResourceDao;
+import com.cm.domain.MovieCheck;
+import com.cm.domain.PictureCheck;
 import com.cm.domain.Resource;
 import com.cm.domain.User;
 @Repository("resourceDao")
@@ -93,6 +95,87 @@ public class ResourceDaoImpl implements IResourceDao {
 			Query query = hibernateTemplate.getSessionFactory().getCurrentSession().createQuery(hql) ;
 			query.setMaxResults(1) ;
 			return (Integer) query.list().get(0) ;
+		}
+		//----------------------------¥˝…Û∫ÀÕº∆¨£¨ ”∆µ-----------------------------
+		@Override
+		public void savePictureCheck(PictureCheck pictureCheck) {
+
+			hibernateTemplate.save(pictureCheck) ;
+		}
+		@Override
+		public void saveMovieCheck(MovieCheck movieCheck) {
+
+			hibernateTemplate.save(movieCheck) ;
+		}
+		@Override
+		public PictureCheck findPCById(Integer picId) {
+			
+			return (PictureCheck) hibernateTemplate.find("FROM PictureCheck where picId=?", picId).get(0);
+		}
+		@Override
+		public MovieCheck findMCById(Integer movId) {
+
+			return (MovieCheck) hibernateTemplate.find("FROM MocieCheck where movId=?", movId).get(0);
+			
+		}
+		@Override
+		public List<PictureCheck> findPCsByCheckTag(String checkTag, Integer currentPage, Integer maxResults) {
+			
+			PictureCheck pictureCheck = new PictureCheck() ;
+			pictureCheck.setCheckTag(checkTag);
+			
+			return hibernateTemplate.findByExample(pictureCheck, (currentPage-1)*maxResults, maxResults);
+			
+		}
+		@Override
+		public List<MovieCheck> findMCsByCheckTag(String checkTag, Integer currentPage, Integer maxResults) {
+			
+			MovieCheck movieCheck = new MovieCheck() ;
+			movieCheck.setCheckTag(checkTag);
+			
+			return hibernateTemplate.findByExample(movieCheck, (currentPage-1)*maxResults, maxResults);
+		}
+		@Override
+		public List<PictureCheck> findPCsByUserId(Integer userId, Integer currentPage, Integer maxResults) {
+			PictureCheck pictureCheck = new PictureCheck() ;
+			pictureCheck.setUserId(userId);
+			
+			return hibernateTemplate.findByExample(pictureCheck, (currentPage-1)*maxResults, maxResults);
+		}
+		@Override
+		public List<MovieCheck> findMCsByUserId(Integer userId, Integer currentPage, Integer maxResults) {
+			MovieCheck movieCheck = new MovieCheck() ;
+			movieCheck.setUserId(userId);
+			
+			return hibernateTemplate.findByExample(movieCheck, (currentPage-1)*maxResults, maxResults);
+		}
+		@Override
+		public void updatePictureCheck(PictureCheck pictureCheck) {
+			
+			hibernateTemplate.update(pictureCheck);
+			
+		}
+		@Override
+		public void updateMovieCheck(MovieCheck movieCheck) {
+
+			hibernateTemplate.update(movieCheck);
+		}
+		@Override
+		public List<PictureCheck> findPCsByTagAndUserId(String checkTag, Integer userId, Integer currentPage,
+				Integer maxResults) {
+			PictureCheck pictureCheck = new PictureCheck() ;
+			pictureCheck.setCheckTag(checkTag);
+			pictureCheck.setUserId(userId);
+			return hibernateTemplate.findByExample(pictureCheck, (currentPage-1)*maxResults, maxResults);
+		}
+		@Override
+		public List<MovieCheck> findMCsByTagAndUserId(String checkTag, Integer userId, Integer currentPage,
+				Integer maxResults) {
+			MovieCheck movieCheck = new MovieCheck() ;
+			movieCheck.setCheckTag(checkTag);
+			movieCheck.setUserId(userId);
+			
+			return hibernateTemplate.findByExample(movieCheck, (currentPage-1)*maxResults, maxResults);
 		}
 
 }

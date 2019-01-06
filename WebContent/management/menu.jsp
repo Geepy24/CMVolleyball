@@ -161,7 +161,6 @@ A.active {
 												</TR>
 												<TR>
 													<TD class=menuSmall>
-														<A class=style2 href="${pageContext.request.contextPath}/linkman/LinkManServlet?method=listLinkMan" target=main>－文章审核</A>
 													</TD>
 												</TR>
 												<TR>
@@ -206,7 +205,12 @@ A.active {
 												</TR>
 												<TR>
 													<TD class=menuSmall>
-														<A class=style2 href="${pageContext.request.contextPath}/welcome.htm" target=main>－资源审核</A>
+														<A class=style2 href="${pageContext.request.contextPath}/Resource/toPcList.action" target=main>－图片审核</A>
+													</TD>
+												</TR>
+												<TR>
+													<TD class=menuSmall>
+														<A class=style2 href="${pageContext.request.contextPath}/Resource/toMcList.action" target=main>－视频审核</A>
 													</TD>
 												</TR>
 											</TBODY>

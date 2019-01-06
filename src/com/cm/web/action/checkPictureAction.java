@@ -2,6 +2,7 @@ package com.cm.web.action;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -45,7 +46,9 @@ public class checkPictureAction extends ActionSupport implements ModelDriven<Pic
 	private String returndata ;
 	private File upload ;
 	private String uploadFileName ;
-
+	private List<PictureCheck> pictureChecks ;
+	private static int MAXRESULTS = 10  ;
+	private int currentPage ;
 	@Override
 	public PictureCheck getModel() {
 		return pictureCheck;
@@ -80,6 +83,20 @@ public class checkPictureAction extends ActionSupport implements ModelDriven<Pic
 	public void setUploadFileName(String uploadFileName) {
 		this.uploadFileName = uploadFileName;
 	}
+	
+	
+	
+
+	//---------------------------------用户提交，等待审核------------------------------------------------
+	
+	public List<PictureCheck> getPictureChecks() {
+		return pictureChecks;
+	}
+
+
+	public void setPictureChecks(List<PictureCheck> pictureChecks) {
+		this.pictureChecks = pictureChecks;
+	}
 
 
 	@Action(value="picToCheck",results= {
@@ -109,7 +126,7 @@ public class checkPictureAction extends ActionSupport implements ModelDriven<Pic
 		
 		System.out.println(pictureCheck);
 		//保存到表
-		//resourceService.savePictureCheck(pictureCheck) ;
+		resourceService.savePictureCheck(pictureCheck) ;
 		
 		
 		//保存到本地
@@ -127,8 +144,40 @@ public class checkPictureAction extends ActionSupport implements ModelDriven<Pic
 		//要改成返回一个页面，而不是json
 		return SUCCESS ;
 	}
+	//---------------------------------管理员审核，这部分是jsp------------------------------------------------
+	
+	//显示待审核资源列表
+	
+	@Action(value="toPcList",results= {
+			@Result(name="success",location="/WEB-INF/jsp/management/resource/pcList.jsp")
+	})
+	public String showCheckList() {
+		
+		currentPage = 1 ;
+		request.getSession().setAttribute("currentPage", currentPage);
+		//查找未审核
+		pictureChecks = resourceService.findPCsByCheckTag("n", currentPage, MAXRESULTS) ;
+		
+		
+		return SUCCESS;
+	}
 	
 	
-	
-
+	//审核查看图片详情
+	@Action(value="pcDetail",results= {
+			@Result(name="success",location= "/WEB-INF/jsp/management/resource/pcDetail.jsp")
+	})
+	public String pcDetail() {
+		System.out.println(pictureCheck);
+		//这里有问题，没查出来
+		PictureCheck pictureCheckTemp = resourceService.findPCById(pictureCheck.getPicId()) ;
+		pictureCheck.setCheckCom(pictureCheckTemp.getCheckCom());
+		pictureCheck.setPicName(pictureCheckTemp.getPicName());
+		pictureCheck.setPicUri(pictureCheckTemp.getPicUri());
+		pictureCheck.setResCom(pictureCheckTemp.getResCom());
+		pictureCheck.setCheckTag(pictureCheckTemp.getCheckTag());
+		pictureCheck.setUserId(pictureCheckTemp.getUserId());
+		System.out.println("2"+pictureCheck);
+		return SUCCESS ;
+	}
 }

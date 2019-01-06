@@ -4,7 +4,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<TITLE>文章列表</TITLE> 
+<TITLE>待审核图片列表</TITLE> 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <LINK href="${pageContext.request.contextPath }/css/Style.css" type=text/css rel=stylesheet>
 <LINK href="${pageContext.request.contextPath }/css/Manage.css" type=text/css
@@ -40,7 +40,7 @@
 					<TD vAlign=top width="100%" bgColor=#ffffff>
 						<TABLE cellSpacing=0 cellPadding=5 width="100%" border=0>
 							<TR>
-								<TD class=manageHead>当前位置：资源管理 &gt; 视频列表</TD>
+								<TD class=manageHead>当前位置：审核 &gt; 图片审核</TD>
 							</TR>
 							<TR>
 								<TD height=2></TD>
@@ -61,24 +61,21 @@
 										<TABLE id=grid style="BORDER-TOP-WIDTH: 0px; FONT-WEIGHT: normal; BORDER-LEFT-WIDTH: 0px; BORDER-LEFT-COLOR: #cccccc; BORDER-BOTTOM-WIDTH: 0px; BORDER-BOTTOM-COLOR: #cccccc; WIDTH: 100%; BORDER-TOP-COLOR: #cccccc; FONT-STYLE: normal; BACKGROUND-COLOR: #cccccc; BORDER-RIGHT-WIDTH: 0px; TEXT-DECORATION: none; BORDER-RIGHT-COLOR: #cccccc" cellSpacing=1 cellPadding=2 rules=all border=0>
 											<TBODY>
 												<TR style="FONT-WEIGHT: bold; FONT-STYLE: normal; BACKGROUND-COLOR: #eeeeee; TEXT-DECORATION: none">
-													<TD>资源展示</TD>
-													<TD>资源类别</TD>
+													<TD>图片展示</TD>
+													<TD>图片描述</TD>
 													<TD>上传者</TD>
-													<TD>描述</TD>
-													<TD>发布时间</TD>
+													<TD>选项</TD>
+													
 													
 												</TR>
-												<c:forEach items="${resources}" var="resource">
+												<c:forEach items="${pictureChecks}" var="pictureCheck">
 												<TR style="FONT-WEIGHT: normal; FONT-STYLE: normal; BACKGROUND-COLOR: white; TEXT-DECORATION: none">
-													<TD><img style="width:50px;height:50px" src="/movpre/${resource.movie.mediaPreview.mpName}" /></TD>
-													<TD>${resource.resTag}</TD>
-													<TD>${resource.user.userName}</TD>
-													<TD>${resource.resCom}</TD>
-													<TD>${resource.pubTime}</TD>
+													<TD><img style="width:50px;height:50px" src="/pic/${pictureCheck.picName}" /></TD>
+													<TD>${pictureCheck.resCom}</TD>
+													<TD>${pictureCheck.userId}</TD>
 													
 													<TD>
-													<a href="${pageContext.request.contextPath }/Resource/resDetail.action?resId=${resource.resId}">查看详情</a>
-													<a href="javascript:void(0)" onclick="confirmDelete('${resource.resId}')">删除</a>
+													<a href="${pageContext.request.contextPath }/Resource/pcDetail.action?picId=${pictureCheck.picId}">审核</a>
 													
 													&nbsp;&nbsp;
 													</TD>

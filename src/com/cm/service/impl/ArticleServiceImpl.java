@@ -9,6 +9,8 @@ import com.cm.dao.IArticleDao;
 import com.cm.domain.Article;
 import com.cm.domain.Draft;
 import com.cm.domain.Dustbin;
+import com.cm.domain.MovieCheck;
+import com.cm.domain.PictureCheck;
 import com.cm.domain.User;
 import com.cm.service.IArticleService;
 
@@ -163,6 +165,7 @@ public class ArticleServiceImpl implements IArticleService {
 		articleDao. updateDraft(draft);
 		
 	}
+
 	
 
 }

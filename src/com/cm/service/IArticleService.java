@@ -5,6 +5,9 @@ import java.util.List;
 import com.cm.domain.Article;
 import com.cm.domain.Draft;
 import com.cm.domain.Dustbin;
+import com.cm.domain.Movie;
+import com.cm.domain.MovieCheck;
+import com.cm.domain.PictureCheck;
 import com.cm.domain.User;
 
 /**
@@ -128,4 +131,6 @@ public interface IArticleService {
 	 * @param draft
 	 */
 	void updateDraft(Draft draft);
+	
+	
 }

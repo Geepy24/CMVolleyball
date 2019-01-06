@@ -12,5 +12,6 @@
 			<property name="checkTag" column="check_tag"></property>
 			<property name="checkCom" column="check_com"></property>
 			<property name="userId" column="user_id"></property>
+			<property name="resCom" column="res_com"></property>
 		</class>
 </hibernate-mapping>
