@@ -21,7 +21,7 @@
 <script type="text/javascript" src="../UI2/resources/scripts/jquery.wysiwyg.js"></script>
 <!-- jQuery Datepicker Plugin 
 <script type="text/javascript" src="../UI2/resources/scripts/jquery.datePicker.js"></script>
-<script type="text/javascript" src="../UI2/resources/scripts/jquery.date.js"></script>--><!--                       myJavascripts                       --><script type="text/javascript" src="../UI2/resources/js/fill.js"></script><script type="text/javascript" src="../UI2/resources/js/article.js"></script><script type="text/javascript" src="../UI2/resources/js/picture.js"></script>
+<script type="text/javascript" src="../UI2/resources/scripts/jquery.date.js"></script>--><!--                       myJavascripts                       --><script type="text/javascript" src="../UI2/resources/js/fill.js"></script><script type="text/javascript" src="../UI2/resources/js/article.js"></script><script type="text/javascript" src="../UI2/resources/js/upload.js"></script>
 </head>
 <body>
 <div id="body-wrapper">
@@ -161,7 +161,7 @@
             <!-- End .clear -->			
          
         </div>
-        <!-- End #tab2 -->                <div class="tab-content" id="tab3">		        <form id='uploadForm' method='post' enctype='multipart/form-data' action='#'				onsubmit='return verify()'> 								<table>										<tr>						<td><h4>上传资源:</h4></td>						<td><input type='hidden' id='pubTime' name='pubTime'  /></td>					</tr>					<tr>						<td><input type='file' name='upload' id='upload' /></td>						<td><input type='hidden' name='resTag' id='resTag' /></td>					</tr>										<tr>						<td><h4>添加描述:</h4></td>											</tr>					<tr>						<td><input type='text' name='resCom' id='resCom' /></td>					</tr>					<tr>						<td><input type='submit'  onclick='getNow()'  value='确认提交' /></td>											</tr>				</table>									</form>        </div>
+        <!-- End #tab2 -->                <div class="tab-content" id="tab3">		        <form  id='uploadForm'method='post' enctype='multipart/form-data' action=''  >				<!-- onsubmit='return false ;' -->				  				<table>										<tr>						<td><h4 id="t">上传资源:</h4></td>						<td><input type='hidden' id='pubTime' name='pubTime'  /></td>					</tr>					<tr>						<td><input type='file' name='upload' id='upload' /></td>						<td><input type='hidden' name='resTag' id='resTag' /></td>					</tr>										<tr>						<td><h4>添加描述:</h4></td>											</tr>					<tr>						<td><input type='text' name='resCom' id='resCom' /></td>					</tr>					<tr>						<td><input type='submit'  value='确认提交' onclick="uploadResource()" /></td>											</tr>				</table>							</form> 			<!-- <input type='file' name='upload' id='upload2' />			<input type='button' value="提交" onclick="uploadResource()" /> -->        </div>
       </div>
 
     </div>

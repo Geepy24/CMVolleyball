@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	添加成功
+	<br>
+	<a href="../Persional/comein.action">返回首页</a>
+	<br>
+	<a href="javascript:void(0)" onclick="toAdd('pic')">继续添加图片</a>
+	<a href="javascript:void(0)" onclick="toAdd('mov')">继续上传视频</a>
+	
+	<script type="text/javascript">
+		function toAdd(data){
+			if(data == "pic"){
+				window.open("../UI2/index.html?flag=goaddpic") ;
+				
+			}
+			if(data == "mov"){
+				window.open("../UI2/index.html?flag=goaddmov") ;
+			}
+			
+		}
+	
+	</script>
+</body>
+</html>

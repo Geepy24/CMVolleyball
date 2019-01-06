@@ -1,6 +1,19 @@
-$(document).ready(article) ;
-$(document).ready(getUser) ;
+$(document).ready(article) ; //页面开始加载文章
+$(document).ready(getUser) ; //页面开始加载用户
+$(document).ready(toFlag) ;	//页面开始判断前往指定状态
 
+function toFlag(){
+	var url = window.location.href ; //得到当前url
+	alert(url) ;
+	if(url.indexOf("goaddpic") != -1){
+		resource('pic') ;
+	}
+	if(url.indexOf("goaddmov") != -1){
+		resource('mov') ;
+	}
+	
+	
+}
 function getUser(){
 	$.ajax({
 		url : "../Persional/sendUser.action",
@@ -210,5 +223,12 @@ function article(){
 		$("#tab3").show() ;
 		
 		$("#resTag").val(data) ;
+		
+		if(data == "pic"){
+			$("#t").text("上传图片") ;
+		}
+		if(data == "mov"){
+			$("#t").text("上传视频") ;
+		}
 		//alert($("#resTag").val() );
 	}
