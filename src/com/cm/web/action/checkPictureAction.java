@@ -169,7 +169,6 @@ public class checkPictureAction extends ActionSupport implements ModelDriven<Pic
 	})
 	public String pcDetail() {
 		System.out.println(pictureCheck);
-		//这里有问题，没查出来
 		PictureCheck pictureCheckTemp = resourceService.findPCById(pictureCheck.getPicId()) ;
 		pictureCheck.setCheckCom(pictureCheckTemp.getCheckCom());
 		pictureCheck.setPicName(pictureCheckTemp.getPicName());
@@ -178,6 +177,17 @@ public class checkPictureAction extends ActionSupport implements ModelDriven<Pic
 		pictureCheck.setCheckTag(pictureCheckTemp.getCheckTag());
 		pictureCheck.setUserId(pictureCheckTemp.getUserId());
 		System.out.println("2"+pictureCheck);
+		return SUCCESS ;
+	}
+	//审核图片
+	@Action(value="checkPic",results= {
+			@Result(name="success",type="chain",location="toPcList")
+	})
+	public String checkedPicture() {
+				
+		System.out.println(pictureCheck);
+		
+		
 		return SUCCESS ;
 	}
 }

@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.catalina.tribes.membership.McastService;
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
@@ -19,15 +18,16 @@ import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.cm.domain.MediaPreview;
+import com.cm.domain.Movie;
 import com.cm.domain.MovieCheck;
-import com.cm.domain.PictureCheck;
+import com.cm.domain.Resource;
 import com.cm.domain.User;
 import com.cm.service.IResourceService;
+import com.cm.utils.WebUtils;
 import com.cm.utils.movieUtils;
 import com.cm.utils.pathUtils;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
-import com.opensymphony.xwork2.mock.MockActionInvocation;
 /**
  * 处理待审核的图片和视频以及审核图片和视频
  * @author mac
@@ -55,7 +55,7 @@ public class checkMovieAction extends ActionSupport implements ModelDriven<Movie
 	private List<MovieCheck> movieChecks ;
 	private static int MAXRESULTS = 10  ;
 	private int currentPage ;
-	
+	private Integer mpId ;
 	
 	
 	
@@ -109,6 +109,18 @@ public class checkMovieAction extends ActionSupport implements ModelDriven<Movie
 
 	public void setMovieChecks(List<MovieCheck> movieChecks) {
 		this.movieChecks = movieChecks;
+	}
+
+
+
+	public Integer getMpId() {
+		return mpId;
+	}
+
+
+
+	public void setMpId(Integer mpId) {
+		this.mpId = mpId;
 	}
 
 
@@ -196,10 +208,48 @@ public class checkMovieAction extends ActionSupport implements ModelDriven<Movie
 			System.out.println(movieCheck);
 
 			MovieCheck movieCheckTemp = resourceService.findMCById(movieCheck.getMovId()) ;
+			movieCheck.setCheckCom(movieCheckTemp.getCheckCom());
+			movieCheck.setCheckTag(movieCheckTemp.getCheckTag());
+			movieCheck.setMediaPreview(movieCheckTemp.getMediaPreview());
+			movieCheck.setUserId(movieCheckTemp.getUserId());
+			movieCheck.setMovName(movieCheckTemp.getMovName());
+			movieCheck.setMovUri(movieCheckTemp.getMovUri());
+			movieCheck.setResCom(movieCheckTemp.getResCom());
 			
 			System.out.println("2"+movieCheck);
 			return SUCCESS ;
 		}
-
+		//审核视频
+	@Action(value="checkMov",results= {
+				@Result(name="success",type="chain",location="toMcList")
+		})
+		public String checkedMovie() {
+			
+			System.out.println(movieCheck);
+			
+			Resource resource = new Resource() ;
+			Movie movie = new Movie() ;
+			movie.setMovName(movieCheck.getMovName());
+			movie.setMovUri(movieCheck.getMovUri());
+			
+			resource.setPubTime(WebUtils.getTime());
+			resource.setResCom(movieCheck.getResCom());
+			resource.setResTag("mov");
+			resource.setAdsId(user.getUserId());
+			
+			
+			MovieCheck movieCheckTemp = resourceService.findMCById(movieCheck.getMovId()) ;
+			movie.setMediaPreview(movieCheckTemp.getMediaPreview());
+			movieCheck.setMediaPreview(movieCheckTemp.getMediaPreview());
+			resource.setMovie(movie);
+			//System.out.println(resource.getMovie());
+			//System.out.println(resource.getMovie().getMediaPreview());
+			//System.out.println(resource);
+			//更新审核表
+			resourceService.updateMovieCheck(movieCheck);
+			resourceService.saveResource(resource);
+			return SUCCESS ;
+		}
+		
 	
 }

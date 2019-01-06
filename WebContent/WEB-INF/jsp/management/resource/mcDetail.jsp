@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>查看视频	</title>
+<title>审核视频	</title>
 <link href="${pageContext.request.contextPath }/css/video-js.min.css" rel="stylesheet">
 <script src="${pageContext.request.contextPath }/js/video.min.js"></script>
 <style>
@@ -24,37 +24,58 @@
 </head>
 <body style="text-align:center;">
 	 <div class="m">
+	 
       <video id="my-video" class="video-js" controls preload="auto" width="960" height="400"
-		  poster="/movpre/${movie.mediaPreview.mpName }" data-setup="{}">
-        <source src="/mov/${movie.movName }" type="video/mp4">
+		  poster="/movpre/${mediaPreview.mpName }" data-setup="{}">
+        <source src="/mov/${movName }" type="video/mp4">
       </video>
 
 	</div>
 	
 	
 	<div id="show_pic" style="margin:0,auto;width:100%;height:800px;">
+	<form method="post" action="${pageContext.request.contextPath }/Resource/checkMov.action">
 	<table>
 		<tr>
 			<td></td>
+			<td><h4><strong>视频id:</strong></h4></td>
+			<td><input type="text" name="movId" id="movId" value="${movId }" readonly></td>
 		</tr>
 		<tr>
-			<td></td>
 			<td><h4><strong>资源描述:</strong></h4></td>
-			<td><span>${resCom}</span></td>
+			<td><input type="text" name="resCom" id="resCom" value="${resCom }" readonly></td>
+			
 		</tr>
 		<tr>
-			<td></td>
-			<td><h4><strong>资源类别:</strong></h4></td>
-			<td><span>${resTag}</span></td>
+			<td><h4><strong>上传者id:</strong></h4></td>
+			<td><input type="text" name="userId" id="userId" value="${userId }" readonly></td>
 		</tr>
 		<tr>
+			<td>视频名称</td>
+			<td><input type="text" name="movName" id="movName" value="${movName }" readonly></td>
+			<td><input type="hidden" name="movUri" id="movUri" value="${movUri }" ></td>
+			</tr>
+		<tr>
+			<td><h4><strong>是否审核通过:</strong></h4></td>
+			<td><input type='radio' name='checkTag' id='checkTag' value='y' />通过</td>
+			<td><input type='radio' name='checkTag' id='checkTag' value='f ' />不通过</td>	
+		</tr>
+		<tr>
+			<td><h4><strong>审核注释:</strong></h4></td>
+			<td><input type="text" value="" name="checkCom"></td>
+		</tr>
+		<tr>
+			<td><input type="submit"  value="提交"></td>
+		</tr>
+		<%-- <tr>
 			<td></td>
 			<td><a href="${pageContext.request.contextPath }/Resource/nextRes.action?resId=${resId}&resTag=${resTag}">下一张</a>
 				<a href="${pageContext.request.contextPath }/Resource/preRes.action?resId=${resId}&resTag=${resTag}">上一张</a></td>
 			<td><a href="${pageContext.request.contextPath }/Resource/resList.action">返回列表</a></td>
-		</tr>
+		</tr> --%>
 		
 		</table>
+		</form>
 	</div>
 	<hr>
 	

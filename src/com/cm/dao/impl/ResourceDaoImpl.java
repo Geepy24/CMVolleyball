@@ -115,7 +115,7 @@ public class ResourceDaoImpl implements IResourceDao {
 		@Override
 		public MovieCheck findMCById(Integer movId) {
 
-			return (MovieCheck) hibernateTemplate.find("FROM MocieCheck where movId=?", movId).get(0);
+			return (MovieCheck) hibernateTemplate.find("FROM MovieCheck where movId=?", movId).get(0);
 			
 		}
 		@Override

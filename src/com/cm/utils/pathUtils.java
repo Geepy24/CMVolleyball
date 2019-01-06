@@ -3,7 +3,6 @@ package com.cm.utils;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -63,6 +62,8 @@ public class pathUtils {
 		String filePath = temp[0]+"pic" ;
 		return filePath ;
 	}
+	
+	
 	
 	
 }

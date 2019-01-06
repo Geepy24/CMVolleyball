@@ -8,6 +8,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.ServletContext;
 
@@ -119,6 +121,16 @@ public class WebUtils {
 				
 				
 				
+	}
+	/**
+	 * 得到 yyyy-mm-dd的当前时间
+	 * @return
+	 */
+	public static String getTime() {
+		Date currentTime = new Date();  
+	    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");  
+	    String dateString = formatter.format(currentTime); 
+	    return dateString ;
 	}
 	
 	
