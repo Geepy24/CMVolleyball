@@ -14,13 +14,16 @@ import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
+import org.apache.struts2.json.JSONUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.cm.domain.Article;
 import com.cm.domain.Draft;
 import com.cm.domain.Dustbin;
 import com.cm.domain.Movie;
+import com.cm.domain.MovieCheck;
 import com.cm.domain.Picture;
+import com.cm.domain.PictureCheck;
 import com.cm.domain.Resource;
 import com.cm.domain.User;
 import com.cm.service.IArticleService;
@@ -71,6 +74,9 @@ public class persionalSpaceAction extends ActionSupport implements ModelDriven<U
 	private List<Movie> movies ;
 	private String jsonFlag ;
 	private int jsonId ;
+	private List<PictureCheck> pictureChecks ;
+	private List<MovieCheck> movieChecks ;
+	
 	
 	@Override
 	public User getModel() {
@@ -187,6 +193,25 @@ public class persionalSpaceAction extends ActionSupport implements ModelDriven<U
 	public void setPageRef(String pageRef) {
 		this.pageRef = pageRef;
 	}
+	
+	
+	
+public List<PictureCheck> getPictureChecks() {
+		return pictureChecks;
+	}
+
+	public void setPictureChecks(List<PictureCheck> pictureChecks) {
+		this.pictureChecks = pictureChecks;
+	}
+
+	public List<MovieCheck> getMovieChecks() {
+		return movieChecks;
+	}
+
+	public void setMovieChecks(List<MovieCheck> movieChecks) {
+		this.movieChecks = movieChecks;
+	}
+
 /**-----------------------------动作方法----------------------------**/
 	//首页跳转进入会员页面
 	@Action(value="comein",results= {
@@ -512,5 +537,63 @@ public class persionalSpaceAction extends ActionSupport implements ModelDriven<U
 		returndata = jsonObject.toString() ;
 		return SUCCESS ;
 		
+	}
+	//----------------------------显示用户的视频，图片列表----------------------
+	//显示用户的视频列表
+	@Action(value="movList",results= {
+			@Result(name="success",type="json",params= {"root","returndata"})
+			
+	})
+	public String movieList() {
+		
+		currentPage = 1 ;
+		resources = resourceService.findAllResource("mov", user.getUserId(), currentPage, MAXRESULTS) ;
+		
+		returndata = jsonUtils.movieListToJsonString(resources) ;
+		
+		return SUCCESS ;
+	}
+	//显示用户的图片列表
+		@Action(value="picList",results= {
+				@Result(name="success",type="json",params= {"root","returndata"})
+				
+		})
+		public String pictureList() {
+			
+			currentPage = 1 ;
+			resources = resourceService.findAllResource("pic", user.getUserId(), currentPage, MAXRESULTS) ;
+			
+			returndata = jsonUtils.pictureListToJsonString(resources) ;
+			
+			return SUCCESS ;
+		}
+	
+	//----------------------------显示用户的视频，图片审核列表----------------------
+	//显示用户的待审核视频列表
+		@Action(value="userMcList",results= {
+			@Result(name="success",type="json",params= {"root","returndata"})
+				
+	})
+	public String userMovieCheckList() {
+			
+		currentPage = 1 ;
+		movieChecks = resourceService.findMCsByUserId(user.getUserId(), currentPage, MAXRESULTS) ;
+			
+		returndata = jsonUtils.mcListToJsonString(movieChecks) ;
+		return SUCCESS ;
+	}	
+	//显示用户的待审核图片列表
+	@Action(value="userPcList",results= {
+			@Result(name="success",type="json",params= {"root","returndata"})
+			
+	})
+	public String userPictureCheckList() {
+		
+		currentPage = 1 ;
+		pictureChecks = resourceService.findPCsByUserId(user.getUserId(), currentPage, MAXRESULTS) ;
+		
+		returndata = jsonUtils.pcListToJsonString(pictureChecks) ;
+		
+		return SUCCESS ;
 	}
 }

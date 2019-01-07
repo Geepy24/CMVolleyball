@@ -4,7 +4,7 @@ $(document).ready(toFlag) ;	//页面开始判断前往指定状态
 
 function toFlag(){
 	var url = window.location.href ; //得到当前url
-	alert(url) ;
+	//alert(url) ;
 	if(url.indexOf("goaddpic") != -1){
 		resource('pic') ;
 	}
@@ -23,7 +23,7 @@ function getUser(){
 		}
 	}) ;
 }
-
+//----------------------------------文章列表----------------------------------
 //每次点击要把页码置为1	
 function article(){
 		//alert("页面来源"+document.referrer) ;
@@ -50,7 +50,6 @@ function article(){
 				//要两次转换才能将传回的json字符串变成json对象
 				//alert(typeof(backdata)) ;
 				//alert(backdata.artTitle) ;
-				$("#rows").html(1) ;
 				var backdata = JSON.parse(data) ;
 				
 				var backdata = JSON.parse(backdata) ;
@@ -59,7 +58,7 @@ function article(){
 				var i =1 ;
 				 for(var item in backdata){
 					//alert(backdata[item]) ;
-					var num = item ;
+					//var num = item ;
 					var content = backdata[item].split("###") ; 
 					var artTitle = content[0] ;
 					var pubTime = content[1] ;
@@ -85,20 +84,20 @@ function article(){
 		}) ;
 	}
 	
-	
+	//----------------------------------回收站列表----------------------------------
 	function dustbin(){
 			$("#tab2").hide() ;
 			$("#tab3").hide() ;
 			$("#tab1").show() ;
 			//alert("回收站") ;
 			//alert(document.referrer) ;
-				$("#ul1 a").removeClass("current") ;
-				$("#dust").addClass("current") ;
-				$("#column1").html("dustbin") ;
-				$("#column2").html("Title") ;
-				$("#column3").html("Delete Time") ;
-				$("#column4").hide() ;
-				$("#n1").html(1) ;
+			$("#ul1 a").removeClass("current") ;
+			$("#dust").addClass("current") ;
+			$("#column1").html("dustbin") ;
+			$("#column2").html("Title") ;
+			$("#column3").html("Delete Time") ;
+			$("#column4").hide() ;
+			$("#n1").html(1) ;
 			$.ajax({
 				type : "GET" ,
 				url : "../Persional/dustList.action",
@@ -119,7 +118,7 @@ function article(){
 					var i =1 ;
 					 for(var item in backdata){
 						//alert(backdata[item]) ;
-						var num = item ;
+						//var num = item ;
 						var content = backdata[item].split("###") ; 
 						var artTitle = content[0] ;
 						var delTime = content[1] ;
@@ -145,7 +144,7 @@ function article(){
 	}
 	
 	
-	
+	//----------------------------------草稿箱列表----------------------------------
 	
 	function draft(){
 		
@@ -183,7 +182,7 @@ function article(){
 					var i =1 ;
 					 for(var item in backdata){
 						//alert(backdata[item]) ;
-						var num = item ;
+						//var num = item ;
 						var content = backdata[item].split("###") ; 
 						var artTitle = content[0] ;
 						var lastMod = content[1] ;
@@ -216,7 +215,7 @@ function article(){
 		
 		
 	}
-	//上传资源
+	//----------------------------------上传资源----------------------------------
 	function resource(data){
 		$("#tab1").hide() ;
 		$("#tab2").hide() ;
@@ -232,3 +231,241 @@ function article(){
 		}
 		//alert($("#resTag").val() );
 	}
+	
+	
+	
+	//----------------------------------填充相册列表----------------------------------
+	function photos(){
+		$("#tab2").hide() ;
+		$("#tab3").hide() ;
+		$("#tab1").show() ;
+		
+		$("#column1").html("photos") ;
+		$("#column2").html("Descript") ;
+		$("#column3").html("Publish Time") ;
+		$("#column4").hide() ;
+		$("#rows").html("") ;
+		$("#n1").html(1) ;
+		
+		//查找的表是resource表
+		$.ajax({
+			type : "GET" ,
+			url : "../Persional/picList.action",
+			data : {
+				
+			}, 
+			dataType : "JSON" ,
+			success:function(data){
+				//alert(data) ;
+				//要两次转换才能将传回的json字符串变成json对象
+				//alert(typeof(backdata)) ;
+				//alert(backdata.artTitle) ;
+				var backdata = JSON.parse(data) ;
+				var backdata = JSON.parse(backdata) ;
+				//alert(JSON.stringify(backdata)) ;
+				//遍历
+				var i =1 ;
+				 for(var item in backdata){
+					//alert(backdata[item]) ;
+					//var num = item ;
+					var content = backdata[item].split("###") ; 
+					var picName = content[0]
+					var resCom = content[1] ;
+					var pubTime= content[2] ;
+					var resId = content[3] ; //id在后面会有用
+					$("#rows").prepend(
+							"<tr>"
+								+"<td><input type='checkbox' /></td>"
+								+"<td><a href='javascript:void(0)' onclick='' title='title'><img style='width:50px;height:50px' src='/pic/"+picName+"' /></a></td>"
+								+"<td>"+resCom+"</td>"
+								+"<td>"+pubTime+"</td>"
+								+"<td><a href='javascript:void(0)' onclick='' title='Edit'>"
+								+"<img src='../UI2/resources/images/icons/pencil.png' alt='编辑' /></a>"
+								+"<a href='javascript:void(0)' onclick='' title='Delete'><img src='../UI2/resources/images/icons/cross.png' alt='删除' /></a>"
+								+"</td>"
+							+"</tr>") ;
+					
+					i++ ;
+				 } 
+				
+			}
+		}) ;
+		
+	}
+	//----------------------------------填充视频列表----------------------------------
+	function movies(){
+		$("#tab2").hide() ;
+		$("#tab3").hide() ;
+		$("#tab1").show() ;
+		
+		$("#column1").html("movies") ;
+		$("#column2").html("Descript") ;
+		$("#column3").html("Publish Time") ;
+		$("#column4").hide() ;
+		$("#rows").html("") ;
+		$("#n1").html(1) ;
+		
+		//查找的表是resource表
+		$.ajax({
+			type : "GET" ,
+			url : "../Persional/movList.action",
+			data : {
+				
+			}, 
+			dataType : "JSON" ,
+			success:function(data){
+				//alert(data) ;
+				//要两次转换才能将传回的json字符串变成json对象
+				//alert(typeof(backdata)) ;
+				//alert(backdata.artTitle) ;
+				var backdata = JSON.parse(data) ;
+				var backdata = JSON.parse(backdata) ;
+				//alert(JSON.stringify(backdata)) ;
+				//遍历
+				var i =1 ;
+				 for(var item in backdata){
+					//alert(backdata[item]) ;
+					//var num = item ;
+					var content = backdata[item].split("###") ; 
+					var  mpName = content[0] ;
+					var resCom = content[1] ;
+					var pubTime= content[2] ;
+					var resId = content[3] ; //id在后面会有用
+					$("#rows").prepend(
+							"<tr>"
+								+"<td><input type='checkbox' /></td>"
+								+"<td><a href='javascript:void(0)' onclick='' title='title'><img style='width:50px;height:50px' src='/movpre/"+mpName+"' /></a></td>"
+								+"<td>"+resCom+"</td>"
+								+"<td>"+pubTime+"</td>"
+								+"<td><a href='javascript:void(0)' onclick='' title='Edit'>"
+								+"<img src='../UI2/resources/images/icons/pencil.png' alt='编辑' /></a>"
+								+"<a href='javascript:void(0)' onclick='' title='Delete'><img src='../UI2/resources/images/icons/cross.png' alt='删除' /></a>"
+								+"</td>"
+							+"</tr>") ;
+					
+					i++ ;
+				 } 
+				
+			}
+		}) ;	
+	}
+	
+	//----------------------------------审核视频列表----------------------------------	
+		function movieChecks(){
+			$("#tab2").hide() ;
+			$("#tab3").hide() ;
+			$("#tab1").show() ;
+			
+			$("#column1").html("movies") ;
+			$("#column2").html("Tag") ; //审核标记
+			$("#column3").html("Comment") ; //审核注释
+			$("#column4").hide() ;
+			$("#rows").html("") ;
+			$("#n1").html(1) ;
+			
+			//查找的表是resource表
+			$.ajax({
+				type : "GET" ,
+				url : "../Persional/userMcList.action",
+				data : {
+					
+				}, 
+				dataType : "JSON" ,
+				success:function(data){
+					//alert(data) ;
+					//要两次转换才能将传回的json字符串变成json对象
+					//alert(typeof(backdata)) ;
+					//alert(backdata.artTitle) ;
+					var backdata = JSON.parse(data) ;
+					var backdata = JSON.parse(backdata) ;
+					//alert(JSON.stringify(backdata)) ;
+					//遍历
+					var i =1 ;
+					 for(var item in backdata){
+						//alert(backdata[item]) ;
+						//var num = item ;
+						var content = backdata[item].split("###") ; 
+						var  mpName = content[0] ;
+						var checkTag= content[1] ;
+						var checkCom= content[2] ;
+						var resId = content[3] ; //id在后面会有用
+						$("#rows").prepend(
+								"<tr>"
+									+"<td><input type='checkbox' /></td>"
+									+"<td><a href='javascript:void(0)' onclick='' title='title'><img style='width:50px;height:50px' src='/movpre/"+mpName+"' /></a></td>"
+									+"<td>"+checkTag+"</td>"
+									+"<td>"+checkCom+"</td>"
+									+"<td><a href='javascript:void(0)' onclick='' title='Edit'>"
+									+"<img src='../UI2/resources/images/icons/pencil.png' alt='编辑' /></a>"
+									+"<a href='javascript:void(0)' onclick='' title='Delete'><img src='../UI2/resources/images/icons/cross.png' alt='删除' /></a>"
+									+"</td>"
+								+"</tr>") ;
+						
+						i++ ;
+					 } 
+					
+				}
+			}) ;
+	
+		
+		}		
+	//----------------------------------审核图片列表----------------------------------	
+		function photoChecks(){
+			$("#tab2").hide() ;
+			$("#tab3").hide() ;
+			$("#tab1").show() ;
+			
+			$("#column1").html("photos") ;
+			$("#column2").html("Tag") ;
+			$("#column3").html("Comment") ;
+			$("#column4").hide() ;
+			$("#rows").html("") ;
+			$("#n1").html(1) ;
+			
+			//查找的表是resource表
+			$.ajax({
+				type : "GET" ,
+				url : "../Persional/userPcList.action",
+				data : {
+					
+				}, 
+				dataType : "JSON" ,
+				success:function(data){
+					//alert(data) ;
+					//要两次转换才能将传回的json字符串变成json对象
+					//alert(typeof(backdata)) ;
+					//alert(backdata.artTitle) ;
+					var backdata = JSON.parse(data) ;
+					var backdata = JSON.parse(backdata) ;
+					//alert(JSON.stringify(backdata)) ;
+					//遍历
+					var i =1 ;
+					 for(var item in backdata){
+						//alert(backdata[item]) ;
+						//var num = item ;
+						var content = backdata[item].split("###") ; 
+						var picName = content[0]
+						var checkTag= content[1] ;
+						var checkCom= content[2] ;
+						var resId = content[3] ; //id在后面会有用
+						$("#rows").prepend(
+								"<tr>"
+									+"<td><input type='checkbox' /></td>"
+									+"<td><a href='javascript:void(0)' onclick='' title='title'><img style='width:50px;height:50px' src='/pic/"+picName+"' /></a></td>"
+									+"<td>"+checkTag+"</td>"
+									+"<td>"+checkCom+"</td>"
+									+"<td><a href='javascript:void(0)' onclick='' title='Edit'>"
+									+"<img src='../UI2/resources/images/icons/pencil.png' alt='编辑' /></a>"
+									+"<a href='javascript:void(0)' onclick='' title='Delete'><img src='../UI2/resources/images/icons/cross.png' alt='删除' /></a>"
+									+"</td>"
+								+"</tr>") ;
+						
+						i++ ;
+					 } 
+					
+				}
+			}) ;
+			
+		}		
+		
+	

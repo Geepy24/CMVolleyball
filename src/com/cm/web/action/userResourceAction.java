@@ -24,7 +24,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 
 /**
- * 用户的资源访问动作类
+ * 用户的首页资源访问动作类
  * 
  * @author mac
  *

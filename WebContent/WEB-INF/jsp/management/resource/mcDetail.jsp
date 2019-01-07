@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.3.1.js"></script>
 <title>审核视频	</title>
 <link href="${pageContext.request.contextPath }/css/video-js.min.css" rel="stylesheet">
 <script src="${pageContext.request.contextPath }/js/video.min.js"></script>
@@ -34,7 +35,8 @@
 	
 	
 	<div id="show_pic" style="margin:0,auto;width:100%;height:800px;">
-	<form method="post" action="${pageContext.request.contextPath }/Resource/checkMov.action">
+	<form method="post" action="${pageContext.request.contextPath }/Resource/checkMov.action"
+	onsubmit="return verify() ;">
 	<table>
 		<tr>
 			<td></td>
@@ -78,7 +80,18 @@
 		</form>
 	</div>
 	<hr>
-	
+	<script type="text/javascript">
+		function verify(){
+			var tag = $('input:radio[name="checkTag"]:checked').val();
+			//alert(tag) ;
+			//未选择是否通过审核
+			if(typeof(tag) == "undefined"){
+				alert("请选择是否通过审核") ;
+				return false ;
+			}
+			return true ;
+		}
+	</script>
 	
 	<s:debug></s:debug>
 </body>

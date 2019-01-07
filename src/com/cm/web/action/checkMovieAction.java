@@ -30,7 +30,7 @@ import com.cm.utils.pathUtils;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 /**
- * �������˵�ͼƬ����Ƶ�Լ����ͼƬ����Ƶ
+ * 将用户的上传添加到审核
  * @author mac
  *
  */
@@ -264,5 +264,8 @@ public class checkMovieAction extends ActionSupport implements ModelDriven<Movie
 			return SUCCESS ;
 		}
 		
+	
+	
+	
 	
 }

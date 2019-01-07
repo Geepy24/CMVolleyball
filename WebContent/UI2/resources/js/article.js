@@ -11,7 +11,7 @@
 					"artId"  :  art_id  ,
 					"delTime"  : now 
 			} ;
-			alert(JSON.stringify(content)) ;
+			//alert(JSON.stringify(content)) ;
 			
 			$.ajax({
 				//外链的js不能用el表达式
