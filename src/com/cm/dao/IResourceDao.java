@@ -74,11 +74,11 @@ public interface IResourceDao {
 		/**
 		 * 根据checkTag分页查找所有的picCheck
 		 */
-		List<PictureCheck> findPCsByCheckTag(String checkTag,Integer currentPage,Integer maxResults) ;
+		List<PictureCheck> findPCsByCheckTag(Integer checkTag,Integer currentPage,Integer maxResults) ;
 		/**
 		 * 根据checkTag分页查找所有的movCheck
 		 */
-		List<MovieCheck> findMCsByCheckTag(String checkTag,Integer currentPage,Integer maxResults) ;
+		List<MovieCheck> findMCsByCheckTag(Integer checkTag,Integer currentPage,Integer maxResults) ;
 		/**
 		 * 根据userId分页查找所有的picCheck
 		 */
@@ -98,10 +98,10 @@ public interface IResourceDao {
 		/**
 		 * 根据checkTag和userId分页查找pc
 		 */
-		List<PictureCheck> findPCsByTagAndUserId(String checkTag,Integer userId,Integer currentPage,Integer maxResults) ;
+		List<PictureCheck> findPCsByTagAndUserId(Integer checkTag,Integer userId,Integer currentPage,Integer maxResults) ;
 		/**
 		 * 根据checkTag和userId分页查找mc
 		 */
-		List<MovieCheck> findMCsByTagAndUserId(String checkTag,Integer userId,Integer currentPage,Integer maxResults) ;
+		List<MovieCheck> findMCsByTagAndUserId(Integer checkTag,Integer userId,Integer currentPage,Integer maxResults) ;
 		
 }

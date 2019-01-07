@@ -119,7 +119,7 @@ public class ResourceDaoImpl implements IResourceDao {
 			
 		}
 		@Override
-		public List<PictureCheck> findPCsByCheckTag(String checkTag, Integer currentPage, Integer maxResults) {
+		public List<PictureCheck> findPCsByCheckTag(Integer checkTag, Integer currentPage, Integer maxResults) {
 			
 			PictureCheck pictureCheck = new PictureCheck() ;
 			pictureCheck.setCheckTag(checkTag);
@@ -128,7 +128,7 @@ public class ResourceDaoImpl implements IResourceDao {
 			
 		}
 		@Override
-		public List<MovieCheck> findMCsByCheckTag(String checkTag, Integer currentPage, Integer maxResults) {
+		public List<MovieCheck> findMCsByCheckTag(Integer checkTag, Integer currentPage, Integer maxResults) {
 			
 			MovieCheck movieCheck = new MovieCheck() ;
 			movieCheck.setCheckTag(checkTag);
@@ -161,7 +161,7 @@ public class ResourceDaoImpl implements IResourceDao {
 			hibernateTemplate.update(movieCheck);
 		}
 		@Override
-		public List<PictureCheck> findPCsByTagAndUserId(String checkTag, Integer userId, Integer currentPage,
+		public List<PictureCheck> findPCsByTagAndUserId(Integer checkTag, Integer userId, Integer currentPage,
 				Integer maxResults) {
 			PictureCheck pictureCheck = new PictureCheck() ;
 			pictureCheck.setCheckTag(checkTag);
@@ -169,7 +169,7 @@ public class ResourceDaoImpl implements IResourceDao {
 			return hibernateTemplate.findByExample(pictureCheck, (currentPage-1)*maxResults, maxResults);
 		}
 		@Override
-		public List<MovieCheck> findMCsByTagAndUserId(String checkTag, Integer userId, Integer currentPage,
+		public List<MovieCheck> findMCsByTagAndUserId(Integer checkTag, Integer userId, Integer currentPage,
 				Integer maxResults) {
 			MovieCheck movieCheck = new MovieCheck() ;
 			movieCheck.setCheckTag(checkTag);

@@ -7,7 +7,7 @@ public class PictureCheck implements Serializable {
 	private Integer picId ;
 	private String picUri ;
 	private String picName ;
-	private String checkTag ;
+	private Integer checkTag ;
 	private String checkCom ;
 	private Integer userId ; 
 	private String resCom ;
@@ -30,10 +30,10 @@ public class PictureCheck implements Serializable {
 	public void setPicName(String picName) {
 		this.picName = picName;
 	}
-	public String getCheckTag() {
+	public Integer getCheckTag() {
 		return checkTag;
 	}
-	public void setCheckTag(String checkTag) {
+	public void setCheckTag(Integer checkTag) {
 		this.checkTag = checkTag;
 	}
 	public String getCheckCom() {

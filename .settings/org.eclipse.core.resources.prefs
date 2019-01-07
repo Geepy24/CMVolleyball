@@ -11,6 +11,7 @@ encoding//src/com/cm/utils=gbk
 encoding//src/com/cm/web/action=gbk
 encoding//src/com/cm/web/action/JumpAction.java=gbk
 encoding//src/com/cm/web/action/UserAction.java=gbk
+encoding//src/com/cm/web/action/checkMovieAction.java=UTF-8
 encoding//src/com/cm/web/action/editAction.java=gbk
 encoding//src/com/cm/web/action/getJSON.java=gbk
 encoding//src/com/cm/web/action/loginAction.java=gbk

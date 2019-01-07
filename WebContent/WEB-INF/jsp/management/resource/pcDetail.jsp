@@ -33,8 +33,8 @@
 		
 		<tr>
 			<td><h4><strong>是否审核通过:</strong></h4></td>
-			<td><input type='radio' name='checkTag' id='checkTag' value='y' />通过</td>
-			<td><input type='radio' name='checkTag' id='checkTag' value='f ' />不通过</td>
+			<td><input type='radio' name='checkTag' id='checkTag' value=1 />通过</td>
+			<td><input type='radio' name='checkTag' id='checkTag' value=-1 />不通过</td>
 		</tr>
 		<tr>
 			<td><h4><strong>审核注释:</strong></h4></td>

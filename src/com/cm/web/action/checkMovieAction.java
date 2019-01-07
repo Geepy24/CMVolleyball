@@ -23,13 +23,14 @@ import com.cm.domain.MovieCheck;
 import com.cm.domain.Resource;
 import com.cm.domain.User;
 import com.cm.service.IResourceService;
+import com.cm.service.IUserService;
 import com.cm.utils.WebUtils;
 import com.cm.utils.movieUtils;
 import com.cm.utils.pathUtils;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 /**
- * ´¦Àí´ýÉóºËµÄÍ¼Æ¬ºÍÊÓÆµÒÔ¼°ÉóºËÍ¼Æ¬ºÍÊÓÆµ
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½Æµï¿½Ô¼ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½Æµ
  * @author mac
  *
  */
@@ -44,6 +45,8 @@ public class checkMovieAction extends ActionSupport implements ModelDriven<Movie
 
 	@Autowired
 	private IResourceService resourceService ;
+	@Autowired
+	private IUserService userService ;
 	private HttpServletRequest request = ServletActionContext.getRequest() ;
 	private User user =  (User) request.getSession().getAttribute("loginInfo")  ;
 	
@@ -125,15 +128,15 @@ public class checkMovieAction extends ActionSupport implements ModelDriven<Movie
 
 
 
-	//---------------------------------ÓÃ»§Ìá½»£¬µÈ´ýÉóºË------------------------------------------------
+	//---------------------------------ç”¨æˆ·ä¸Šä¼ è§†é¢‘ç­‰å¾…å®¡æ ¸------------------------------------------------
 	@Action(value="movToCheck",results= {
 			@Result(name="success",location="/UI2/addSuccess.html")
 			
 	})
 	public String addCheck() {
-		//ÐèÒªµÄÐÅÏ¢£ºÊÓÆµÃû³Æ£ºuploadFileName£¬ÊÓÆµÎÄ¼þ£ºupload£¬Í¼Æ¬´æ´¢ÎÄ¼þ¼ÐÎ»ÖÃ£ºfilePath
-		//±£´æµ½Êý¾Ý±íµÄÐÅÏ¢£ºuri,name,com,tag,user_id,movCom	
-		//Í¼Æ¬´æ´¢ÎÄ¼þ¼ÐÎ»ÖÃ
+		//ä¸Šä¼ çš„æ–‡ä»¶åuploadFileNameä¸Šä¼ çš„æ–‡ä»¶uploadä¿å­˜çš„è·¯å¾„filePath
+		//éœ€è¦çš„ä¿¡æ¯uri,name,com,tag,user_id,movCom	
+		//ä¿å­˜çš„è§†é¢‘è·¯å¾„
 		String filePath =  pathUtils.moviePath() ;
 		System.out.println(filePath);
 		
@@ -141,25 +144,25 @@ public class checkMovieAction extends ActionSupport implements ModelDriven<Movie
         if(!file.exists()){ 
             file.mkdir(); 
         } 
-		System.out.println("ÎÄ¼þÂ·¾¶-ÎÄ¼þÃû-ÎÄ¼þ:"+filePath+"-"+uploadFileName+"-"+upload);
-		//ËõÂÔÍ¼¶ÔÏó
+		System.out.println("æ–‡ä»¶è·¯å¾„-æ–‡ä»¶å-æ–‡ä»¶:"+filePath+"-"+uploadFileName+"-"+upload);
+		//ç¼©ç•¥å›¾
 		MediaPreview mediaPreview = new MediaPreview() ;
 		
         
-		movieCheck.setCheckCom("µÈ´ýÉóºË");
-		//y¾ÍÊÇÒÑÉóºË£¬nÊÇÎ´ÉóºË£¬fÊÇÉóºË²»Í¨¹ý
-		movieCheck.setCheckTag("n");
+		movieCheck.setCheckCom("ç­‰å¾…å®¡æ ¸");
+		//è®¾ç½®ä¸ºæœªå®¡æ ¸
+		movieCheck.setCheckTag(0);
 		movieCheck.setMovName(uploadFileName);
 		movieCheck.setMovUri(filePath+"/"+uploadFileName);
 		movieCheck.setUserId(user.getUserId());
 		
-		//ËõÂÔÍ¼µÄÎÄ¼þ¼Ð
+		//ç¼©ç•¥å›¾çš„æœ¬åœ°ç›®å½•
 		String mpPath = pathUtils.mpPath() ;
 		File mpFile = new File(mpPath); 
 		  if(!mpFile.exists()){ 
 		      mpFile.mkdir(); 
 		   }
-		 //Êä³öµÄjpgµÄÍêÕûuri
+		 //ä¿å­˜çš„jpgçš„uri
 		String mpName = movieCheck.getMovName().split("\\.")[0] + ".jpg";
 		String mpUri = mpPath+"/"+mpName;		
 		mediaPreview.setMpName(mpName);
@@ -167,17 +170,17 @@ public class checkMovieAction extends ActionSupport implements ModelDriven<Movie
 		
 		movieCheck.setMediaPreview(mediaPreview);
 		System.out.println(movieCheck);
-		//±£´æµ½±í
+		//ä¿å­˜åˆ°è¡¨
 		resourceService.saveMovieCheck(movieCheck) ;
 		
 		
-		//±£´æÊÓÆµ¼°ËõÂÔÍ¼µ½±¾µØ
+		//å­˜åˆ°æœ¬åœ°
 		try {
 			FileUtils.copyFile(upload, new File(file,uploadFileName));
 			movieUtils.handler(movieUtils.ffmpegPath, movieCheck.getMovUri(),mpUri );
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.out.println("±£´æµ½±¾µØÎÄ¼þ¼ÐÊ§°Ü");
+			System.out.println("å­˜åˆ°æœ¬åœ°å¤±è´¥");
 			return "fail" ;
 		}
 		
@@ -187,20 +190,20 @@ public class checkMovieAction extends ActionSupport implements ModelDriven<Movie
 
 
 
-//---------------------------------¹ÜÀíÔ±ÉóºË£¬Õâ²¿·ÖÊÇjsp------------------------------------------------
-	//ÏÔÊ¾´ýÉóºË×ÊÔ´ÁÐ±í
+//---------------------------------ç®¡ç†å‘˜å®¡æ ¸é¡µé¢ï¼Œjsp------------------------------------------------
+	//å‰å¾€å®¡æ ¸åˆ—è¡¨
 	@Action(value="toMcList",results= {
 			@Result(name="success",location="/WEB-INF/jsp/management/resource/mcList.jsp")
 	})
 	public String showCheckList() {
 		currentPage = 1 ;
 		request.getSession().setAttribute("currentPage", currentPage);
-		//²éÕÒÎ´ÉóºË
-		movieChecks = resourceService.findMCsByCheckTag("n", currentPage, MAXRESULTS) ;
+		//åˆ†é¡µæŸ¥æ‰¾æœªå®¡æ ¸è§†é¢‘åˆ—è¡¨
+		movieChecks = resourceService.findMCsByCheckTag(0, currentPage, MAXRESULTS) ;
 		
 		return SUCCESS;
 	}
-	//ÉóºË²é¿´ÊÓÆµÏêÇé
+	//è¿›å…¥è§†é¢‘è¯¦æƒ…
 		@Action(value="mcDetail",results= {
 				@Result(name="success",location= "/WEB-INF/jsp/management/resource/mcDetail.jsp")
 		})
@@ -219,13 +222,23 @@ public class checkMovieAction extends ActionSupport implements ModelDriven<Movie
 			System.out.println("2"+movieCheck);
 			return SUCCESS ;
 		}
-		//ÉóºËÊÓÆµ
+		//å®¡æ ¸è§†é¢‘
 	@Action(value="checkMov",results= {
 				@Result(name="success",type="chain",location="toMcList")
 		})
 		public String checkedMovie() {
 			
 			System.out.println(movieCheck);
+			System.out.println(movieCheck.getCheckTag());
+			
+			if(movieCheck.getCheckTag() == -1) {
+				System.err.println("å®¡æ ¸ä¸è¿‡");
+				MediaPreview mediaPreview = resourceService.findMCById(movieCheck.getMovId()).getMediaPreview() ;
+				movieCheck.setMediaPreview(mediaPreview);
+				resourceService.updateMovieCheck(movieCheck);
+				return SUCCESS ;
+			}
+			System.out.println("å®¡æ ¸é€šè¿‡");
 			
 			Resource resource = new Resource() ;
 			Movie movie = new Movie() ;
@@ -236,7 +249,7 @@ public class checkMovieAction extends ActionSupport implements ModelDriven<Movie
 			resource.setResCom(movieCheck.getResCom());
 			resource.setResTag("mov");
 			resource.setAdsId(user.getUserId());
-			
+			resource.setUser(userService.findUserById(movieCheck.getUserId()));
 			
 			MovieCheck movieCheckTemp = resourceService.findMCById(movieCheck.getMovId()) ;
 			movie.setMediaPreview(movieCheckTemp.getMediaPreview());
@@ -245,7 +258,7 @@ public class checkMovieAction extends ActionSupport implements ModelDriven<Movie
 			//System.out.println(resource.getMovie());
 			//System.out.println(resource.getMovie().getMediaPreview());
 			//System.out.println(resource);
-			//¸üÐÂÉóºË±í
+			//æ›´æ–°å›žmcè¡¨
 			resourceService.updateMovieCheck(movieCheck);
 			resourceService.saveResource(resource);
 			return SUCCESS ;

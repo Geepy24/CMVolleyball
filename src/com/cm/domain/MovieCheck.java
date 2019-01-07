@@ -7,7 +7,7 @@ public class MovieCheck implements Serializable {
 	private Integer movId ;
 	private String movUri ;
 	private String movName ;
-	private String checkTag ;
+	private Integer checkTag ;
 	private String checkCom ;
 	private Integer userId ; 
 	private String resCom ;
@@ -47,11 +47,11 @@ public class MovieCheck implements Serializable {
 	}
 
 	
-	public String getCheckTag() {
+	public Integer getCheckTag() {
 		return checkTag;
 	}
 
-	public void setCheckTag(String checkTag) {
+	public void setCheckTag(Integer checkTag) {
 		this.checkTag = checkTag;
 	}
 

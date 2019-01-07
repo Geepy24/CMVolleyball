@@ -101,13 +101,13 @@ public class ResourceServiceImpl implements IResourceService {
 	}
 
 	@Override
-	public List<PictureCheck> findPCsByCheckTag(String checkTag, Integer currentPage, Integer maxResults) {
+	public List<PictureCheck> findPCsByCheckTag(Integer checkTag, Integer currentPage, Integer maxResults) {
 
 		return resourceDao.findPCsByCheckTag(checkTag, currentPage, maxResults);
 	}
 
 	@Override
-	public List<MovieCheck> findMCsByCheckTag(String checkTag, Integer currentPage, Integer maxResults) {
+	public List<MovieCheck> findMCsByCheckTag(Integer checkTag, Integer currentPage, Integer maxResults) {
 
 		return resourceDao.findMCsByCheckTag(checkTag, currentPage, maxResults);
 	}
@@ -137,14 +137,14 @@ public class ResourceServiceImpl implements IResourceService {
 	}
 
 	@Override
-	public List<PictureCheck> findPCsByTagAndUserId(String checkTag, Integer userId, Integer currentPage,
+	public List<PictureCheck> findPCsByTagAndUserId(Integer checkTag, Integer userId, Integer currentPage,
 			Integer maxResults) {
 
 		return resourceDao.findPCsByTagAndUserId(checkTag, userId, currentPage, maxResults);
 	}
 
 	@Override
-	public List<MovieCheck> findMCsByTagAndUserId(String checkTag, Integer userId, Integer currentPage,
+	public List<MovieCheck> findMCsByTagAndUserId(Integer checkTag, Integer userId, Integer currentPage,
 			Integer maxResults) {
 
 		return resourceDao.findMCsByTagAndUserId(checkTag, userId, currentPage, maxResults);

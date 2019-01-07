@@ -2,6 +2,7 @@ package com.cm.web.action;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,9 +18,13 @@ import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.cm.domain.Picture;
 import com.cm.domain.PictureCheck;
+import com.cm.domain.Resource;
 import com.cm.domain.User;
 import com.cm.service.IResourceService;
+import com.cm.service.IUserService;
+import com.cm.utils.WebUtils;
 import com.cm.utils.pathUtils;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
@@ -39,6 +44,8 @@ public class checkPictureAction extends ActionSupport implements ModelDriven<Pic
 
 	@Autowired
 	private IResourceService resourceService ;
+	@Autowired
+	private IUserService userService ;
 	
 	private HttpServletRequest request = ServletActionContext.getRequest() ;
 	private User user =  (User) request.getSession().getAttribute("loginInfo")  ;
@@ -119,7 +126,7 @@ public class checkPictureAction extends ActionSupport implements ModelDriven<Pic
 		
 		pictureCheck.setCheckCom("等待审核");
 		//y就是已审核，n是未审核，f是审核不通过
-		pictureCheck.setCheckTag("n");
+		pictureCheck.setCheckTag(0);
 		pictureCheck.setPicName(uploadFileName);
 		pictureCheck.setPicUri(filePath+"/"+uploadFileName);
 		pictureCheck.setUserId(user.getUserId());
@@ -156,7 +163,7 @@ public class checkPictureAction extends ActionSupport implements ModelDriven<Pic
 		currentPage = 1 ;
 		request.getSession().setAttribute("currentPage", currentPage);
 		//查找未审核
-		pictureChecks = resourceService.findPCsByCheckTag("n", currentPage, MAXRESULTS) ;
+		pictureChecks = resourceService.findPCsByCheckTag(0, currentPage, MAXRESULTS) ;
 		
 		
 		return SUCCESS;
@@ -169,6 +176,7 @@ public class checkPictureAction extends ActionSupport implements ModelDriven<Pic
 	})
 	public String pcDetail() {
 		System.out.println(pictureCheck);
+		
 		PictureCheck pictureCheckTemp = resourceService.findPCById(pictureCheck.getPicId()) ;
 		pictureCheck.setCheckCom(pictureCheckTemp.getCheckCom());
 		pictureCheck.setPicName(pictureCheckTemp.getPicName());
@@ -186,6 +194,30 @@ public class checkPictureAction extends ActionSupport implements ModelDriven<Pic
 	public String checkedPicture() {
 				
 		System.out.println(pictureCheck);
+		
+		
+		//审核不通过
+		if(pictureCheck.getCheckTag() == -1) {
+			resourceService.updatePictureCheck(pictureCheck);
+			System.err.println("审核不通过");
+			return SUCCESS ;
+		}
+		System.out.println("审核通过");
+		
+		Picture picture = new Picture() ;
+		Resource resource = new Resource() ;
+		
+		
+		picture.setPicName(pictureCheck.getPicName());
+		picture.setPicUri(pictureCheck.getPicUri());
+		resource.setPicture(picture);
+		resource.setPubTime(WebUtils.getTime());
+		resource.setResCom(pictureCheck.getResCom());
+		resource.setUser(userService.findUserById(pictureCheck.getUserId()));
+		resource.setResTag("pic");
+		resource.setAdsId(user.getUserId());
+		resourceService.saveResource(resource);
+		resourceService.updatePictureCheck(pictureCheck);
 		
 		
 		return SUCCESS ;
