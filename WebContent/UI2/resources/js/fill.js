@@ -36,8 +36,7 @@ function article(){
 			$("#column2").html("Title") ;
 			$("#column3").html("Publish Time") ;
 			$("#column4").html("Last Modify") ;
-			$("#n1").html("1") ;
-		
+			$("#rows").html("") ;		
 		$.ajax({
 			type : "GET" ,
 			url : "../Persional/indexArticles.action",
@@ -46,39 +45,9 @@ function article(){
 			}, 
 			dataType : "JSON" ,
 			success:function(data){
-				//alert(data) ;
-				//要两次转换才能将传回的json字符串变成json对象
-				//alert(typeof(backdata)) ;
-				//alert(backdata.artTitle) ;
-				var backdata = JSON.parse(data) ;
-				
-				var backdata = JSON.parse(backdata) ;
-				//alert(JSON.stringify(backdata)) ;
-				//遍历
-				var i =1 ;
-				 for(var item in backdata){
-					//alert(backdata[item]) ;
-					//var num = item ;
-					var content = backdata[item].split("###") ; 
-					var artTitle = content[0] ;
-					var pubTime = content[1] ;
-					var lastMod = content[2] ;
-					var artId = content[3] ;//artId
-					$("#rows").prepend(
-							"<tr>"
-								+"<td><input type='checkbox' /></td>"
-								+"<td>"+i+"</td>"
-								+"<td><a href='../Article/showArticle?artId="+artId+"' title='title'>"+artTitle+"</a></td>"
-								+"<td>"+pubTime+"</td>"
-								+"<td>"+lastMod+"</td>"
-								+"<td><a href='javascript:void(0)' onclick='reEdit("+artId+")' title='Edit'>"
-								+"<img src='../UI2/resources/images/icons/pencil.png' alt='编辑' /></a>"
-								+"<a href='javascript:void(0)' onclick='deleteArticle("+artId+")' title='Delete'><img src='../UI2/resources/images/icons/cross.png' alt='删除' /></a>"
-								+"</td>"
-							+"</tr>") ;
-					
-					i++ ;
-				 } 
+				var data = JSON.parse(data) ;
+				articleContent(data) ;
+				$("#n1").html(1) ;
 				
 			}
 		}) ;
@@ -97,7 +66,7 @@ function article(){
 			$("#column2").html("Title") ;
 			$("#column3").html("Delete Time") ;
 			$("#column4").hide() ;
-			$("#n1").html(1) ;
+			$("#rows").html("") ;
 			$.ajax({
 				type : "GET" ,
 				url : "../Persional/dustList.action",
@@ -108,35 +77,10 @@ function article(){
 				success:function(data){
 					//alert(data) ;
 					//要两次转换才能将传回的json字符串变成json对象
-					//alert(typeof(backdata)) ;
-					//alert(backdata.artTitle) ;
-					$("#rows").html("") ;
-					var backdata = JSON.parse(data) ;
-					var backdata = JSON.parse(backdata) ;
-					//alert(JSON.stringify(backdata)) ;
-					//遍历
-					var i =1 ;
-					 for(var item in backdata){
-						//alert(backdata[item]) ;
-						//var num = item ;
-						var content = backdata[item].split("###") ; 
-						var artTitle = content[0] ;
-						var delTime = content[1] ;
-						var dustId = content[2] ; //id在后面会有用
-						$("#rows").prepend(
-								"<tr>"
-									+"<td><input type='checkbox' /></td>"
-									+"<td>"+i+"</td>"
-									+"<td><a href='javascript:void(0)' onclick='reEdit("+dustId+")' title='title'>"+artTitle+"</a></td>"
-									+"<td>"+delTime+"</td>"
-									+"<td><a href='javascript:void(0)' onclick='reEdit("+dustId+")' title='Edit'>"
-									+"<img src='../UI2/resources/images/icons/pencil.png' alt='编辑' /></a>"
-									+"<a href='javascript:void(0)' onclick='deleteDustbin("+dustId+")' title='Delete'><img src='../UI2/resources/images/icons/cross.png' alt='删除' /></a>"
-									+"</td>"
-								+"</tr>") ;
-						
-						i++ ;
-					 } 
+					var data = JSON.parse(data) ;
+					dustbinContent(data) ;
+					$("#n1").html(1) ;
+
 					
 				}
 			}) ;
@@ -160,7 +104,7 @@ function article(){
 				$("#column2").html("Title") ;
 				$("#column3").html("Last Modify") ;
 				$("#column4").hide() ;
-				$("#n1").html(1) ;
+				$("#rows").html("") ;
 			
 			$.ajax({
 				type : "GET" ,
@@ -172,36 +116,10 @@ function article(){
 				success:function(data){
 					//alert(data) ;
 					//要两次转换才能将传回的json字符串变成json对象
-					//alert(typeof(backdata)) ;
-					//alert(backdata.artTitle) ;
-					$("#rows").html("") ;
-					var backdata = JSON.parse(data) ;
-					var backdata = JSON.parse(backdata) ;
-					//alert(JSON.stringify(backdata)) ;
-					//遍历
-					var i =1 ;
-					 for(var item in backdata){
-						//alert(backdata[item]) ;
-						//var num = item ;
-						var content = backdata[item].split("###") ; 
-						var artTitle = content[0] ;
-						var lastMod = content[1] ;
-						var draId = content[2] ; //id在后面会有用
-						$("#rows").prepend(
-								"<tr>"
-									+"<td><input type='checkbox' /></td>"
-									+"<td>"+i+"</td>"
-									+"<td><a href='javascript:void(0)' onclick='reEdit("+draId+")' title='title'>"+artTitle+"</a></td>"
-									+"<td>"+lastMod+"</td>"
-									+"<td><a href='javascript:void(0)' onclick='reEdit("+draId+")' title='Edit'>"
-									+"<img src='../UI2/resources/images/icons/pencil.png' alt='编辑' /></a>"
-									+"<a href='javascript:void(0)' onclick='deleteDraft("+draId+")' title='Delete'><img src='../UI2/resources/images/icons/cross.png' alt='删除' /></a>"
-									+"</td>"
-								+"</tr>") ;
-						
-						i++ ;
-					 } 
-					
+					var data = JSON.parse(data) ;
+					draftContent(data)
+					$("#n1").html(1) ;
+
 				}
 			}) ;
 	
@@ -245,7 +163,7 @@ function article(){
 		$("#column3").html("Publish Time") ;
 		$("#column4").hide() ;
 		$("#rows").html("") ;
-		$("#n1").html(1) ;
+		
 		
 		//查找的表是resource表
 		$.ajax({
@@ -256,38 +174,11 @@ function article(){
 			}, 
 			dataType : "JSON" ,
 			success:function(data){
-				//alert(data) ;
 				//要两次转换才能将传回的json字符串变成json对象
-				//alert(typeof(backdata)) ;
-				//alert(backdata.artTitle) ;
-				var backdata = JSON.parse(data) ;
-				var backdata = JSON.parse(backdata) ;
-				//alert(JSON.stringify(backdata)) ;
-				//遍历
-				var i =1 ;
-				 for(var item in backdata){
-					//alert(backdata[item]) ;
-					//var num = item ;
-					var content = backdata[item].split("###") ; 
-					var picName = content[0]
-					var resCom = content[1] ;
-					var pubTime= content[2] ;
-					var resId = content[3] ; //id在后面会有用
-					$("#rows").prepend(
-							"<tr>"
-								+"<td><input type='checkbox' /></td>"
-								+"<td><a href='javascript:void(0)' onclick='' title='title'><img style='width:50px;height:50px' src='/pic/"+picName+"' /></a></td>"
-								+"<td>"+resCom+"</td>"
-								+"<td>"+pubTime+"</td>"
-								+"<td><a href='javascript:void(0)' onclick='' title='Edit'>"
-								+"<img src='../UI2/resources/images/icons/pencil.png' alt='编辑' /></a>"
-								+"<a href='javascript:void(0)' onclick='' title='Delete'><img src='../UI2/resources/images/icons/cross.png' alt='删除' /></a>"
-								+"</td>"
-							+"</tr>") ;
-					
-					i++ ;
-				 } 
-				
+				var data = JSON.parse(data) ;
+				photosContent(data) ;
+				$("#n1").html(1) ;
+
 			}
 		}) ;
 		
@@ -303,7 +194,7 @@ function article(){
 		$("#column3").html("Publish Time") ;
 		$("#column4").hide() ;
 		$("#rows").html("") ;
-		$("#n1").html(1) ;
+		
 		
 		//查找的表是resource表
 		$.ajax({
@@ -314,37 +205,10 @@ function article(){
 			}, 
 			dataType : "JSON" ,
 			success:function(data){
-				//alert(data) ;
 				//要两次转换才能将传回的json字符串变成json对象
-				//alert(typeof(backdata)) ;
-				//alert(backdata.artTitle) ;
-				var backdata = JSON.parse(data) ;
-				var backdata = JSON.parse(backdata) ;
-				//alert(JSON.stringify(backdata)) ;
-				//遍历
-				var i =1 ;
-				 for(var item in backdata){
-					//alert(backdata[item]) ;
-					//var num = item ;
-					var content = backdata[item].split("###") ; 
-					var  mpName = content[0] ;
-					var resCom = content[1] ;
-					var pubTime= content[2] ;
-					var resId = content[3] ; //id在后面会有用
-					$("#rows").prepend(
-							"<tr>"
-								+"<td><input type='checkbox' /></td>"
-								+"<td><a href='javascript:void(0)' onclick='' title='title'><img style='width:50px;height:50px' src='/movpre/"+mpName+"' /></a></td>"
-								+"<td>"+resCom+"</td>"
-								+"<td>"+pubTime+"</td>"
-								+"<td><a href='javascript:void(0)' onclick='' title='Edit'>"
-								+"<img src='../UI2/resources/images/icons/pencil.png' alt='编辑' /></a>"
-								+"<a href='javascript:void(0)' onclick='' title='Delete'><img src='../UI2/resources/images/icons/cross.png' alt='删除' /></a>"
-								+"</td>"
-							+"</tr>") ;
-					
-					i++ ;
-				 } 
+				var data = JSON.parse(data) ;
+				moviesContent(data) ;
+				$("#n1").html(1) ;
 				
 			}
 		}) ;	
@@ -356,14 +220,13 @@ function article(){
 			$("#tab3").hide() ;
 			$("#tab1").show() ;
 			
-			$("#column1").html("movies") ;
+			$("#column1").html("MCs") ;
 			$("#column2").html("Tag") ; //审核标记
 			$("#column3").html("Comment") ; //审核注释
 			$("#column4").hide() ;
 			$("#rows").html("") ;
-			$("#n1").html(1) ;
 			
-			//查找的表是resource表
+			
 			$.ajax({
 				type : "GET" ,
 				url : "../Persional/userMcList.action",
@@ -372,37 +235,10 @@ function article(){
 				}, 
 				dataType : "JSON" ,
 				success:function(data){
-					//alert(data) ;
 					//要两次转换才能将传回的json字符串变成json对象
-					//alert(typeof(backdata)) ;
-					//alert(backdata.artTitle) ;
-					var backdata = JSON.parse(data) ;
-					var backdata = JSON.parse(backdata) ;
-					//alert(JSON.stringify(backdata)) ;
-					//遍历
-					var i =1 ;
-					 for(var item in backdata){
-						//alert(backdata[item]) ;
-						//var num = item ;
-						var content = backdata[item].split("###") ; 
-						var  mpName = content[0] ;
-						var checkTag= content[1] ;
-						var checkCom= content[2] ;
-						var resId = content[3] ; //id在后面会有用
-						$("#rows").prepend(
-								"<tr>"
-									+"<td><input type='checkbox' /></td>"
-									+"<td><a href='javascript:void(0)' onclick='' title='title'><img style='width:50px;height:50px' src='/movpre/"+mpName+"' /></a></td>"
-									+"<td>"+checkTag+"</td>"
-									+"<td>"+checkCom+"</td>"
-									+"<td><a href='javascript:void(0)' onclick='' title='Edit'>"
-									+"<img src='../UI2/resources/images/icons/pencil.png' alt='编辑' /></a>"
-									+"<a href='javascript:void(0)' onclick='' title='Delete'><img src='../UI2/resources/images/icons/cross.png' alt='删除' /></a>"
-									+"</td>"
-								+"</tr>") ;
-						
-						i++ ;
-					 } 
+					var data = JSON.parse(data) ;
+					mcsContent(data) ;
+					$("#n1").html(1) ;
 					
 				}
 			}) ;
@@ -415,14 +251,13 @@ function article(){
 			$("#tab3").hide() ;
 			$("#tab1").show() ;
 			
-			$("#column1").html("photos") ;
+			$("#column1").html("PCs") ;
 			$("#column2").html("Tag") ;
 			$("#column3").html("Comment") ;
 			$("#column4").hide() ;
 			$("#rows").html("") ;
-			$("#n1").html(1) ;
 			
-			//查找的表是resource表
+			
 			$.ajax({
 				type : "GET" ,
 				url : "../Persional/userPcList.action",
@@ -431,41 +266,226 @@ function article(){
 				}, 
 				dataType : "JSON" ,
 				success:function(data){
-					//alert(data) ;
 					//要两次转换才能将传回的json字符串变成json对象
-					//alert(typeof(backdata)) ;
-					//alert(backdata.artTitle) ;
-					var backdata = JSON.parse(data) ;
-					var backdata = JSON.parse(backdata) ;
-					//alert(JSON.stringify(backdata)) ;
-					//遍历
-					var i =1 ;
-					 for(var item in backdata){
-						//alert(backdata[item]) ;
-						//var num = item ;
-						var content = backdata[item].split("###") ; 
-						var picName = content[0]
-						var checkTag= content[1] ;
-						var checkCom= content[2] ;
-						var resId = content[3] ; //id在后面会有用
-						$("#rows").prepend(
-								"<tr>"
-									+"<td><input type='checkbox' /></td>"
-									+"<td><a href='javascript:void(0)' onclick='' title='title'><img style='width:50px;height:50px' src='/pic/"+picName+"' /></a></td>"
-									+"<td>"+checkTag+"</td>"
-									+"<td>"+checkCom+"</td>"
-									+"<td><a href='javascript:void(0)' onclick='' title='Edit'>"
-									+"<img src='../UI2/resources/images/icons/pencil.png' alt='编辑' /></a>"
-									+"<a href='javascript:void(0)' onclick='' title='Delete'><img src='../UI2/resources/images/icons/cross.png' alt='删除' /></a>"
-									+"</td>"
-								+"</tr>") ;
-						
-						i++ ;
-					 } 
+					var data = JSON.parse(data) ;
+					pcsContent(data) ;
+					$("#n1").html(1) ;
 					
 				}
 			}) ;
 			
 		}		
 		
+//--------------------根据不同的点击内容改变不同的表格样式和内容填充(用于ajax的success)--------------------------
+function articleContent(data){
+	var backdata = JSON.parse(data) ;
+	$("#rows").html("") ;
 	
+	var i =1 ;
+	 for(var item in backdata){
+		var num = item ;
+		var content = backdata[item].split("###") ; 
+		var artTitle = content[0] ;
+		var pubTime = content[1] ;
+		var lastMod = content[2] ;
+		var artId = content[3] ;//artId
+		$("#rows").prepend(
+				"<tr>"
+					+"<td><input type='checkbox' /></td>"
+					+"<td>"+i+"</td>"
+					+"<td><a href='#' title='title'>"+artTitle+"</a></td>"
+					+"<td>"+pubTime+"</td>"
+					+"<td>"+lastMod+"</td>"
+					+"<td><a href='javascript:void(0)' onclick='reEdit("+artId+")' title='Edit'>"
+					+"<img src='../UI2/resources/images/icons/pencil.png' alt='编辑' /></a>"
+					+"<a href='javascript:void(0)' onclick='deleteArticle("+artId+")' title='Delete'><img src='../UI2/resources/images/icons/cross.png' alt='删除' /></a>"
+					+"</td>"
+				+"</tr>") ;
+		
+			i++ ;
+	 	} 
+}
+function draftContent(data){
+	
+	var backdata = JSON.parse(data) ;
+	//alert(JSON.stringify(backdata)) ;
+	//遍历
+	var i =1 ;
+	 for(var item in backdata){
+		//alert(backdata[item]) ;
+		//var num = item ;
+		var content = backdata[item].split("###") ; 
+		var artTitle = content[0] ;
+		var lastMod = content[1] ;
+		var draId = content[2] ; //id在后面会有用
+		$("#rows").prepend(
+				"<tr>"
+					+"<td><input type='checkbox' /></td>"
+					+"<td>"+i+"</td>"
+					+"<td><a href='javascript:void(0)' onclick='reEdit("+draId+")' title='title'>"+artTitle+"</a></td>"
+					+"<td>"+lastMod+"</td>"
+					+"<td><a href='javascript:void(0)' onclick='reEdit("+draId+")' title='Edit'>"
+					+"<img src='../UI2/resources/images/icons/pencil.png' alt='编辑' /></a>"
+					+"<a href='javascript:void(0)' onclick='deleteDraft("+draId+")' title='Delete'><img src='../UI2/resources/images/icons/cross.png' alt='删除' /></a>"
+					+"</td>"
+				+"</tr>") ;
+		
+		i++ ;
+	 } 
+				
+}
+function dustbinContent(data){
+	var backdata = JSON.parse(data) ;
+	//alert(JSON.stringify(backdata)) ;
+	//遍历
+	var i =1 ;
+	 for(var item in backdata){
+		//alert(backdata[item]) ;
+		//var num = item ;
+		var content = backdata[item].split("###") ; 
+		var artTitle = content[0] ;
+		var delTime = content[1] ;
+		var dustId = content[2] ; //id在后面会有用
+		$("#rows").prepend(
+				"<tr>"
+					+"<td><input type='checkbox' /></td>"
+					+"<td>"+i+"</td>"
+					+"<td><a href='javascript:void(0)' onclick='reEdit("+dustId+")' title='title'>"+artTitle+"</a></td>"
+					+"<td>"+delTime+"</td>"
+					+"<td><a href='javascript:void(0)' onclick='reEdit("+dustId+")' title='Edit'>"
+					+"<img src='../UI2/resources/images/icons/pencil.png' alt='编辑' /></a>"
+					+"<a href='javascript:void(0)' onclick='deleteDustbin("+dustId+")' title='Delete'><img src='../UI2/resources/images/icons/cross.png' alt='删除' /></a>"
+					+"</td>"
+				+"</tr>") ;
+		
+		i++ ;
+	 } 
+	
+}
+function photosContent(data){
+	var backdata = JSON.parse(data) ;
+	//alert(JSON.stringify(backdata)) ;
+	
+	//遍历
+	var i =1 ;
+	 for(var item in backdata){
+		//alert(backdata[item]) ;
+		//var num = item ;
+		var content = backdata[item].split("###") ; 
+		var picName = content[0]
+		var resCom = content[1] ;
+		var pubTime= content[2] ;
+		var resId = content[3] ; //id在后面会有用
+		$("#rows").prepend(
+				"<tr>"
+					+"<td><input type='checkbox' /></td>"
+					+"<td><a href='javascript:void(0)' onclick='' title='title'><img style='width:50px;height:50px' src='/pic/"+picName+"' /></a></td>"
+					+"<td>"+resCom+"</td>"
+					+"<td>"+pubTime+"</td>"
+					+"<td><a href='javascript:void(0)' onclick='' title='Edit'>"
+					+"<img src='../UI2/resources/images/icons/pencil.png' alt='编辑' /></a>"
+					+"<a href='javascript:void(0)' onclick='' title='Delete'><img src='../UI2/resources/images/icons/cross.png' alt='删除' /></a>"
+					+"</td>"
+				+"</tr>") ;
+		
+		i++ ;
+	 } 
+		
+}
+function moviesContent(data){
+	var backdata = JSON.parse(data) ;
+	//alert(JSON.stringify(backdata)) ;
+	//遍历
+	var i =1 ;
+	 for(var item in backdata){
+		//alert(backdata[item]) ;
+		//var num = item ;
+		var content = backdata[item].split("###") ; 
+		var  mpName = content[0] ;
+		var resCom = content[1] ;
+		var pubTime= content[2] ;
+		var resId = content[3] ; //id在后面会有用
+		$("#rows").prepend(
+				"<tr>"
+					+"<td><input type='checkbox' /></td>"
+					+"<td><a href='javascript:void(0)' onclick='' title='title'><img style='width:50px;height:50px' src='/movpre/"+mpName+"' /></a></td>"
+					+"<td>"+resCom+"</td>"
+					+"<td>"+pubTime+"</td>"
+					+"<td><a href='javascript:void(0)' onclick='' title='Edit'>"
+					+"<img src='../UI2/resources/images/icons/pencil.png' alt='编辑' /></a>"
+					+"<a href='javascript:void(0)' onclick='' title='Delete'><img src='../UI2/resources/images/icons/cross.png' alt='删除' /></a>"
+					+"</td>"
+				+"</tr>") ;
+		
+		i++ ;
+	 } 
+	
+}
+function pcsContent(data){
+	var backdata = JSON.parse(data) ;
+	//alert(JSON.stringify(backdata)) ;
+	//遍历
+	var i =1 ;
+	 for(var item in backdata){
+		//alert(backdata[item]) ;
+		//var num = item ;
+		var content = backdata[item].split("###") ; 
+		var picName = content[0]
+		var checkTag= content[1] ;
+		var checkCom= content[2] ;
+		var resId = content[3] ; //id在后面会有用
+		$("#rows").prepend(
+				"<tr>"
+					+"<td><input type='checkbox' /></td>"
+					+"<td><a href='javascript:void(0)' onclick='' title='title'><img style='width:50px;height:50px' src='/pic/"+picName+"' /></a></td>"
+					+"<td>"+checkTag+"</td>"
+					+"<td>"+checkCom+"</td>"
+					+"<td><a href='javascript:void(0)' onclick='' title='Edit'>"
+					+"<img src='../UI2/resources/images/icons/pencil.png' alt='编辑' /></a>"
+					+"<a href='javascript:void(0)' onclick='' title='Delete'><img src='../UI2/resources/images/icons/cross.png' alt='删除' /></a>"
+					+"</td>"
+				+"</tr>") ;
+		
+		i++ ;
+	 } 
+	
+}
+function mcsContent(data){
+	var backdata = JSON.parse(data) ;
+	//alert(JSON.stringify(backdata)) ;
+	//遍历
+	var i =1 ;
+	 for(var item in backdata){
+		//alert(backdata[item]) ;
+		//var num = item ;
+		var content = backdata[item].split("###") ; 
+		var  mpName = content[0] ;
+		var checkTag= content[1] ;
+		var checkCom= content[2] ;
+		var resId = content[3] ; //id在后面会有用
+		$("#rows").prepend(
+				"<tr>"
+					+"<td><input type='checkbox' /></td>"
+					+"<td><a href='javascript:void(0)' onclick='' title='title'><img style='width:50px;height:50px' src='/movpre/"+mpName+"' /></a></td>"
+					+"<td>"+checkTag+"</td>"
+					+"<td>"+checkCom+"</td>"
+					+"<td><a href='javascript:void(0)' onclick='' title='Edit'>"
+					+"<img src='../UI2/resources/images/icons/pencil.png' alt='编辑' /></a>"
+					+"<a href='javascript:void(0)' onclick='' title='Delete'><img src='../UI2/resources/images/icons/cross.png' alt='删除' /></a>"
+					+"</td>"
+				+"</tr>") ;
+		
+		i++ ;
+	 } 
+	
+			
+}
+
+
+
+
+
+
+
+
+

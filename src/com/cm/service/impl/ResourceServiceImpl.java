@@ -9,6 +9,7 @@ import com.cm.dao.IResourceDao;
 import com.cm.domain.MovieCheck;
 import com.cm.domain.PictureCheck;
 import com.cm.domain.Resource;
+import com.cm.domain.User;
 import com.cm.service.IResourceService;
 @Service("resourceService")
 public class ResourceServiceImpl implements IResourceService {
@@ -57,8 +58,8 @@ public class ResourceServiceImpl implements IResourceService {
 	}
 
 	@Override
-	public Long AllResourceNumber(Integer userId, String tag) {
-		return resourceDao.AllResourceNumber(userId, tag);
+	public Long AllResourceNumber(User user, String tag) {
+		return resourceDao.AllResourceNumber(user, tag);
 	}
 
 	@Override
@@ -148,6 +149,26 @@ public class ResourceServiceImpl implements IResourceService {
 			Integer maxResults) {
 
 		return resourceDao.findMCsByTagAndUserId(checkTag, userId, currentPage, maxResults);
+	}
+
+	@Override
+	public Long findAllMcs() {
+		return resourceDao.findAllMcs();
+	}
+
+	@Override
+	public Long findAllPcs() {
+		return resourceDao.findAllPcs();
+	}
+
+	@Override
+	public Long findAllMcsByUserId(Integer userId) {
+		return resourceDao.findAllMcsByUserId(userId);
+	}
+
+	@Override
+	public Long findAllPcsByUserId(Integer userId) {
+		return resourceDao.findAllPcsByUserId(userId);
 	}
 
 	

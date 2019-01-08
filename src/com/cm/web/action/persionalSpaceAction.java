@@ -358,6 +358,34 @@ public List<PictureCheck> getPictureChecks() {
 			return SUCCESS ;
 			
 		}
+		if(pageRef.equals("movies")) {
+			resources = resourceService.findAllResource("mov", user.getUserId(), currentPage, MAXRESULTS) ;
+			returndata = jsonUtils.movieListToJsonString(resources) ;
+			request.getSession().setAttribute("currentPage", currentPage);
+			return SUCCESS ;
+			
+		}
+		if(pageRef.equals("photos")) {
+			resources = resourceService.findAllResource("pic", currentPage, MAXRESULTS) ;
+			returndata = jsonUtils.pictureListToJsonString(resources) ;
+			request.getSession().setAttribute("currentPage", currentPage);
+			return SUCCESS ;
+			
+		}
+		if(pageRef.equals("MCs")) {
+			movieChecks = resourceService.findMCsByUserId(user.getUserId(), currentPage, MAXRESULTS) ;
+			returndata = jsonUtils.mcListToJsonString(movieChecks) ;
+	 		request.getSession().setAttribute("currentPage", currentPage);
+			return SUCCESS ;
+			
+		}
+		if(pageRef.equals("PCs")) {
+			pictureChecks = resourceService.findPCsByUserId(user.getUserId(), currentPage, MAXRESULTS) ;
+			returndata = jsonUtils.pcListToJsonString(pictureChecks) ;
+			request.getSession().setAttribute("currentPage", currentPage);
+			return SUCCESS ;
+			
+		}
 		
 		
 		
@@ -376,6 +404,7 @@ public List<PictureCheck> getPictureChecks() {
 			currentPage = currentPage + 1 ;
 				
 				System.out.println("下一页"+currentPage);
+				
 				if(pageRef.equals("dustbin")) {
 				Dustbin dustbin = new Dustbin() ;
 				dustbin.setUser(user);
@@ -418,11 +447,61 @@ public List<PictureCheck> getPictureChecks() {
 					}
 					
 				}
+				if(pageRef.equals("movies")) {
+					
+					resources = resourceService.findAllResource("mov", user.getUserId(), currentPage, MAXRESULTS) ;
+					if(resources.size() == 0) {
+						returndata = "error : 没有更多了！" ;
+						return "fail" ;
+					}else {
+						returndata = jsonUtils.movieListToJsonString(resources) ;
+						request.getSession().setAttribute("currentPage", currentPage);
+						return SUCCESS ;
+					}
+					
+				}
+				if(pageRef.equals("photos")) {
+					
+					resources = resourceService.findAllResource("pic", currentPage, MAXRESULTS) ;
+					if(resources.size() == 0) {
+						returndata = "error : 没有更多了！" ;
+						return "fail" ;
+					}else {
+						returndata = jsonUtils.pictureListToJsonString(resources) ;
+						request.getSession().setAttribute("currentPage", currentPage);
+						return SUCCESS ;
+					}
+					
+				}
+				if(pageRef.equals("MCs")) {
+					movieChecks = resourceService.findMCsByUserId(user.getUserId(), currentPage, MAXRESULTS) ;
+					if(movieChecks.size() == 0) {
+						returndata = "error : 没有更多了！" ;
+						return "fail" ;
+					}else {
+						returndata = jsonUtils.mcListToJsonString(movieChecks) ;
+						request.getSession().setAttribute("currentPage", currentPage);
+						return SUCCESS ;
+					}
+					
+				}
+				if(pageRef.equals("PCs")) {
+					pictureChecks = resourceService.findPCsByUserId(user.getUserId(), currentPage, MAXRESULTS) ;
+					if(pictureChecks.size() == 0) {
+						returndata = "error : 没有更多了！" ;
+						return "fail" ;
+					}else {
+						returndata = jsonUtils.pcListToJsonString(pictureChecks) ;
+						request.getSession().setAttribute("currentPage", currentPage);
+						return SUCCESS ;
+					}
+					
+				}
 		return "fail" ;
 	}
 	
 	
-	//选择页码
+	//前往某页
 	@Action(value="sPage",results= {
 			@Result(name="success",type="json",params= {"root","returndata"})
 	})
@@ -452,11 +531,33 @@ public List<PictureCheck> getPictureChecks() {
 			returndata = jsonUtils.dsutListToJsonString(dustbins) ;
 			return SUCCESS ;
 		}
+		if(pageRef.equals("photos")) {
+			
+			resources = resourceService.findAllResource("pic", user.getUserId(), currentPage, MAXRESULTS) ;
+			returndata = jsonUtils.pictureListToJsonString(resources) ;
+			return SUCCESS ;
+		}
+		if(pageRef.equals("movies")) {
+			resources = resourceService.findAllResource("mov", user.getUserId(), currentPage, MAXRESULTS) ;
+			returndata = jsonUtils.movieListToJsonString(resources) ;
+			return SUCCESS ;
+		}
+		if(pageRef.equals("PCs")) {
+			
+			pictureChecks = resourceService.findPCsByUserId(user.getUserId(), currentPage, MAXRESULTS) ;
+			returndata = jsonUtils.pcListToJsonString(pictureChecks) ;
+			return SUCCESS ;
+		}
+		if(pageRef.equals("MCs")) {
+			movieChecks = resourceService.findMCsByUserId(user.getUserId(), currentPage, MAXRESULTS) ;
+			returndata = jsonUtils.mcListToJsonString(movieChecks) ;
+			return SUCCESS ;
+		}
 	return "fail" ;
 		
 	}
 		
-	//全部页码
+	//全部页码 
 	@Action(value="pages",results= {
 			@Result(name="success",type="json",params= {"root","returndata"})
 
@@ -465,15 +566,35 @@ public List<PictureCheck> getPictureChecks() {
 		Long number = 1l ;
 		Long pages ;
 		System.out.println("来源："+pageRef);
+		//文章
 		if(pageRef.equals("article")) {
 			number = articleService.AllArticleNumber(user.getUserId()) ;
 		}
+		//草稿
 		if(pageRef.equals("draft")) {
 			 number = articleService.AllDraftNumber(user.getUserId()) ;
 		}
+		//回收站
 		if(pageRef.equals("dustbin")) {
 			number = articleService.AllDustbinNumber(user.getUserId()) ;
 		}
+		//相册,如何通过外键查找总数
+		if(pageRef.equals("photos")) {
+			number = resourceService.AllResourceNumber(user, "pic") ;
+		}
+		//视频，如何通过外键查找总数
+		if(pageRef.equals("movies")) {
+			number = resourceService.AllResourceNumber(user, "mov") ;
+		}
+		//相册审核列表
+		if(pageRef.equals("PCs")) {
+			number = resourceService.findAllPcsByUserId(user.getUserId()) ;
+		}
+		//视频审核列表
+		if(pageRef.equals("MCs")) {
+			number = resourceService.findAllMcsByUserId(user.getUserId()) ;
+		}
+		
 		if(0 == number) {
 			pages = 1l ;
 		}else if( 0 == number % MAXRESULTS ) {
@@ -487,6 +608,7 @@ public List<PictureCheck> getPictureChecks() {
 		return SUCCESS ;
 	}
 	//当前页码
+	@Deprecated
 	@Action(value="thePage",results= {
 			@Result(name="success",type="json",params= {"root","returndata"})
 

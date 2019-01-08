@@ -77,6 +77,7 @@
 			var content = {
 					"pageRef"	  :	flag 
 			} ;
+			//alert(flag) ;
 			$.ajax({
 				url : "../Persional/pages.action" ,
 				type : "get" ,
@@ -125,29 +126,27 @@
 						$("#rows").html("") ;
 						var nowPage = parseInt($("#n1").text())-1 ;
 						$("#n1").html(nowPage) ;
-						var i =1 ;
-					 for(var item in backdata){
-						var num = item ;
-						var content = backdata[item].split("###") ; 
-						var artTitle = content[0] ;
-						var pubTime = content[1] ;
-						var lastMod = content[2] ;
-						var artId = content[3] ;//artId
-						$("#rows").prepend(
-								"<tr>"
-									+"<td><input type='checkbox' /></td>"
-									+"<td>"+i+"</td>"
-									+"<td><a href='#' title='title'>"+artTitle+"</a></td>"
-									+"<td>"+pubTime+"</td>"
-									+"<td>"+lastMod+"</td>"
-									+"<td><a href='javascript:void(0)' onclick='reEdit("+artId+")' title='Edit'>"
-									+"<img src='../UI2/resources/images/icons/pencil.png' alt='编辑' /></a>"
-									+"<a href='javascript:void(0)' onclick='deleteArticle("+artId+")' title='Delete'><img src='../UI2/resources/images/icons/cross.png' alt='删除' /></a>"
-									+"</td>"
-								+"</tr>") ;
-						
-							i++ ;	
-					 	} 
+						if(flag == "article"){
+							articleContent(data) ;
+						}
+						if(flag == "draft"){
+							draftContent(data) ;
+						}
+						if(flag == "dustbin"){
+							dustbinContent(data) ;
+						}
+						if(flag == "photos"){
+							photosContent(data) ;
+						}
+						if(flag == "movies"){
+							moviesContent(data) ;
+						}
+						if(flag == "PCs"){
+							pcsContent(data) ;
+						}
+						if(flag == "MCs"){
+							mcsContent(data) ;
+						}
 					  }
 					}
 				});
@@ -173,33 +172,56 @@
 						alert(data) ;
 						return ;
 				}else{
-					var backdata = JSON.parse(data) ;
+					//var backdata = JSON.parse(data) ;
 					$("#rows").html("") ;
 					var nowPage = parseInt($("#n1").text())+1 ;
 					$("#n1").html(nowPage) ;
-					var i =1 ;
-					 for(var item in backdata){
-						var num = item ;
-						var content = backdata[item].split("###") ; 
-						var artTitle = content[0] ;
-						var pubTime = content[1] ;
-						var lastMod = content[2] ;
-						var artId = content[3] ;//artId
-						$("#rows").prepend(
-								"<tr>"
-									+"<td><input type='checkbox' /></td>"
-									+"<td>"+i+"</td>"
-									+"<td><a href='#' title='title'>"+artTitle+"</a></td>"
-									+"<td>"+pubTime+"</td>"
-									+"<td>"+lastMod+"</td>"
-									+"<td><a href='javascript:void(0)' onclick='reEdit("+artId+")' title='Edit'>"
-									+"<img src='../UI2/resources/images/icons/pencil.png' alt='编辑' /></a>"
-									+"<a href='javascript:void(0)' onclick='deleteArticle("+artId+")' title='Delete'><img src='../UI2/resources/images/icons/cross.png' alt='删除' /></a>"
-									+"</td>"
-								+"</tr>") ;
-						
-							i++ ;
-					 	} 
+					if(flag == "article"){
+						articleContent(data) ;
+					}
+					if(flag == "draft"){
+						draftContent(data) ;
+					}
+					if(flag == "dustbin"){
+						dustbinContent(data) ;
+					}
+					if(flag == "photos"){
+						photosContent(data) ;
+					}
+					if(flag == "movies"){
+						moviesContent(data) ;
+					}
+					if(flag == "PCs"){
+						pcsContent(data) ;
+					}
+					if(flag == "MCs"){
+						mcsContent(data) ;
+					}
+					
+					
+//					var i =1 ;
+//					 for(var item in backdata){
+//						var num = item ;
+//						var content = backdata[item].split("###") ; 
+//						var artTitle = content[0] ;
+//						var pubTime = content[1] ;
+//						var lastMod = content[2] ;
+//						var artId = content[3] ;//artId
+//						$("#rows").prepend(
+//								"<tr>"
+//									+"<td><input type='checkbox' /></td>"
+//									+"<td>"+i+"</td>"
+//									+"<td><a href='#' title='title'>"+artTitle+"</a></td>"
+//									+"<td>"+pubTime+"</td>"
+//									+"<td>"+lastMod+"</td>"
+//									+"<td><a href='javascript:void(0)' onclick='reEdit("+artId+")' title='Edit'>"
+//									+"<img src='../UI2/resources/images/icons/pencil.png' alt='编辑' /></a>"
+//									+"<a href='javascript:void(0)' onclick='deleteArticle("+artId+")' title='Delete'><img src='../UI2/resources/images/icons/cross.png' alt='删除' /></a>"
+//									+"</td>"
+//								+"</tr>") ;
+//						
+//							i++ ;
+//					 	} 
 					}
 				}
 			});
@@ -228,68 +250,31 @@
 					var backdata = JSON.parse(data) ;
 					$("#rows").html("") ;
 					$("#n1").html(page) ;
-					var i =1 ;
-				 for(var item in backdata){
-					var num = item ;
-					var content = backdata[item].split("###") ; 
-					var artTitle = content[0] ;
-					var pubTime = content[1] ;
-					var lastMod = content[2] ;
-					var artId = content[3] ;//artId
-					$("#rows").prepend(
-							"<tr>"
-								+"<td><input type='checkbox' /></td>"
-								+"<td>"+i+"</td>"
-								+"<td><a href='#' title='title'>"+artTitle+"</a></td>"
-								+"<td>"+pubTime+"</td>"
-								+"<td>"+lastMod+"</td>"
-								+"<td><a href='javascript:void(0)' onclick='reEdit("+artId+")' title='Edit'>"
-								+"<img src='../UI2/resources/images/icons/pencil.png' alt='编辑' /></a>"
-								+"<a href='javascript:void(0)' onclick='deleteArticle("+artId+")' title='Delete'><img src='../UI2/resources/images/icons/cross.png' alt='删除' /></a>"
-								+"</td>"
-							+"</tr>") ;
 					
-						i++ ;	
-				 	} 
+					if(flag == "article"){
+						articleContent(data) ;
+					}
+					if(flag == "draft"){
+						draftContent(data) ;
+					}
+					if(flag == "dustbin"){
+						dustbinContent(data) ;
+					}
+					if(flag == "photos"){
+						photosContent(data) ;
+					}
+					if(flag == "movies"){
+						moviesContent(data) ;
+					}
+					if(flag == "PCs"){
+						pcsContent(data) ;
+					}
+					if(flag == "MCs"){
+						mcsContent(data) ;
+					}
 				}
 			}) ;
 			
 		}
-////-----------------------------------编辑文章改到userarticle.js-------------------------------------------------------
-//		
-//		function reEdit(id){
-//			var flag =  $("#column1").text() ;
-//			$("#ul1 a").removeClass("current") ;
-//			$("#editArt").addClass("current") ;
-//			$("#tab1").hide() ;
-//			$("#tab2").show() ;
-//			var content = {
-//					"jsonId" : id ,
-//					"jsonFlag" : flag  
-//			}
-//			alert(flag+"-"+id) ;
-//			//需要返回标题和内容
-//			$.ajax({
-//				url: "../Persional/edit.action",
-//				type: "post",
-//				data: content,
-//				dataType: "json" ,
-//				success : function(data){
-//					var backdata = JSON.parse(data) ;
-//					alert(typeof(backdata)) ;
-//					var title = backdata.artTitle ;
-//					var content = backdata.artContent ;
-//					//alert(title) ;
-//					$("#medium-input").val(title) ;
-//					
-//				}
-//				
-//			});
-//			
-//			
-//			
-//			
-//		}
-//		
-		
+
 		

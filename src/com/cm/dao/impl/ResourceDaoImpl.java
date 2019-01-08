@@ -65,12 +65,14 @@ public class ResourceDaoImpl implements IResourceDao {
 
 	@Override
 	public Long AllResourceNumber(Integer userId) {
+		
 		return (Long) hibernateTemplate.find("SELECT COUNT(*) FROM Resource where userId=?",userId).get(0);
 	}
+	
 	@Override
-	public Long AllResourceNumber(Integer userId, String tag) {
-		String hql = "SELECT COUNT(*) FROM Resource where userId=? and resTag=?" ;
-		return (Long) hibernateTemplate.find(hql,new Object[] {userId,tag}).get(0);
+	public Long AllResourceNumber(User user, String tag) {
+		String hql = "SELECT COUNT(*) FROM Resource where user=? and resTag=?" ;
+		return (Long) hibernateTemplate.find(hql,new Object[] {user,tag}).get(0);
 	}
 	@Override
 	public Long AllResourceNumber(String tag) {
@@ -176,6 +178,22 @@ public class ResourceDaoImpl implements IResourceDao {
 			movieCheck.setUserId(userId);
 			
 			return hibernateTemplate.findByExample(movieCheck, (currentPage-1)*maxResults, maxResults);
+		}
+		@Override
+		public Long findAllMcs() {
+			return (Long) hibernateTemplate.find("SELECT COUNT(*) FROM MovieCheck").get(0);
+		}
+		@Override
+		public Long findAllPcs() {
+			return (Long) hibernateTemplate.find("SELECT COUNT(*) FROM PictureCheck").get(0);
+		}
+		@Override
+		public Long findAllMcsByUserId(Integer userId) {
+			return (Long) hibernateTemplate.find("SELECT COUNT(*) FROM MovieCheck WHERE userId=?",userId).get(0);
+		}
+		@Override
+		public Long findAllPcsByUserId(Integer userId) {
+			return (Long) hibernateTemplate.find("SELECT COUNT(*) FROM PictureCheck WHERE userId=?",userId).get(0);
 		}
 
 }

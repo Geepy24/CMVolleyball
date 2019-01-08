@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.cm.domain.MovieCheck;
 import com.cm.domain.PictureCheck;
 import com.cm.domain.Resource;
+import com.cm.domain.User;
 import com.cm.utils.movieUtils;
 public interface IResourceDao {
 	/**
@@ -29,7 +30,7 @@ public interface IResourceDao {
 	/**
 	 * 	通过id和分类查找资源总数
 	 */
-	Long AllResourceNumber(Integer userId , String tag);
+	Long AllResourceNumber(User user , String tag);
 	/**
 	 * 	查找分类下的资源总数
 	 */
@@ -103,5 +104,26 @@ public interface IResourceDao {
 		 * 根据checkTag和userId分页查找mc
 		 */
 		List<MovieCheck> findMCsByTagAndUserId(Integer checkTag,Integer userId,Integer currentPage,Integer maxResults) ;
-		
+		/**
+		 * 批量删除审通过的视频
+		 */
+		/**
+		 * 批量删除审核通过的图片
+		 */
+		/**
+		 * 查找待审核视频总数
+		 */
+		Long findAllMcs() ;
+		/**
+		 * 查找待审核图片总数
+		 */
+		Long findAllPcs() ;
+		/**
+		 * 根据id，查找审核视频总数
+		 */
+		Long findAllMcsByUserId(Integer userId) ;
+		/**
+		 * 根据id，查找审核图片总数
+		 */
+		Long findAllPcsByUserId(Integer userId) ;
 }
