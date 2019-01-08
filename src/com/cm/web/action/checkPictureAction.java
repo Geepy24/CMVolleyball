@@ -56,6 +56,8 @@ public class checkPictureAction extends ActionSupport implements ModelDriven<Pic
 	private List<PictureCheck> pictureChecks ;
 	private static int MAXRESULTS = 10  ;
 	private int currentPage ;
+	private int toPage ;
+	
 	@Override
 	public PictureCheck getModel() {
 		return pictureCheck;
@@ -96,6 +98,16 @@ public class checkPictureAction extends ActionSupport implements ModelDriven<Pic
 
 	//---------------------------------用户提交，等待审核------------------------------------------------
 	
+	public int getToPage() {
+		return toPage;
+	}
+
+
+	public void setToPage(int toPage) {
+		this.toPage = toPage;
+	}
+
+
 	public List<PictureCheck> getPictureChecks() {
 		return pictureChecks;
 	}
@@ -164,7 +176,21 @@ public class checkPictureAction extends ActionSupport implements ModelDriven<Pic
 		request.getSession().setAttribute("currentPage", currentPage);
 		//查找未审核
 		pictureChecks = resourceService.findPCsByCheckTag(0, currentPage, MAXRESULTS) ;
-		
+		//加上页码
+
+		Long totalItems = resourceService.findAllPcs() ;
+		Long totalPcs ;
+				
+		//总页数
+		if(0 == totalItems) {
+			totalPcs = new Long(1);
+		}else if(0 == totalItems%10) {
+			totalPcs = totalItems/10 ;
+		}else {
+			totalPcs = (totalItems/10) + 1  ;
+		}
+	
+		request.getSession().setAttribute("totalPcs",totalPcs );
 		
 		return SUCCESS;
 	}
@@ -222,4 +248,53 @@ public class checkPictureAction extends ActionSupport implements ModelDriven<Pic
 		
 		return SUCCESS ;
 	}
+	
+	//上一页
+		@Action(value="prePcPage",results= {
+				@Result(name="success",location="/WEB-INF/jsp/management/resource/pcList.jsp")
+				
+		})
+		public String previousMcPage() {
+			currentPage = (int) request.getSession().getAttribute("currentPage") ;
+			currentPage = currentPage - 1 ;
+			if(currentPage <= 0) {
+				return "fail" ;
+			}
+			
+			pictureChecks = resourceService.findPCsByCheckTag(0, currentPage, MAXRESULTS) ;
+			request.getSession().setAttribute("currentPage", currentPage);
+			return SUCCESS ;
+		}
+		//下一页
+		@Action(value="nextPcPage",results= {
+				@Result(name="success",location="/WEB-INF/jsp/management/resource/pcList.jsp")
+				
+		})
+		public String nextPcPage() {
+			currentPage = (int) request.getSession().getAttribute("currentPage") ;
+			System.out.println("currentpage:"+currentPage);
+			currentPage = currentPage + 1 ;
+			
+			pictureChecks = resourceService.findPCsByCheckTag(0, currentPage, MAXRESULTS) ;
+			System.out.println(pictureChecks.size());
+			if(0 == pictureChecks.size()) {
+				return "fail" ;
+			}
+			request.getSession().setAttribute("currentPage", currentPage);
+			return SUCCESS ;
+			
+		}
+		//前往某页
+		@Action(value="selectPcPage",results= {@Result(name="success",location="/WEB-INF/jsp/management/resource/pcList.jsp")})
+		public String selectPage() {
+			
+			System.out.println(toPage);
+			currentPage = toPage ;
+			pictureChecks = resourceService.findPCsByCheckTag(0, currentPage, MAXRESULTS) ;
+			if(0 == pictureChecks.size()) {
+				return "fail" ;
+			}
+			request.getSession().setAttribute("currentPage", currentPage);
+			return SUCCESS ;
+		}
 }

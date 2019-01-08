@@ -578,13 +578,14 @@ public List<PictureCheck> getPictureChecks() {
 		if(pageRef.equals("dustbin")) {
 			number = articleService.AllDustbinNumber(user.getUserId()) ;
 		}
-		//相册,如何通过外键查找总数
+		//相册,通过外键查找总数
 		if(pageRef.equals("photos")) {
 			number = resourceService.AllResourceNumber(user, "pic") ;
 		}
-		//视频，如何通过外键查找总数
+		//视频，通过外键查找总数
 		if(pageRef.equals("movies")) {
 			number = resourceService.AllResourceNumber(user, "mov") ;
+			System.out.println("check："+number);
 		}
 		//相册审核列表
 		if(pageRef.equals("PCs")) {

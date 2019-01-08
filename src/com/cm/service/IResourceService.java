@@ -31,7 +31,7 @@ public interface IResourceService {
 	/**
 	 * 	通过用户id查找总数
 	 */
-	Long AllResourceNumber(Integer userId);
+	Long AllResourceNumber(User user);
 	/**
 	 * 	通过id和分类查找资源总数
 	 */

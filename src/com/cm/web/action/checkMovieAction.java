@@ -15,6 +15,7 @@ import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
+import org.apache.taglibs.standard.lang.jstl.test.beans.PublicInterface2;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.cm.domain.MediaPreview;
@@ -59,7 +60,7 @@ public class checkMovieAction extends ActionSupport implements ModelDriven<Movie
 	private static int MAXRESULTS = 10  ;
 	private int currentPage ;
 	private Integer mpId ;
-	
+	private int toPage ;
 	
 	
 	
@@ -68,7 +69,6 @@ public class checkMovieAction extends ActionSupport implements ModelDriven<Movie
 		return movieCheck;
 	}
 	
-
 
 	public String getReturndata() {
 		return returndata;
@@ -124,6 +124,18 @@ public class checkMovieAction extends ActionSupport implements ModelDriven<Movie
 
 	public void setMpId(Integer mpId) {
 		this.mpId = mpId;
+	}
+
+
+
+	public int getToPage() {
+		return toPage;
+	}
+
+
+
+	public void setToPage(int toPage) {
+		this.toPage = toPage;
 	}
 
 
@@ -201,6 +213,21 @@ public class checkMovieAction extends ActionSupport implements ModelDriven<Movie
 		//分页查找未审核视频列表
 		movieChecks = resourceService.findMCsByCheckTag(0, currentPage, MAXRESULTS) ;
 		
+		//加上页码
+
+			Long totalItems = resourceService.findAllMcs() ;
+			Long totalMcs ;
+					
+			//总页数
+			if(0 == totalItems) {
+				totalMcs = new Long(1);
+			}else if(0 == totalItems%10) {
+				totalMcs = totalItems/10 ;
+			}else {
+				totalMcs = (totalItems/10) + 1  ;
+			}
+		
+			request.getSession().setAttribute("totalMcs",totalMcs );
 		return SUCCESS;
 	}
 	//进入视频详情
@@ -264,8 +291,54 @@ public class checkMovieAction extends ActionSupport implements ModelDriven<Movie
 			return SUCCESS ;
 		}
 		
-	
-	
+	//上一页
+	@Action(value="preMcPage",results= {
+			@Result(name="success",location="/WEB-INF/jsp/management/resource/mcList.jsp")
+			
+	})
+	public String previousMcPage() {
+		currentPage = (int) request.getSession().getAttribute("currentPage") ;
+		currentPage = currentPage - 1 ;
+		if(currentPage <= 0) {
+			return "fail" ;
+		}
+		
+		movieChecks = resourceService.findMCsByCheckTag(0, currentPage, MAXRESULTS) ;
+		request.getSession().setAttribute("currentPage", currentPage);
+		return SUCCESS ;
+	}
+	//下一页
+	@Action(value="nextMcPage",results= {
+			@Result(name="success",location="/WEB-INF/jsp/management/resource/mcList.jsp")
+			
+	})
+	public String nextMcPage() {
+		currentPage = (int) request.getSession().getAttribute("currentPage") ;
+		System.out.println("currentpage:"+currentPage);
+		currentPage = currentPage + 1 ;
+		
+		movieChecks = resourceService.findMCsByCheckTag(0, currentPage, MAXRESULTS) ;
+		System.out.println(movieChecks.size());
+		if(0 == movieChecks.size()) {
+			return "fail" ;
+		}
+		request.getSession().setAttribute("currentPage", currentPage);
+		return SUCCESS ;
+		
+	}
+	//前往某页
+	@Action(value="selectMcPage",results= {@Result(name="success",location="/WEB-INF/jsp/management/resource/mcList.jsp")})
+	public String selectPage() {
+		
+		System.out.println(toPage);
+		currentPage = toPage ;
+		movieChecks = resourceService.findMCsByCheckTag(0, currentPage, MAXRESULTS) ;
+		if(0 == movieChecks.size()) {
+			return "fail" ;
+		}
+		request.getSession().setAttribute("currentPage", currentPage);
+		return SUCCESS ;
+	}
 	
 	
 }

@@ -69,12 +69,9 @@
 		<tr>
 			<td><input type="submit"  value="提交"></td>
 		</tr>
-		<%-- <tr>
-			<td></td>
-			<td><a href="${pageContext.request.contextPath }/Resource/nextRes.action?resId=${resId}&resTag=${resTag}">下一张</a>
-				<a href="${pageContext.request.contextPath }/Resource/preRes.action?resId=${resId}&resTag=${resTag}">上一张</a></td>
-			<td><a href="${pageContext.request.contextPath }/Resource/resList.action">返回列表</a></td>
-		</tr> --%>
+		<tr>
+			<td><a href="${pageContext.request.contextPath }/Resource/toMcList.action">返回列表</a></td>
+		</tr> 
 		
 		</table>
 		</form>

@@ -64,9 +64,9 @@ public class ResourceDaoImpl implements IResourceDao {
 	}
 
 	@Override
-	public Long AllResourceNumber(Integer userId) {
+	public Long AllResourceNumber(User user) {
 		
-		return (Long) hibernateTemplate.find("SELECT COUNT(*) FROM Resource where userId=?",userId).get(0);
+		return (Long) hibernateTemplate.find("SELECT COUNT(*) FROM Resource where user=?",user).get(0);
 	}
 	
 	@Override

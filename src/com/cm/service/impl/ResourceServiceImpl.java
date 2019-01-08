@@ -52,9 +52,9 @@ public class ResourceServiceImpl implements IResourceService {
 	}
 
 	@Override
-	public Long AllResourceNumber(Integer userId) {
+	public Long AllResourceNumber(User	 user) {
 		
-		return resourceDao.AllResourceNumber(userId);
+		return resourceDao.AllResourceNumber(user);
 	}
 
 	@Override

@@ -21,7 +21,7 @@
 <META content="MSHTML 6.00.2900.3492" name=GENERATOR>
 </HEAD>
 <BODY>
-	<FORM id="customerForm" name="customerForm" action="${pageContext.request.contextPath }/Resource/selectPage.action" method=get>	
+	<FORM id="customerForm" name="customerForm" action="${pageContext.request.contextPath }/Resource/selectMcPage.action" method=get>	
 		<TABLE cellSpacing=0 cellPadding=0 width="98%" border=0>
 			<TBODY>
 				<TR>
@@ -83,12 +83,12 @@
 											</TBODY>
 											<TBODY>
 												<TR>
-													<TD>当前页面：${currentPage }/${totalResource}</TD>
+													<TD>当前页面：${currentPage }/${totalMcs}</TD>
 													<TD>选择页码</TD>
 													<TD><INPUT class=textbox id=sChannel2 style="WIDTH: 80px" maxLength=50 name="toPage"></TD>
 													<TD><INPUT class=button id=sButton2 type=submit value=" 选择" name=sButton2></TD>
-													<TD><a href="${pageContext.request.contextPath }/Resource/prePage.action?currentPage=${currentPage}">上一页</a></TD>
-													<TD><a href="${pageContext.request.contextPath }/Resource/nextPage.action?currentPage=${currentPage}">下一页</a></TD>
+													<TD><a href="${pageContext.request.contextPath }/Resource/preMcPage.action?currentPage=${currentPage}">上一页</a></TD>
+													<TD><a href="${pageContext.request.contextPath }/Resource/nextMcPage.action?currentPage=${currentPage}">下一页</a></TD>
 												</TR>
 												
 											</TBODY>
@@ -138,23 +138,7 @@
 			</TBODY>
 		</TABLE>
 	</FORM>
-	<script type="text/javascript">
-		function confirmDelete(resId){
-			var flag = confirm("是否要删除该张图片") ;
-			//alert(flag) ;
-			if(flag == false){
-				return ;
-			}
-			//alert(resId) ;
-			$.ajax({
-				url : "${pageContext.request.contextPath}/Resource/delResource.action?resId="+resId ,
-				success : function(data){
-					alert("删除成功！");
-					window.location = "${pageContext.request.contextPath}/Resource/selectPage.action?toPage=${currentPage}" ;
-				}
-			}) ; 
-		}
-	</script>
+	
 	<s:debug></s:debug>
 </BODY>
 </HTML>

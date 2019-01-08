@@ -434,6 +434,15 @@ function pcsContent(data){
 		var checkTag= content[1] ;
 		var checkCom= content[2] ;
 		var resId = content[3] ; //id在后面会有用
+		if(checkTag == "0"){
+			checkTag = "等待审核" ;
+		}
+		if(checkTag == "-1"){
+			checkTag = "审核不通过" ;
+		}
+		if(checkTag == "1"){
+			checkTag = "审核通过" ;
+		}
 		$("#rows").prepend(
 				"<tr>"
 					+"<td><input type='checkbox' /></td>"
@@ -463,6 +472,15 @@ function mcsContent(data){
 		var checkTag= content[1] ;
 		var checkCom= content[2] ;
 		var resId = content[3] ; //id在后面会有用
+		if(checkTag == "0"){
+			checkTag = "等待审核" ;
+		}
+		if(checkTag == "-1"){
+			checkTag = "审核不通过" ;
+		}
+		if(checkTag == "1"){
+			checkTag = "审核通过" ;
+		}
 		$("#rows").prepend(
 				"<tr>"
 					+"<td><input type='checkbox' /></td>"
