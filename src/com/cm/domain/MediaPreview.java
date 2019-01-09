@@ -2,8 +2,6 @@ package com.cm.domain;
 
 import java.io.Serializable;
 
-import com.cm.web.action.privateSourceAction;
-
 public class MediaPreview implements Serializable {
 
 	private Integer mpId ;

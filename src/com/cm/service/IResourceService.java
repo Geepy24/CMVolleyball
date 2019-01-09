@@ -6,7 +6,6 @@ import com.cm.domain.MovieCheck;
 import com.cm.domain.PictureCheck;
 import com.cm.domain.Resource;
 import com.cm.domain.User;
-import com.cm.utils.movieUtils;
 
 /**
  * 	资源类的业务层接口

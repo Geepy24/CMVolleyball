@@ -2,13 +2,10 @@ package com.cm.dao;
 
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
-
 import com.cm.domain.MovieCheck;
 import com.cm.domain.PictureCheck;
 import com.cm.domain.Resource;
 import com.cm.domain.User;
-import com.cm.utils.movieUtils;
 public interface IResourceDao {
 	/**
 	 * 	±£´æ×ÊÔ´

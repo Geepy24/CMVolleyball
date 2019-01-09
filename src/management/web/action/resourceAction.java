@@ -310,19 +310,28 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 		return "picture" ;
 	}
 	//文章列表的页码选择，前端不同页显示返回的不同页的数据
-		@Action(value="selectPage",results= {@Result(name="success",location="/WEB-INF/jsp/management/resource/resList.jsp")})
+		@Action(value="selectPage",results= {
+				@Result(name="picture",location="/WEB-INF/jsp/management/resource/picList.jsp"),
+				@Result(name="movie",location="/WEB-INF/jsp/management/resource/movList.jsp"),
+				@Result(name="fail",location="/fail.jsp"
+		)})
 		public String selectPage() {
 			tag = request.getSession().getAttribute("picOrmov").toString();
 			System.out.println(toPage);
 			currentPage = toPage ;
 			resources = resourceService.findAllResource(tag, currentPage, MAXRESULTS);
-			
-			
-			return SUCCESS ;
+			if(tag.equals("pic")) {
+				return "picture" ;
+			}
+			if(tag.equals("mov")) {
+				return "movie" ;
+			}
+			return "fail" ;
 		}
 	//下一页资源列表
 		@Action(value="nextPage",results= {
-				@Result(name="success",location="/WEB-INF/jsp/management/resource/resList.jsp"),
+				@Result(name="picture",location="/WEB-INF/jsp/management/resource/picList.jsp"),
+				@Result(name="movie",location="/WEB-INF/jsp/management/resource/movList.jsp"),
 				@Result(name="fail",location="/fail.jsp")
 		})
 		public String nPage() {
@@ -336,11 +345,19 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 			if(0 == resources.size()) {
 				return "fail" ;
 			}
-			return SUCCESS ;
+			if(tag.equals("pic")) {
+				return "picture" ;
+			}
+			if(tag.equals("mov")) {
+				return "movie" ;
+			}
+			return "fail" ;
 		}
 		//上一页资源列表
 		@Action(value="prePage",results= {
-				@Result(name="success",location="/WEB-INF/jsp/management/resource/resList.jsp"),
+				@Result(name="picture",location="/WEB-INF/jsp/management/resource/picList.jsp"),
+				@Result(name="movie",location="/WEB-INF/jsp/management/resource/movList.jsp"),
+				
 				@Result(name="fail",location="/fail.jsp")
 		})
 		public String pPage() {
@@ -353,8 +370,13 @@ public class resourceAction extends ActionSupport implements Serializable, Model
 			}
 			
 			resources = resourceService.findAllResource(tag, currentPage, MAXRESULTS);
-			
-			return SUCCESS ;
+			if(tag.equals("pic")) {
+				return "picture" ;
+			}
+			if(tag.equals("mov")) {
+				return "movie" ;
+			}
+			return "fail" ;
 		}
 		//资源详情
 		@Action(value="resDetail",results= {

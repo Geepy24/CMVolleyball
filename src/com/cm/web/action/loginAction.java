@@ -1,35 +1,19 @@
 package com.cm.web.action;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.security.KeyStore.PrivateKeyEntry;
-
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang3.ObjectUtils.Null;
-import org.apache.jasper.tagplugins.jstl.core.Out;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
-import org.apache.struts2.convention.annotation.InterceptorRef;
-import org.apache.struts2.convention.annotation.InterceptorRefs;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
-import org.apache.struts2.dispatcher.mapper.Restful2ActionMapper;
-import org.apache.struts2.interceptor.SessionAware;
-import org.hibernate.Session;
-import org.hibernate.engine.jdbc.spi.ResultSetReturn;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 
 import com.cm.domain.User;
 import com.cm.service.IUserService;
 import com.opensymphony.xwork2.ActionSupport;
-
-import net.sf.json.JSONObject;
 /**
  * ÑéÖ¤µÇÂ¼
  * @author Huangjiping
