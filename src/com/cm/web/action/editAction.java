@@ -80,11 +80,7 @@ public class editAction extends ActionSupport implements ModelDriven<User>{
 	public String deleteUser() {
 		System.out.println("传进来的要删除的用户ID"+user.getUserId());
 		user = userService.findUserById(user.getUserId()) ;
-		//不能只通过userId删除用户，要有实体。可能没用属性驱动，可以用属性驱动试试？
-		//userService.deleteById(user.getUserId()) ;
 		userService.deleteUser(user);
-		
-		
 		
 		return "success" ;
 	}

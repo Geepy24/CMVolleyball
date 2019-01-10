@@ -107,7 +107,7 @@ public class jsonUtils{
 	 * @return
 	 */
 	public static String movieListToJsonString(List<Resource> list) {
-		//需要缩略图名称，发布时间，resId
+		
 		Map<String ,String> map = new HashMap<String, String>() ;
 		Iterator<Resource> iterator = list.iterator() ;
 		int i = 1 ;

@@ -60,25 +60,7 @@ public class UserDaoImpl implements IUserDao {
 
 	@Override
 	public void saveUser(User user) {
-		//System.out.println("DI success");
-		
-		
-//		User user = new User("Lam","袁傲蓝","123","女") ;
-//		//加载hibernate主配置文件
-//		Configuration cfg = new org.hibernate.cfg.Configuration() ;
-//		cfg.configure() ;
-//		//创建工厂
-//		SessionFactory sessionFactory = cfg.buildSessionFactory() ;
-//		//得到操作对象session
-//		Session session = sessionFactory.openSession();
-//		
-//		//开启事务
-//		Transaction tx = session.beginTransaction() ;
-//		session.save(user) ;
-//		System.out.println("save success");
-//		tx.commit();
-//		sessionFactory.close();
-	
+
 		hibernateTemplate.save(user) ;
 		
 	}

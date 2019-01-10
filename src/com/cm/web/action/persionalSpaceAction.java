@@ -14,7 +14,6 @@ import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
-import org.apache.struts2.json.JSONUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.cm.domain.Article;
@@ -293,12 +292,7 @@ public List<PictureCheck> getPictureChecks() {
 	}
 	
 	
-//	//前往回收站
-//	@Action(value="toDustbinList",results= {@Result(name="success",location="/UI/dustbinList.jsp")})
-//	public String toDustbinList() {
-//		
-//		return SUCCESS ;
-//	}
+
 	//用回收站填充草稿箱的表格
 		@Action(value="dustList",results= {
 				@Result(name="success",type= "json",params= {"root","returndata"})

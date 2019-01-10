@@ -35,10 +35,8 @@ public class articleAction extends ActionSupport implements ModelDriven<Article>
 	@Autowired
 	IArticleService articleService ;
 	
-	//模型驱动
 	private Article article = new Article() ;
 
-	//属性驱动
 	private List<Article> articles ;
 	private int currentPage ;
 	private int toPage ;
@@ -238,10 +236,6 @@ public class articleAction extends ActionSupport implements ModelDriven<Article>
 					params= {"root","returndata"})})
 	public String index() {
 		System.out.println("首页请求");
-		//调试后发现是query.list()卡住，没有反应
-		//这里出问题，没报错没值，可能是spring事务，出错了自动回滚
-		//应该不是事务的事，可能刚到首页，没有hibernate没有session
-		//可能是session不够用
 		articles = articleService.findAllArticle(1, MAXRESULTS) ;
 		Map<String , String> map = new LinkedHashMap<>() ;
 		for(int i = 0 ; i<articles.size() ; i++) {

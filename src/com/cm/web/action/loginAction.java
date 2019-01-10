@@ -29,7 +29,6 @@ import com.opensymphony.xwork2.ActionSupport;
 public class loginAction extends ActionSupport {
 	@Autowired
 	private IUserService userService ;
-//属性驱动，无模型
 	private String userName ;
 	private String password ;
 	private String returndata ; 

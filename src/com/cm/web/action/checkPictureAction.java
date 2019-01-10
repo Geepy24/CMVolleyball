@@ -29,7 +29,7 @@ import com.cm.utils.pathUtils;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 /**
- * 处理待审核的图片和视频以及审核图片和视频
+ * 处理待审核的图片和视频以及审核图片
  * @author mac
  *
  */
@@ -137,7 +137,7 @@ public class checkPictureAction extends ActionSupport implements ModelDriven<Pic
 		
 		
 		pictureCheck.setCheckCom("等待审核");
-		//y就是已审核，n是未审核，f是审核不通过
+		//1就是已审核，0是未审核，-1是审核不通过
 		pictureCheck.setCheckTag(0);
 		pictureCheck.setPicName(uploadFileName);
 		pictureCheck.setPicUri(filePath+"/"+uploadFileName);

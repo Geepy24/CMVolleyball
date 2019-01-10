@@ -22,8 +22,6 @@ public class ArticleDaoImpl implements IArticleDao {
 
 	@Resource(name = "hibernateTemplate")
 	private HibernateTemplate hibernateTemplate;
-	// 把hibernate session对象拿出来声明会报空指针异常，
-	// getCurrentSessin()没有绑定线程？在配置文件中已经绑定了
 
 	public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
 		this.hibernateTemplate = hibernateTemplate;

@@ -207,11 +207,7 @@ public class userResourceAction extends ActionSupport implements Serializable, M
 		int temp = currentPage;
 		temp = temp + 1;
 		currentPage = temp;
-//		try {
-//			
-//		}catch(Exception e){
-//			
-//		}
+
 		resources = resourceService.findAllResource(tag, currentPage, MAXRESULTS);
 		System.out.println(resources.size());
 		if (0 == resources.size()) {
@@ -296,7 +292,7 @@ public class userResourceAction extends ActionSupport implements Serializable, M
 	public String preResource() {
 	
 		tag = resource.getResTag() ;
-		System.out.println("下一个要找的资源类别"+tag);
+		System.out.println("上一个要找的资源类别"+tag);
 		System.out.println("当前的resId，要查找上一个id" + resource.getResId());
 		try {
 			Integer preId = resourceService.preResourceId(resource.getResId(),tag);
